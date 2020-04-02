@@ -1,7 +1,6 @@
 'use strict';
 
 const FILM_CARD_COUNT = 5;
-const FILMS_LIST_EXTRA_COUNT = 2;
 const FILM_CARD_EXTRA_COUNT = 2;
 
 const createUserRankTemplate = () => {
@@ -80,10 +79,10 @@ const createShowMoreButtonTemplate = () => {
   );
 };
 
-const createFilmsListExtraTemplate = () => {
+const createFilmsListExtraTemplate = (title) => {
   return (
     `<section class="films-list--extra">
-      <h2 class="films-list__title"></h2>
+      <h2 class="films-list__title">${title}</h2>
       <div class="films-list__container"></div>
     </section>`
   );
@@ -292,14 +291,10 @@ const filmsListContainerElement = filmsListElement.querySelector(`.films-list__c
 
 renderMultiple(FILM_CARD_COUNT, filmsListContainerElement, createFilmCardTemplate(), `beforeend`);
 render(filmsListElement, createShowMoreButtonTemplate(), `beforeend`);
-renderMultiple(FILMS_LIST_EXTRA_COUNT, filmsBoardElement, createFilmsListExtraTemplate(), `beforeend`);
+render(filmsBoardElement, createFilmsListExtraTemplate(`Top rated`), `beforeend`);
+render(filmsBoardElement, createFilmsListExtraTemplate(`Most commented`), `beforeend`);
 
 const filmsListExtraElements = filmsBoardElement.querySelectorAll(`.films-list--extra`);
-const topRatedTitleElement = filmsListExtraElements[0].querySelector(`.films-list__title`);
-const mostCommentedTitleElement = filmsListExtraElements[1].querySelector(`.films-list__title`);
-
-topRatedTitleElement.textContent = `Top rated`;
-mostCommentedTitleElement.textContent = `Most commented`;
 
 for (let filmsListExtraElement of filmsListExtraElements) {
   const filmsListExtraContainerElement = filmsListExtraElement.querySelector(`.films-list__container`);
