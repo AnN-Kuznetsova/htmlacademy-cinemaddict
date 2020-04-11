@@ -1,0 +1,51 @@
+//  Функция нахождения случайного числа
+const getRandomIntegerNumber = function (num) {
+  return Math.floor(Math.random() * (num + 1));
+};
+
+//  Функция нахождения случайного числа в заданном диапазоне
+const getRandomIntegerNumberInRange = (min, max) => {
+  //return min + Math.floor(Math.random() * (max - min));
+  return min + getRandomIntegerNumber(max - min);
+};
+
+for (let i = 0; i < 11; i++) {
+  window.console.log(getRandomIntegerNumberInRange(1, 3));
+}
+
+//  Функция выбора случачйного элемента массива
+const getRandomArrayElement = function (array) {
+  return array[getRandomIntegerNumber(array.length - 1)];
+};
+
+//  Функция выбора нескольких случачйных элементов массива
+const getRandomArrayElements = function (array, count) {
+  const arrayElements = [];
+  const arrayCopy = array.slice();
+
+  for (let i = 0; i < count; i++) {
+    const index = getRandomIntegerNumber(arrayCopy.length - 1);
+    arrayElements.push(arrayCopy.splice(index, 1).join());
+  }
+
+  return arrayElements;
+};
+
+//  Функция взятия случайной даты в диапазоне
+const getRandomDate = (minDateRange, maxDateRange) => {
+  const targetDate = new Date();
+  const sign = Math.random() > 0.5 ? 1 : -1;
+  const diffValue = sign * getRandomIntegerNumberInRange(minDateRange, maxDateRange);
+
+  targetDate.setDate(targetDate.getDate() + diffValue);
+
+  return targetDate;
+};
+
+//  Функция генерирования случаного значения Boolean
+const generateBoolean = () => {
+  return Math.random() > 0.5;
+};
+
+
+export {getRandomIntegerNumber, getRandomArrayElement, getRandomArrayElements, getRandomDate, getRandomIntegerNumberInRange, generateBoolean};

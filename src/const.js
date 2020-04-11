@@ -1,3 +1,14 @@
 const DEFAULT_FILTER = `all`;
 
-export {DEFAULT_FILTER};
+const MAX_DESCRIPTION_LENGTH = 140;
+
+const GENRE = [
+  `Musical`,
+  `Drama`,
+  `Mystery`,
+  `Comedy`,
+  `Western`,
+  `Cartoon`
+];
+
+export {DEFAULT_FILTER, MAX_DESCRIPTION_LENGTH, GENRE};
