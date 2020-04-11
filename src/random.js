@@ -5,13 +5,8 @@ const getRandomIntegerNumber = function (num) {
 
 //  Функция нахождения случайного числа в заданном диапазоне
 const getRandomIntegerNumberInRange = (min, max) => {
-  //return min + Math.floor(Math.random() * (max - min));
   return min + getRandomIntegerNumber(max - min);
 };
-
-for (let i = 0; i < 11; i++) {
-  window.console.log(getRandomIntegerNumberInRange(1, 3));
-}
 
 //  Функция выбора случачйного элемента массива
 const getRandomArrayElement = function (array) {
@@ -47,5 +42,12 @@ const generateBoolean = () => {
   return Math.random() > 0.5;
 };
 
+//  Функция сщставления текста из случайных предложений текста-прототипа
+const generateRandomText = (textPrototype, minSentenseCount, maxSentenseCount) => {
+  const sentenseCount = getRandomIntegerNumberInRange(minSentenseCount, maxSentenseCount);
+  return getRandomArrayElements(textPrototype.split(`. `), sentenseCount)
+    .join(`. `);
+};
 
-export {getRandomIntegerNumber, getRandomArrayElement, getRandomArrayElements, getRandomDate, getRandomIntegerNumberInRange, generateBoolean};
+
+export {getRandomIntegerNumber, getRandomArrayElement, getRandomArrayElements, getRandomDate, getRandomIntegerNumberInRange, generateBoolean, generateRandomText};

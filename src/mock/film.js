@@ -1,5 +1,6 @@
-import {getRandomIntegerNumber, getRandomIntegerNumberInRange, getRandomArrayElement, getRandomArrayElements, getRandomDate, generateBoolean} from "../random.js";
+import {getRandomIntegerNumber, getRandomIntegerNumberInRange, getRandomArrayElement, getRandomArrayElements, generateBoolean, generateRandomText} from "../random.js";
 import {GENRE} from "../const.js";
+import {generateComments} from "./comment.js";
 
 const TITLE_ITEMS = [
   `The Dance of Life`,
@@ -27,17 +28,11 @@ const MAX_YEAR = 2020;
 const MIN_GENRE_COUNT = 1;
 const MAX_GENRE_COUNT = 3;
 const MAX_DURATION = 3;
+const MAX_COMMENTS_COUNT = 5;
 
-const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
+const DESCRIPTION_PROTOTYPE = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
 const MIN_DESCRIPTION_SENTENSE_COUNT = 1;
 const MAX_DESCRIPTION_SENTENSE_COUNT = 5;
-
-const descriptionItems = DESCRIPTION.split(`. `);
-
-const generateDescription = () => {
-  return getRandomArrayElements(descriptionItems, getRandomIntegerNumberInRange(MIN_DESCRIPTION_SENTENSE_COUNT, MAX_DESCRIPTION_SENTENSE_COUNT))
-    .join(`. `);
-};
 
 const generateRating = () => {
   return getRandomIntegerNumber(MAX_RATING - 1) + Math.round(Math.random() * 10) / 10;
@@ -62,11 +57,11 @@ const generateFilm = () => {
     duration: generateDuration(),
     genre: generateGenre(),
     poster: getRandomArrayElement(POSTER_ITEMS),
-    description: generateDescription(),
+    description: generateRandomText(DESCRIPTION_PROTOTYPE, MIN_DESCRIPTION_SENTENSE_COUNT, MAX_DESCRIPTION_SENTENSE_COUNT),
     isAddToWatchlist: generateBoolean(),
     isMarkAsWatched: generateBoolean(),
     isFavorite: generateBoolean(),
-    comments: [],
+    comments: generateComments(getRandomIntegerNumber(MAX_COMMENTS_COUNT)),
   };
 };
 

@@ -11,4 +11,12 @@ const GENRE = [
   `Cartoon`
 ];
 
-export {DEFAULT_FILTER, MAX_DESCRIPTION_LENGTH, GENRE};
+const EMOJI = [
+  {smile: `smile.png`},
+  {sleeping: `sleeping.png`},
+  {puke: `puke.png`},
+  {angry: `angry.png`},
+];
+
+
+export {DEFAULT_FILTER, MAX_DESCRIPTION_LENGTH, GENRE, EMOJI};
