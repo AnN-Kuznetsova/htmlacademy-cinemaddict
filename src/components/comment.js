@@ -1,5 +1,5 @@
 import {formatDateWithSlash, formatTime} from "../utils.js";
-import {EMOJI} from "../const.js";
+import {EMOJIS} from "../const.js";
 
 const createEmojiListMarkup = (emojis) => {
   return (
@@ -59,7 +59,7 @@ const createCommentsTemplate = (comments) => {
           <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
         </label>
 
-        ${createEmojiListMarkup(EMOJI)}
+        ${createEmojiListMarkup(EMOJIS)}
       </div>
     </section>`
   );

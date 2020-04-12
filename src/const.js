@@ -1,15 +1,23 @@
-const DEFAULT_FILTER = `all`;
-
 const MAX_DESCRIPTION_LENGTH = 140;
 
-const FILTER = new Map([
-  [`all`, `All movies`],
-  [`watchlist`, `Watchlist`],
-  [`history`, `History`],
-  [`favorites`, `Favorites`],
-]);
+const FILTERS = {
+  all: {
+    value: `All movies`,
+    isDefault: true,
+    isNotDisplayCount: true,
+  },
+  watchlist: {
+    value: `Watchlist`,
+  },
+  history: {
+    value: `History`,
+  },
+  favorites: {
+    value: `Favorites`,
+  },
+};
 
-const EMOJI = new Map([
+const EMOJIS = new Map([
   [`smile`, `smile.png`],
   [`sleeping`, `sleeping.png`],
   [`puke`, `puke.png`],
@@ -17,4 +25,4 @@ const EMOJI = new Map([
 ]);
 
 
-export {DEFAULT_FILTER, FILTER, MAX_DESCRIPTION_LENGTH, EMOJI};
+export {FILTERS, MAX_DESCRIPTION_LENGTH, EMOJIS};

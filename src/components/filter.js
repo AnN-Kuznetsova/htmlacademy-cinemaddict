@@ -1,15 +1,37 @@
-import {DEFAULT_FILTER} from "../const.js";
+const getFilteredFilmsCount = (filters, films) => {
+  for (const filter in filters) {
+    if (filters.hasOwnProperty(filter)) {
+      filters[filter].filmsCount = 0;
+    }
+  }
 
-const createFilterMarkup = (filter, isActive = false) => {
-  const [key, value] = filter;
+  films.forEach((film) => {
+    if (film.isAddToWatchlist) {
+      filters.watchlist.filmsCount++;
+    }
+    if (film.isMarkAsWatched) {
+      filters.history.filmsCount++;
+    }
+    if (film.isFavorite) {
+      filters.favorites.filmsCount++;
+    }
+  });
+};
+
+const createFilterMarkup = (filter) => {
+  const [name, {value, isDefault = false, isNotDisplayCount = false, filmsCount}] = filter;
   return (
-    `<a href="#${key}" class="main-navigation__item ${isActive ? `main-navigation__item--active` : ``}">${value}</a>`
+    `<a href="#${name}" class="main-navigation__item ${isDefault ? `main-navigation__item--active` : ``}">${value}
+      ${isNotDisplayCount ? `` : `<span class="main-navigation__item-count">${filmsCount}</span>`}
+    </a>`
   );
 };
 
-const createFiltersMarkup = (filters) => {
-  return Array.from(filters)
-    .map(([value, key]) => createFilterMarkup([value, key], value === DEFAULT_FILTER))
+const createFiltersMarkup = (filters, films) => {
+  getFilteredFilmsCount(filters, films);
+
+  return Object.entries(filters)
+    .map((filter) => createFilterMarkup(filter))
     .join(`\n`);
 };
 

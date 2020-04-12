@@ -15,7 +15,6 @@ const FILM_CARD_EXTRA_COUNT = 2;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
-// const filters = generateFilters();
 const films = generateFilms(FILM_COUNT);
 window.console.log(films);
 
@@ -34,7 +33,7 @@ const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 
 render(siteHeaderElement, createUserRankTemplate(), `beforeend`);
-render(siteMainElement, createSiteMenuTemplate(), `beforeend`);
+render(siteMainElement, createSiteMenuTemplate(films), `beforeend`);
 render(siteMainElement, createSortingTemplate(), `beforeend`);
 render(siteMainElement, createFilmsBoardTemplate(), `beforeend`);
 

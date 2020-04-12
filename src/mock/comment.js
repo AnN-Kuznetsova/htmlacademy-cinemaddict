@@ -1,5 +1,5 @@
 import {getRandomArrayElement, getRandomDate, generateRandomText} from "../random.js";
-import {EMOJI} from "../const.js";
+import {EMOJIS} from "../const.js";
 
 const AUTORS = [
   `Tim Macoveev`,
@@ -19,7 +19,7 @@ const MAX_TEXT_SENTENSE_COUNT = 5;
 const generateComment = () => {
   return {
     text: generateRandomText(PROTOTYPE_TEXT, MIN_TEXT_SENTENSE_COUNT, MAX_TEXT_SENTENSE_COUNT),
-    emoji: getRandomArrayElement(Array.from(EMOJI)),
+    emoji: getRandomArrayElement(Array.from(EMOJIS)),
     author: getRandomArrayElement(AUTORS),
     dayAndTime: getRandomDate(MIN_DATE_RANGE, MAX_DATE_RANGE),
   };
