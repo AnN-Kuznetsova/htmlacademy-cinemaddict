@@ -29,11 +29,8 @@ const getRandomArrayElements = function (array, count) {
 //  Функция взятия случайной даты в диапазоне
 const getRandomDate = (minDateRange, maxDateRange) => {
   const targetDate = new Date();
-  const sign = Math.random() > 0.5 ? 1 : -1;
-  const diffValue = sign * getRandomIntegerNumberInRange(minDateRange, maxDateRange);
-
+  const diffValue = -1 * getRandomIntegerNumberInRange(minDateRange, maxDateRange);
   targetDate.setDate(targetDate.getDate() + diffValue);
-
   return targetDate;
 };
 

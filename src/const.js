@@ -8,7 +8,8 @@ const GENRE = [
   `Mystery`,
   `Comedy`,
   `Western`,
-  `Cartoon`
+  `Cartoon`,
+  `Film-Noir`,
 ];
 
 const EMOJI = [
@@ -18,5 +19,8 @@ const EMOJI = [
   {angry: `angry.png`},
 ];
 
+const AGE = [`0`, `6`, `12`, `16`, `18`];
 
-export {DEFAULT_FILTER, MAX_DESCRIPTION_LENGTH, GENRE, EMOJI};
+const COUNTRY = [`BRA`, `IND`, `CAN`, `CHN`, `RUS`, `USA`, `TUR`, `FRA`, `JPN`];
+
+export {DEFAULT_FILTER, MAX_DESCRIPTION_LENGTH, GENRE, EMOJI, AGE, COUNTRY};

@@ -1,4 +1,4 @@
-const Filters = new Map([
+const Filter = new Map([
   [`all`, `All movies`],
   [`watchlist`, `Watchlist`],
   [`history`, `History`],
@@ -6,4 +6,4 @@ const Filters = new Map([
 ]);
 
 
-export {Filters};
+export {Filter};

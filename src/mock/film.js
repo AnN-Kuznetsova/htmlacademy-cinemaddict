@@ -1,5 +1,5 @@
 import {getRandomIntegerNumber, getRandomIntegerNumberInRange, getRandomArrayElement, getRandomArrayElements, generateBoolean, generateRandomText} from "../random.js";
-import {GENRE} from "../const.js";
+import {GENRE, AGE, COUNTRY} from "../const.js";
 import {generateComments} from "./comment.js";
 
 const TITLE_ITEMS = [
@@ -22,11 +22,53 @@ const POSTER_ITEMS = [
   `popeye-meets-sinbad.png`
 ];
 
+const DIRECTOR_ITEMS = [
+  `Steven Spielberg`,
+  `Peter Jackson`,
+  `Martin Scorsese`,
+  `Christopher Nolan`,
+  `Steven soderberg`,
+  `Ridley Scott`,
+  `Quentin Tarantino`,
+  `Michael Mann`,
+];
+
+const WRITER_ITEMS = [
+  `Christopher Nolan`,
+  `Luc Besson`,
+  `John Hughes`,
+  `Martin Scorsese`,
+  `Guy Ritchie`,
+  `Frank Darabont`,
+  `Stephen King`,
+  `Danny Boyle`,
+  `Quentin Tarantino`,
+];
+
+const ACTOR_ITEMS = [
+  `Jim Carrey`,
+  `Tim Robbins`,
+  `Robin Williams`,
+  `Jude Law`,
+  `Samuel L. Jackson`,
+  `Mel Gibson`,
+  `Denzel Washington`,
+  `Antonio Banderas`,
+  `Tom Cruise`,
+  `Brad Pitt`,
+  `Matt Damon`,
+  `Christopher Walken`,
+  `Leonardo DiCaprio`,
+  `Michael Caine`,
+];
+
 const MAX_RATING = 10;
 const MIN_YEAR = 1929;
 const MAX_YEAR = 2020;
 const MIN_GENRE_COUNT = 1;
 const MAX_GENRE_COUNT = 3;
+const MIN_WRITER_COUNT = 1;
+const MIN_ACTOR_COUNT = 1;
 const MAX_DURATION = 3;
 const MAX_COMMENTS_COUNT = 5;
 
@@ -38,26 +80,36 @@ const generateRating = () => {
   return getRandomIntegerNumber(MAX_RATING - 1) + Math.round(Math.random() * 10) / 10;
 };
 
-const generateGenre = () => {
-  return getRandomArrayElements(GENRE, getRandomIntegerNumberInRange(MIN_GENRE_COUNT, MAX_GENRE_COUNT))
-    .join(`, `);
-};
-
 const generateDuration = () => {
   const hours = getRandomIntegerNumber(MAX_DURATION);
   const minutes = (hours === MAX_DURATION) ? 0 : getRandomIntegerNumber(60);
   return `${hours}h ${minutes}m`;
 };
 
+const generateReleaseDate = () => {
+  const year = getRandomIntegerNumberInRange(MIN_YEAR, MAX_YEAR);
+  const month = getRandomIntegerNumber(11);
+  const day = getRandomIntegerNumber(30);
+  return new Date(year, month, day);
+};
+
 const generateFilm = () => {
+  const title = getRandomArrayElement(TITLE_ITEMS);
+
   return {
-    title: getRandomArrayElement(TITLE_ITEMS),
+    title,
+    originalTitle: title,
     rating: generateRating(),
-    year: getRandomIntegerNumberInRange(MIN_YEAR, MAX_YEAR),
+    director: getRandomArrayElement(DIRECTOR_ITEMS),
+    writers: getRandomArrayElements(WRITER_ITEMS, getRandomIntegerNumberInRange(MIN_WRITER_COUNT, WRITER_ITEMS.length - 1)),
+    actors: getRandomArrayElements(ACTOR_ITEMS, getRandomIntegerNumberInRange(MIN_ACTOR_COUNT, ACTOR_ITEMS.length - 1)),
+    releaseDate: generateReleaseDate(),
     duration: generateDuration(),
-    genre: generateGenre(),
+    country: getRandomArrayElement(COUNTRY),
+    genre: getRandomArrayElements(GENRE, getRandomIntegerNumberInRange(MIN_GENRE_COUNT, MAX_GENRE_COUNT)),
     poster: getRandomArrayElement(POSTER_ITEMS),
     description: generateRandomText(DESCRIPTION_PROTOTYPE, MIN_DESCRIPTION_SENTENSE_COUNT, MAX_DESCRIPTION_SENTENSE_COUNT),
+    age: getRandomArrayElement(AGE),
     isAddToWatchlist: generateBoolean(),
     isMarkAsWatched: generateBoolean(),
     isFavorite: generateBoolean(),

@@ -1,5 +1,5 @@
 import {DEFAULT_FILTER} from "../const.js";
-import {Filters} from "../mock/filter.js";
+import {Filter} from "../mock/filter.js";
 
 
 const createFilterMarkup = (filter, isActive = false) => {
@@ -9,9 +9,10 @@ const createFilterMarkup = (filter, isActive = false) => {
   );
 };
 
-const createFiltersMarkup = () => {
+const createFiltersMarkup = (filter) => {
+  filter = Filter;
   const filtersMarkup = [];
-  Filters.forEach((value, key) => filtersMarkup.push(createFilterMarkup([key, value], key === DEFAULT_FILTER)));
+  filter.forEach((value, key) => filtersMarkup.push(createFilterMarkup([key, value], key === DEFAULT_FILTER)));
   return filtersMarkup.join(`\n`);
 };
 
