@@ -1,6 +1,8 @@
 import {getRandomIntegerNumber, getRandomIntegerNumberInRange, getRandomArrayElement, getRandomArrayElements, generateBoolean, generateRandomText} from "../random.js";
-import {GENRE, AGE, COUNTRY} from "../const.js";
 import {generateComments} from "./comment.js";
+
+const AGE = [`0`, `6`, `12`, `16`, `18`];
+const COUNTRY = [`BRA`, `IND`, `CAN`, `CHN`, `RUS`, `USA`, `TUR`, `FRA`, `JPN`];
 
 const TITLE_ITEMS = [
   `The Dance of Life`,
@@ -60,6 +62,16 @@ const ACTOR_ITEMS = [
   `Christopher Walken`,
   `Leonardo DiCaprio`,
   `Michael Caine`,
+];
+
+const GENRE = [
+  `Musical`,
+  `Drama`,
+  `Mystery`,
+  `Comedy`,
+  `Western`,
+  `Cartoon`,
+  `Film-Noir`,
 ];
 
 const MAX_RATING = 10;
