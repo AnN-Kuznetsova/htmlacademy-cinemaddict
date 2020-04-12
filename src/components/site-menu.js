@@ -9,18 +9,17 @@ const createFilterMarkup = (filter, isActive = false) => {
   );
 };
 
-const createFiltersMarkup = (filter) => {
-  filter = Filter;
-  const filtersMarkup = [];
-  filter.forEach((value, key) => filtersMarkup.push(createFilterMarkup([key, value], key === DEFAULT_FILTER)));
-  return filtersMarkup.join(`\n`);
+const createFiltersMarkup = (filters) => {
+  return Array.from(filters)
+    .map(([value, key]) => createFilterMarkup([value, key], value === DEFAULT_FILTER))
+    .join(`\n`);
 };
 
 const createSiteMenuTemplate = () => {
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">
-        ${createFiltersMarkup()}
+        ${createFiltersMarkup(Filter)}
       </div>
       <a href="#stats" class="main-navigation__additional">Stats</a>
     </nav>`

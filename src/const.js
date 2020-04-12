@@ -12,12 +12,12 @@ const GENRE = [
   `Film-Noir`,
 ];
 
-const EMOJI = [
-  {smile: `smile.png`},
-  {sleeping: `sleeping.png`},
-  {puke: `puke.png`},
-  {angry: `angry.png`},
-];
+const EMOJI = new Map([
+  [`smile`, `smile.png`],
+  [`sleeping`, `sleeping.png`],
+  [`puke`, `puke.png`],
+  [`angry`, `angry.png`],
+]);
 
 const AGE = [`0`, `6`, `12`, `16`, `18`];
 
