@@ -8,14 +8,16 @@ import {createShowMoreButtonTemplate} from "./components/show-more-button.js";
 import {createFilmsListExtraTemplate} from "./components/films-list-extra.js";
 import {createFilmDetailsTemplate} from "./components/film-details.js";
 import {generateFilms} from "./mock/film";
+import {getFilteredFilmsCount} from "./components/filter.js";
 
 
-const FILM_COUNT = 22;
+const FILM_COUNT = 30;
 const FILM_CARD_EXTRA_COUNT = 2;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 const films = generateFilms(FILM_COUNT);
+getFilteredFilmsCount(films);
 window.console.log(films);
 
 const render = (container, template, place) => {
@@ -33,7 +35,7 @@ const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 
 render(siteHeaderElement, createUserRankTemplate(), `beforeend`);
-render(siteMainElement, createSiteMenuTemplate(films), `beforeend`);
+render(siteMainElement, createSiteMenuTemplate(), `beforeend`);
 render(siteMainElement, createSortingTemplate(), `beforeend`);
 render(siteMainElement, createFilmsBoardTemplate(), `beforeend`);
 

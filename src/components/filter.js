@@ -1,4 +1,6 @@
-const getFilteredFilmsCount = (filters, films) => {
+import {FILTERS} from "../const.js";
+
+const getFilteredFilmsCount = (films, filters = FILTERS) => {
   for (const filter in filters) {
     if (filters.hasOwnProperty(filter)) {
       filters[filter].filmsCount = 0;
@@ -27,13 +29,11 @@ const createFilterMarkup = (filter) => {
   );
 };
 
-const createFiltersMarkup = (filters, films) => {
-  getFilteredFilmsCount(filters, films);
-
+const createFiltersMarkup = (filters = FILTERS) => {
   return Object.entries(filters)
     .map((filter) => createFilterMarkup(filter))
     .join(`\n`);
 };
 
 
-export {createFiltersMarkup};
+export {getFilteredFilmsCount, createFiltersMarkup};
