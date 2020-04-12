@@ -81,4 +81,4 @@ const siteFooterElement = document.querySelector(`.footer`);
 render(siteFooterElement, createFilmDetailsTemplate(films[0]), `afterend`);
 window.console.log(films[0]);
 const filmDetailsElement = document.querySelector(`.film-details`);
-//filmDetailsElement.style.display = `none`;
+filmDetailsElement.style.display = `none`;
