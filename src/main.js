@@ -5,14 +5,13 @@ import {createFilmsBoardTemplate} from "./components/films-board.js";
 import {createFilmsListTemplate} from "./components/films-list.js";
 import {createFilmCardTemplate} from "./components/film-card.js";
 import {createShowMoreButtonTemplate} from "./components/show-more-button.js";
-import {createFilmsListExtraTemplate, FILMS_LISTS_EXTRA} from "./components/films-list-extra.js";
+import {createFilmsListExtraTemplate, filmsListsExtra, getClassName} from "./components/films-list-extra.js";
 import {createFooterStatisticsTemplate} from "./components/footer-statistics.js";
 import {createFilmDetailsTemplate} from "./components/film-details.js";
 import {generateFilms} from "./mock/film";
-import {getClassName, getTopFilms} from "./components/films-list-extra.js";
 
 
-const FILM_COUNT = 23;
+const FILM_COUNT = 9;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
@@ -61,11 +60,13 @@ const onShowMoreButtonClick = () => {
 
 showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
 
-for (const list of FILMS_LISTS_EXTRA) {
+for (const list of filmsListsExtra) {
+  //const
+
   render(filmsBoardElement, createFilmsListExtraTemplate(list.title), `beforeend`);
   const filmListExtraElement = filmsBoardElement.querySelector(`.${getClassName(list.title)}`);
   const filmsListExtraContainerElement = filmListExtraElement.querySelector(`.films-list__container`);
-  const filmsExtra = getTopFilms(films, list.parametr);
+  const filmsExtra = list.getFilmsExtra(films);
   for (const film of filmsExtra) {
     render(filmsListExtraContainerElement, createFilmCardTemplate(film), `beforeend`);
   }

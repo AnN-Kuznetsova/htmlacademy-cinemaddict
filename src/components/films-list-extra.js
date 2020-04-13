@@ -1,22 +1,26 @@
 import {FILM_CARD_EXTRA_COUNT} from "../const.js";
+import {getSortingFilms} from "./sorting.js";
 
-const FILMS_LISTS_EXTRA = [
-  {
-    title: `Top rated`,
-    parametr: `rating`,
-  },
-  {
-    title: `Most commented`,
-    parametr: `comments`,
+class FilmsListExtra {
+  constructor(title, selectionParameter) {
+    this._title = title;
+    this._selectionParameter = selectionParameter;
   }
-];
 
-const getTopFilms = (films, parametr) => {
-  return films.slice()
-    .sort((left, right) =>
-      (parametr === `comments`) ? (right.comments.length - left.comments.length) : (right[parametr] - left[parametr]))
+  getFilmsExtra(films) {
+    return getSortingFilms(films, this._selectionParameter)
     .splice(0, FILM_CARD_EXTRA_COUNT);
-};
+  }
+
+  get title() {
+    return this._title;
+  }
+}
+
+const filmsListsExtra = [
+  new FilmsListExtra(`Top rated`, `rating`),
+  new FilmsListExtra(`Most commented`, `comments`),
+];
 
 const getClassName = (title) => {
   return title.toLowerCase()
@@ -34,4 +38,4 @@ const createFilmsListExtraTemplate = (title) => {
 };
 
 
-export {FILMS_LISTS_EXTRA, createFilmsListExtraTemplate, getClassName, getTopFilms};
+export {filmsListsExtra, createFilmsListExtraTemplate, getClassName};
