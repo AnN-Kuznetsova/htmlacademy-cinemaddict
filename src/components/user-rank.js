@@ -1,8 +1,8 @@
-import {FILTERS} from "../const.js";
+import {filmsFilters} from "./filter.js";
 
-const getUserRank = (filters = FILTERS) => {
+const getUserRank = (filters = filmsFilters) => {
   let userRank = ``;
-  const watchedFilmsCount = filters.history.filmsCount;
+  const watchedFilmsCount = filters.history.filteredFilms().length;
   switch (true) {
     case ((watchedFilmsCount >= 1) && (watchedFilmsCount <= 10)):
       userRank = `Novice`;

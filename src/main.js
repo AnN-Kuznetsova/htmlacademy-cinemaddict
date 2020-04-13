@@ -9,7 +9,6 @@ import {createFilmsListExtraTemplate, FILMS_LISTS_EXTRA} from "./components/film
 import {createFooterStatisticsTemplate} from "./components/footer-statistics.js";
 import {createFilmDetailsTemplate} from "./components/film-details.js";
 import {generateFilms} from "./mock/film";
-import {getFilteredFilmsCount} from "./components/filter.js";
 import {getClassName, getTopFilms} from "./components/films-list-extra.js";
 
 
@@ -19,7 +18,6 @@ const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 
 const films = generateFilms(FILM_COUNT);
-getFilteredFilmsCount(films);
 // window.console.log(films);
 
 const render = (container, template, place) => {
@@ -81,3 +79,6 @@ render(siteFooterElement, createFilmDetailsTemplate(films[0]), `afterend`);
 // window.console.log(films[0]);
 const filmDetailsElement = document.querySelector(`.film-details`);
 filmDetailsElement.style.display = `none`;
+
+
+export {films};
