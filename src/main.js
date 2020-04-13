@@ -11,7 +11,7 @@ import {createFilmDetailsTemplate} from "./components/film-details.js";
 import {generateFilms} from "./mock/film";
 
 
-const FILM_COUNT = 9;
+const FILM_COUNT = 23;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
