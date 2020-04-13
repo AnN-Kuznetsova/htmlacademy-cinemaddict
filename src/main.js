@@ -6,12 +6,13 @@ import {createFilmsListTemplate} from "./components/films-list.js";
 import {createFilmCardTemplate} from "./components/film-card.js";
 import {createShowMoreButtonTemplate} from "./components/show-more-button.js";
 import {createFilmsListExtraTemplate} from "./components/films-list-extra.js";
+import {createFooterStatisticsTemplate} from "./components/footer-statistics.js";
 import {createFilmDetailsTemplate} from "./components/film-details.js";
 import {generateFilms} from "./mock/film";
 import {getFilteredFilmsCount} from "./components/filter.js";
 
 
-const FILM_COUNT = 30;
+const FILM_COUNT = 23;
 const FILM_CARD_EXTRA_COUNT = 2;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
@@ -79,6 +80,9 @@ for (let filmsListExtraElement of filmsListExtraElements) {
 
 
 const siteFooterElement = document.querySelector(`.footer`);
+const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statistics`);
+render(footerStatisticsElement, createFooterStatisticsTemplate(films.length), `beforeend`);
+
 render(siteFooterElement, createFilmDetailsTemplate(films[0]), `afterend`);
 window.console.log(films[0]);
 const filmDetailsElement = document.querySelector(`.film-details`);
