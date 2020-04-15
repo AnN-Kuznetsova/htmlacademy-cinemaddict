@@ -88,6 +88,29 @@ const DESCRIPTION_PROTOTYPE = `Lorem ipsum dolor sit amet, consectetur adipiscin
 const MIN_DESCRIPTION_SENTENSE_COUNT = 1;
 const MAX_DESCRIPTION_SENTENSE_COUNT = 5;
 
+class Film {
+  constructor(title, rating, director, writers, actors, releaseDate, duration, country, genre, poster,
+      description, age, isAddToWatchlist, isMarkAsWatched, isFavorite, comments) {
+    this.title = title;
+    this.originalTitle = title;
+    this.rating = rating;
+    this.director = director;
+    this.writers = writers;
+    this.actors = actors;
+    this.releaseDate = releaseDate;
+    this.duration = duration;
+    this.country = country;
+    this.genre = genre;
+    this.poster = poster;
+    this.description = description;
+    this.age = age;
+    this.isAddToWatchlist = isAddToWatchlist;
+    this.isMarkAsWatched = isMarkAsWatched;
+    this.isFavorite = isFavorite;
+    this.comments = comments;
+  }
+}
+
 const generateRating = () => {
   return getRandomIntegerNumber(MAX_RATING - 1) + Math.round(Math.random() * 10) / 10;
 };
@@ -107,26 +130,24 @@ const generateReleaseDate = () => {
 
 const generateFilm = () => {
   const title = getRandomArrayElement(TITLE_ITEMS);
-
-  return {
-    title,
-    originalTitle: title,
-    rating: generateRating(),
-    director: getRandomArrayElement(DIRECTOR_ITEMS),
-    writers: getRandomArrayElements(WRITER_ITEMS, getRandomIntegerNumberInRange(MIN_WRITER_COUNT, WRITER_ITEMS.length - 1)),
-    actors: getRandomArrayElements(ACTOR_ITEMS, getRandomIntegerNumberInRange(MIN_ACTOR_COUNT, ACTOR_ITEMS.length - 1)),
-    releaseDate: generateReleaseDate(),
-    duration: generateDuration(),
-    country: getRandomArrayElement(COUNTRY),
-    genre: getRandomArrayElements(GENRE, getRandomIntegerNumberInRange(MIN_GENRE_COUNT, MAX_GENRE_COUNT)),
-    poster: getRandomArrayElement(POSTER_ITEMS),
-    description: generateRandomText(DESCRIPTION_PROTOTYPE, MIN_DESCRIPTION_SENTENSE_COUNT, MAX_DESCRIPTION_SENTENSE_COUNT),
-    age: getRandomArrayElement(AGE),
-    isAddToWatchlist: generateBoolean(),
-    isMarkAsWatched: generateBoolean(),
-    isFavorite: generateBoolean(),
-    comments: generateComments(getRandomIntegerNumber(MAX_COMMENTS_COUNT)),
-  };
+  return new Film(
+      title,
+      generateRating(),
+      getRandomArrayElement(DIRECTOR_ITEMS),
+      getRandomArrayElements(WRITER_ITEMS, getRandomIntegerNumberInRange(MIN_WRITER_COUNT, WRITER_ITEMS.length - 1)),
+      getRandomArrayElements(ACTOR_ITEMS, getRandomIntegerNumberInRange(MIN_ACTOR_COUNT, ACTOR_ITEMS.length - 1)),
+      generateReleaseDate(),
+      generateDuration(),
+      getRandomArrayElement(COUNTRY),
+      getRandomArrayElements(GENRE, getRandomIntegerNumberInRange(MIN_GENRE_COUNT, MAX_GENRE_COUNT)),
+      getRandomArrayElement(POSTER_ITEMS),
+      generateRandomText(DESCRIPTION_PROTOTYPE, MIN_DESCRIPTION_SENTENSE_COUNT, MAX_DESCRIPTION_SENTENSE_COUNT),
+      getRandomArrayElement(AGE),
+      generateBoolean(),
+      generateBoolean(),
+      generateBoolean(),
+      generateComments(getRandomIntegerNumber(MAX_COMMENTS_COUNT))
+  );
 };
 
 const generateFilms = (count) => {

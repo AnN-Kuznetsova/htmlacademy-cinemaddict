@@ -72,7 +72,6 @@ if (films.length > 0) {
     const filmsListExtraContainerElement = filmListExtraElement.querySelector(`.films-list__container`);
     const filmsExtra = list.getFilmsExtra(films);
     if (filmsExtra === 0) {
-      window.console.log(`no movies`);
       filmListExtraElement.remove();
     } else {
       for (const film of filmsExtra) {
