@@ -20,7 +20,7 @@ const getRandomArrayElements = function (array, count) {
 
   for (let i = 0; i < count; i++) {
     const index = getRandomIntegerNumber(arrayCopy.length - 1);
-    arrayElements.push(arrayCopy.splice(index, 1).join());
+    arrayElements.push(...arrayCopy.splice(index, 1));
   }
 
   return arrayElements;

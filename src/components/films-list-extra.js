@@ -1,5 +1,6 @@
 import {FILM_CARD_EXTRA_COUNT} from "../const.js";
 import {getSortingFilms} from "./sorting.js";
+import {getRandomIntegerNumber} from "../random.js";
 
 class FilmsListExtra {
   constructor(title, selectionParameter) {
@@ -8,22 +9,35 @@ class FilmsListExtra {
   }
 
   getFilmsExtra(films) {
-    let filmsExtra = getSortingFilms(films, this._selectionParameter)
-    .splice(0, FILM_CARD_EXTRA_COUNT);
+    const filmsExtra = getSortingFilms(films, this._selectionParameter);
 
-    window.console.log(this._selectionParameter);
-    window.console.log(filmsExtra[0]);
     if (filmsExtra[0][this._selectionParameter] === 0) {
-      filmsExtra = 0;
+      return 0;
     }
-
-    return filmsExtra;
+    return getTopFilms(filmsExtra, this._selectionParameter);
   }
 
   get title() {
     return this._title;
   }
 }
+
+const getTopFilms = (films, selectionParameter, topFilms = []) => {
+  const sortingFilms = films.slice();
+  const filteredFilms = sortingFilms.filter((film) => (film[selectionParameter] === sortingFilms[0][selectionParameter]));
+
+  if ((topFilms.length + filteredFilms.length) >= FILM_CARD_EXTRA_COUNT) {
+    while (topFilms.length < FILM_CARD_EXTRA_COUNT) {
+      topFilms.push(...filteredFilms.splice(getRandomIntegerNumber(FILM_CARD_EXTRA_COUNT - filteredFilms.length), 1));
+    }
+  } else {
+    topFilms.splice(topFilms.length, 0, ...filteredFilms.slice());
+    sortingFilms.splice(0, filteredFilms.length);
+    getTopFilms(sortingFilms, selectionParameter, topFilms);
+  }
+
+  return topFilms;
+};
 
 const filmsListsExtra = [
   new FilmsListExtra(`Top rated`, `rating`),
