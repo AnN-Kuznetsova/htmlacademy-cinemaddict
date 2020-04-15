@@ -108,6 +108,7 @@ class Film {
     this.isMarkAsWatched = isMarkAsWatched;
     this.isFavorite = isFavorite;
     this.comments = comments;
+    this._commentsCount = comments.length;
   }
 }
 

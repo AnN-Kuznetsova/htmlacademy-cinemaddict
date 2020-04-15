@@ -1,13 +1,6 @@
 const getSortingFilms = (films, selectionParameter) => {
   return films.slice()
-  .sort((left, right) => {
-    switch (true) {
-      case (selectionParameter === `comments`):
-        return (right.comments.length - left.comments.length);
-      default:
-        return (right[selectionParameter] - left[selectionParameter]);
-    }
-  });
+  .sort((left, right) => (right[selectionParameter] - left[selectionParameter]));
 };
 
 const createSortingTemplate = () => {

@@ -27,7 +27,7 @@ class FilmsListExtra {
 
 const filmsListsExtra = [
   new FilmsListExtra(`Top rated`, `rating`),
-  new FilmsListExtra(`Most commented`, `comments`),
+  new FilmsListExtra(`Most commented`, `_commentsCount`),
 ];
 
 const getClassName = (title) => {

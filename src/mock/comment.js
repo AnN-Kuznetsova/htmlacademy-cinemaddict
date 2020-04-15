@@ -35,7 +35,6 @@ const generateComment = () => {
 };
 
 const generateComments = (count) => {
-  count = 0;
   return new Array(count)
     .fill(``)
     .map(generateComment);
