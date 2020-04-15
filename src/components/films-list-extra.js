@@ -8,8 +8,16 @@ class FilmsListExtra {
   }
 
   getFilmsExtra(films) {
-    return getSortingFilms(films, this._selectionParameter)
+    let filmsExtra = getSortingFilms(films, this._selectionParameter)
     .splice(0, FILM_CARD_EXTRA_COUNT);
+
+    window.console.log(this._selectionParameter);
+    window.console.log(filmsExtra[0]);
+    if (filmsExtra[0][this._selectionParameter] === 0) {
+      filmsExtra = 0;
+    }
+
+    return filmsExtra;
   }
 
   get title() {
