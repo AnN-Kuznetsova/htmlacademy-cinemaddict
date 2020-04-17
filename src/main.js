@@ -83,7 +83,8 @@ if (films.length > 0) {
   const filmDetailsElement = document.querySelector(`.film-details`);
   filmDetailsElement.style.display = `none`;
 } else {
-  noData();
+  const filmsListTitleElement = filmsListElement.querySelector(`.films-list__title`);
+  noData(filmsListTitleElement);
 }
 
 
