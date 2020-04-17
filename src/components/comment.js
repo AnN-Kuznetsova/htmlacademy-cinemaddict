@@ -4,7 +4,7 @@ import {EMOJIS} from "../const.js";
 const createEmojiListMarkup = (emojis) => {
   return (
     `<div class="film-details__emoji-list">
-      ${Array.from(emojis)
+      ${Object.entries(emojis)
           .map(([emojiTitle, emojiUrl]) => {
             return (
               `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emojiTitle}" value="${emojiTitle}">
