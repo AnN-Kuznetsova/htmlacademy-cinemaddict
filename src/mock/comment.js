@@ -16,22 +16,14 @@ const PROTOTYPE_TEXT = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 const MIN_TEXT_SENTENSE_COUNT = 1;
 const MAX_TEXT_SENTENSE_COUNT = 5;
 
-class Comment {
-  constructor(text, emoji, author, dayAndTime) {
-    this.text = text;
-    this.emoji = emoji;
-    this.author = author;
-    this.dayAndTime = dayAndTime;
-  }
-}
 
 const generateComment = () => {
-  return new Comment(
-      generateRandomText(PROTOTYPE_TEXT, MIN_TEXT_SENTENSE_COUNT, MAX_TEXT_SENTENSE_COUNT),
-      getRandomArrayElement(Array.from(EMOJIS)),
-      getRandomArrayElement(AUTORS),
-      getRandomDate(MIN_DATE_RANGE, MAX_DATE_RANGE)
-  );
+  return {
+    text: generateRandomText(PROTOTYPE_TEXT, MIN_TEXT_SENTENSE_COUNT, MAX_TEXT_SENTENSE_COUNT),
+    emoji: getRandomArrayElement(Array.from(EMOJIS)),
+    author: getRandomArrayElement(AUTORS),
+    dayAndTime: getRandomDate(MIN_DATE_RANGE, MAX_DATE_RANGE),
+  };
 };
 
 const generateComments = (count) => {
