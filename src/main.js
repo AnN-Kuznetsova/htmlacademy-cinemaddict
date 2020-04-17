@@ -18,7 +18,6 @@ const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 
 const films = generateFilms(FILM_COUNT);
-// window.console.log(films);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -81,7 +80,6 @@ if (films.length > 0) {
   }
 
   render(siteFooterElement, createFilmDetailsTemplate(films[0]), `afterend`);
-  // window.console.log(films[0]);
   const filmDetailsElement = document.querySelector(`.film-details`);
   filmDetailsElement.style.display = `none`;
 } else {
