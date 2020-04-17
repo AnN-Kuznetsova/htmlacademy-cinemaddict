@@ -1,9 +1,8 @@
 import {MAX_DESCRIPTION_LENGTH} from "../const.js";
 
 export const createFilmCardTemplate = (film) => {
-  const {title, rating, releaseDate, duration, genre, poster, description, isAddToWatchlist, isMarkAsWatched, isFavorite, comments} = film;
+  const {title, rating, releaseDate, duration, genre, poster, description, isAddToWatchlist, isMarkAsWatched, isFavorite, commentsCount} = film;
 
-  const commentsCount = comments.length;
   const addToWatchlistButtonActiveClass = isAddToWatchlist ? `film-card__controls-item--active` : ``;
   const markAsWatchedButtonActiveClass = isMarkAsWatched ? `film-card__controls-item--active` : ``;
   const favoriteButtonActiveClass = isFavorite ? `film-card__controls-item--active` : ``;

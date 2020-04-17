@@ -41,7 +41,7 @@ const getTopFilms = (films, selectionParameter, topFilms = []) => {
 
 const filmsListsExtra = [
   new FilmsListExtra(`Top rated`, `rating`),
-  new FilmsListExtra(`Most commented`, `_commentsCount`),
+  new FilmsListExtra(`Most commented`, `commentsCount`),
 ];
 
 const getClassName = (title) => {
