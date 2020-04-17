@@ -1,4 +1,9 @@
-export const createSortingTemplate = () => {
+const getSortingFilms = (films, selectionParameter) => {
+  return films.slice()
+  .sort((left, right) => (right[selectionParameter] - left[selectionParameter]));
+};
+
+const createSortingTemplate = () => {
   return (
     `<ul class="sort">
       <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
@@ -7,3 +12,6 @@ export const createSortingTemplate = () => {
     </ul>`
   );
 };
+
+
+export {createSortingTemplate, getSortingFilms};
