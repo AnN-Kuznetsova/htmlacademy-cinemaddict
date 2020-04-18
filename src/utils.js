@@ -37,5 +37,12 @@ const formatDateWithSlash = (date) => {
   return `${year}/${month}/${day}`;
 };
 
+const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
 
-export {formatDateToString, formatDateWithSlash, formatTime};
+  return newElement.firstChild;
+};
+
+
+export {formatDateToString, formatDateWithSlash, formatTime, createElement};
