@@ -11,9 +11,14 @@ export class FilmDetails {
   getTemplate() {
     const {title, originalTitle, rating, director, writers, actors, releaseDate, duration, country, genre, poster, description, age, isAddToWatchlist, isMarkAsWatched, isFavorite, comments} = this._film;
 
+    const releaseDateFormat = formatDateToString(releaseDate);
+
     const addToWatchlistButtonIsActive = isAddToWatchlist ? `checked` : ``;
     const markAsWatchedButtonIsActive = isMarkAsWatched ? `checked` : ``;
     const favoriteButtonIsActive = isFavorite ? `checked` : ``;
+
+    const genreMarkup = new Genres(genre).getTemplate();
+    const commentsMarkup = new Comments(comments).getTemplate();
 
     return (
       `<section class="film-details">
@@ -56,7 +61,7 @@ export class FilmDetails {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Release Date</td>
-                    <td class="film-details__cell">${formatDateToString(releaseDate)}</td>
+                    <td class="film-details__cell">${releaseDateFormat}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Runtime</td>
@@ -69,7 +74,7 @@ export class FilmDetails {
                   <tr class="film-details__row">
                     <td class="film-details__term">Genre${(genre.length > 1) ? `s` : ``}</td>
                     <td class="film-details__cell">
-                      ${Genres.getTemplate(genre)}
+                      ${genreMarkup}
                   </tr>
                 </table>
 
@@ -92,7 +97,7 @@ export class FilmDetails {
           </div>
 
           <div class="form-details__bottom-container">
-            ${Comments.getTemplate(comments)}
+            ${commentsMarkup}
           </div>
         </form>
       </section>`
