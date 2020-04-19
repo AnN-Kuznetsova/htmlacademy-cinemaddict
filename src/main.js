@@ -27,6 +27,18 @@ const siteFooterElement = document.querySelector(`.footer`);
 const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statistics`);
 
 
+const renderFilm = (filmsListContainerElement, film) => {
+  const filmCardComponent = new FilmCard(film);
+
+  const filmDetails = new FilmDetails(film);
+
+  render(filmsListContainerElement, filmCardComponent.getElement(), RenderPosition.BEFOREEND);
+};
+
+/* const renderFilmsContainer = (filmsListContainerComponent, films) => {
+
+}; */
+
 const renderFilmsList = (filmsListComponent, films) => {
   render(filmsListComponent.getElement(), new FilmsListTitle(films.length).getElement(), RenderPosition.AFTERBEGIN);
 
@@ -36,9 +48,31 @@ const renderFilmsList = (filmsListComponent, films) => {
 
   const filmsListContainerComponent = new FilmsListContainer();
   render(filmsListComponent.getElement(), filmsListContainerComponent.getElement(), RenderPosition.BEFOREEND);
+  // renderFilmsContainer(filmsListContainerComponent, films);
 
-  const showMoreButtonComponent = new ShowMoreButton();
-  render(filmsListComponent.getElement(), showMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+  let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
+  films.slice(0, showingFilmsCount)
+    .forEach((film) => renderFilm(filmsListContainerComponent.getElement(), film));
+
+  if (films.length > SHOWING_FILMS_COUNT_ON_START) {
+    const showMoreButtonComponent = new ShowMoreButton();
+    render(filmsListComponent.getElement(), showMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+
+    const onShowMoreButtonClick = () => {
+      const prevFilmsCount = showingFilmsCount;
+      showingFilmsCount += SHOWING_FILMS_COUNT_BY_BUTTON;
+
+      films.slice(prevFilmsCount, showingFilmsCount)
+        .forEach((film) => renderFilm(filmsListContainerComponent.getElement(), film));
+
+      if (showingFilmsCount >= films.length) {
+        showMoreButtonComponent.getElement().remove();
+        showMoreButtonComponent.removeElement();
+      }
+    };
+
+    showMoreButtonComponent.getElement().addEventListener(`click`, onShowMoreButtonClick);
+  }
 };
 
 const renderFilmsBoard = (filmsBoardComponent, films) => {
