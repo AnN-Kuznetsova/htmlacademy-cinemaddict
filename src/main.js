@@ -5,13 +5,14 @@ import {Filters} from "./components/filters.js";
 import {Sort} from "./components/sort.js";
 import {FilmsBoard} from "./components/films-board.js";
 import {FilmsList} from "./components/films-list.js";
+import {FilmsListTitle} from "./components/films-list-title.js";
+import {FilmsListContainer} from "./components/films-list-container.js";
 import {FilmCard} from "./components/film-card.js";
 import {ShowMoreButton} from "./components/show-more-button.js";
 import {FilmsListExtra} from "./components/films-list-extra.js";
 import {FooterStatistics} from "./components/footer-statistics.js";
 import {FilmDetails} from "./components/film-details.js";
-import {NoData} from "./components/no-data.js";
-import {render, RenderPosition} from "./utils.js";
+import {render, RenderPosition, formatTime} from "./utils.js";
 import {generateFilms} from "./mock/film";
 
 
@@ -24,6 +25,28 @@ const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 const siteFooterElement = document.querySelector(`.footer`);
 const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statistics`);
+
+
+const renderFilmsList = (filmsListComponent, films) => {
+  render(filmsListComponent.getElement(), new FilmsListTitle(films.length).getElement(), RenderPosition.AFTERBEGIN);
+
+  if (films.length === 0) {
+    return;
+  }
+
+  const filmsListContainerComponent = new FilmsListContainer();
+  render(filmsListComponent.getElement(), filmsListContainerComponent.getElement(), RenderPosition.BEFOREEND);
+
+  const showMoreButtonComponent = new ShowMoreButton();
+  render(filmsListComponent.getElement(), showMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+};
+
+const renderFilmsBoard = (filmsBoardComponent, films) => {
+  const filmsListComponent = new FilmsList();
+  render(filmsBoardComponent.getElement(), filmsListComponent.getElement(), RenderPosition.BEFOREEND);
+  renderFilmsList(filmsListComponent, films);
+
+};
 
 
 const films = generateFilms(FILM_COUNT);
@@ -52,6 +75,7 @@ render(footerStatisticsElement, new FooterStatistics(films.length).getElement(),
 
 const filmsBoardComponent = new FilmsBoard();
 render(siteMainElement, filmsBoardComponent.getElement(), RenderPosition.BEFOREEND);
+renderFilmsBoard(filmsBoardComponent, films);
 
 /*
 

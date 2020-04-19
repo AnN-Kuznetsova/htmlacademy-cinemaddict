@@ -1,14 +1,14 @@
 import {createElement} from "../utils.js";
 
-export class FilmsList {
-  constructor() {
+export class FilmsListTitle {
+  constructor(filmsCount) {
+    this._filmsCount = filmsCount;
     this._element = null;
   }
 
   getTemplate() {
-    return (
-      `<section class="films-list"></section>`
-    );
+    return this._filmsCount ? (`<h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>`) :
+      (`<h2 class="films-list__title">There are no movies in our database</h2>`);
   }
 
   getElement() {

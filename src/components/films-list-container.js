@@ -1,13 +1,13 @@
 import {createElement} from "../utils.js";
 
-export class FilmsList {
+export class FilmsListContainer {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
     return (
-      `<section class="films-list"></section>`
+      `<div class="films-list__container"></div>`
     );
   }
 
