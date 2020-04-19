@@ -10,15 +10,23 @@ export class Filters {
     const [name, {value, isDefault, isNotDisplayCount, filteredFilms}] = filter;
     return (
       `<a href="#${name}" class="main-navigation__item ${isDefault ? `main-navigation__item--active` : ``}">${value}
-        ${isNotDisplayCount ? `` : `<span class="main-navigation__item-count">${filteredFilms().length}</span>`}
+        ${isNotDisplayCount ? `` : `<span class="main-navigation__item-count">${filteredFilms.length}</span>`}
       </a>`
     );
   }
 
-  getTemplate() {
+  _createFiltersMarkup() {
     return Object.entries(this._filters)
-    .map((filter) => this._createFilterMarkup(filter))
-    .join(`\n`);
+      .map((filter) => this._createFilterMarkup(filter))
+      .join(`\n`);
+  }
+
+  getTemplate() {
+    return (
+      `<div class="main-navigation__items">
+        ${this._createFiltersMarkup()}
+      </div>`
+    );
   }
 
   getElement() {

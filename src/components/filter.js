@@ -1,10 +1,10 @@
 export class Filter {
-  constructor(value, /* filteredFilms */ functionName, films, isDefault = false, isNotDisplayCount = false) {
+  constructor(value, functionName, films, isDefault = false, isNotDisplayCount = false) {
     this._value = value;
     this._isDefault = isDefault;
     this._isNotDisplayCount = isNotDisplayCount;
     this._functionName = `_${functionName}`;
-    this._filteredFilms = this[this._functionName](films); // filteredFilms;
+    this._filteredFilms = this[this._functionName](films);
   }
 
   _filterDefaultFun(films) {
@@ -21,6 +21,22 @@ export class Filter {
 
   _filterFavoritesFun(films) {
     return films.filter((film) => film.isFavorite);
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  get isDefault() {
+    return this._isDefault;
+  }
+
+  get isNotDisplayCount() {
+    return this._isNotDisplayCount;
+  }
+
+  get functionName() {
+    return this._functionName;
   }
 
   get filteredFilms() {

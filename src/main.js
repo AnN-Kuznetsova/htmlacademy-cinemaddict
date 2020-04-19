@@ -41,9 +41,11 @@ const filmsListsExtra = [
   new FilmsListExtra(`Most commented`, `commentsCount`),
 ];
 
+const siteMenuComponent =  new SiteMenu();
 
 render(siteHeaderElement, new UserRank(filmsFilters).getElement(), RenderPosition.BEFOREEND);
-//render(siteMainElement, new SiteMenu().getElement(), RenderPosition.BEFOREEND); // createSiteMenuTemplate(), `beforeend`);
+render(siteMainElement, siteMenuComponent.getElement(), RenderPosition.BEFOREEND);
+render(siteMenuComponent.getElement(), new Filters(filmsFilters).getElement(), RenderPosition.AFTERBEGIN);
 /* render(siteMainElement, createSortingTemplate(), `beforeend`);
 render(siteMainElement, createFilmsBoardTemplate(), `beforeend`);
 render(footerStatisticsElement, createFooterStatisticsTemplate(films.length), `beforeend`); */
