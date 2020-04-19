@@ -16,12 +16,13 @@ export class FilmsListExtra {
 
 
   _getTopFilms(films, selectionParameter, topFilms = []) {
+    const filmsExtraCount = FILM_CARD_EXTRA_COUNT;
     const sortingFilms = films.slice();
     const filteredFilms = sortingFilms.filter((film) => (film[selectionParameter] === sortingFilms[0][selectionParameter]));
 
-    if ((topFilms.length + filteredFilms.length) >= FILM_CARD_EXTRA_COUNT) {
-      while (topFilms.length < FILM_CARD_EXTRA_COUNT) {
-        topFilms.push(...filteredFilms.splice(getRandomIntegerNumber(FILM_CARD_EXTRA_COUNT - filteredFilms.length), 1));
+    if ((topFilms.length + filteredFilms.length) >= filmsExtraCount) {
+      while (topFilms.length < filmsExtraCount) {
+        topFilms.push(...filteredFilms.splice(getRandomIntegerNumber(filmsExtraCount - filteredFilms.length), 1));
       }
     } else {
       topFilms.splice(topFilms.length, 0, ...filteredFilms.slice());
@@ -33,23 +34,24 @@ export class FilmsListExtra {
   }
 
   getFilmsExtra(films) {
-    const filmsExtra = films.length > 0 ? getSortingFilms(films, this._selectionParameter) : 0;
+    const filmsSorting = getSortingFilms(films, this._selectionParameter);
+    const filmsExtra = this._getTopFilms(filmsSorting, this._selectionParameter);
 
-    if (filmsExtra === 0 || filmsExtra[0][this._selectionParameter] === 0) {
+    if (filmsExtra.length === 0 || filmsExtra[0][this._selectionParameter] === 0) {
       return 0;
     }
-    return this._getTopFilms(filmsExtra, this._selectionParameter);
+    return filmsExtra;
   }
 
   get title() {
     return this._title;
   }
 
-  getClassName(title) {
+  /* getClassName(title) {
     return title.toLowerCase()
       .split(` `)
       .join(`-`);
-  }
+  } */
 
   /* getTemplate(title) {
     return (
