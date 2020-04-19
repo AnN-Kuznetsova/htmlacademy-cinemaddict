@@ -1,12 +1,5 @@
 import {createElement} from "../utils.js";
 
-export const createFooterStatisticsTemplate = (filmsCount) => {
-  return (
-    `<p>${filmsCount.toLocaleString(`ru-RU`)} movies inside</p>`
-  );
-};
-
-
 export class FooterStatistics {
   constructor(filmsCount) {
     this._filmsCount = filmsCount;

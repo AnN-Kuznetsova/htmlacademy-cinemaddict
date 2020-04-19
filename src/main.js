@@ -15,7 +15,7 @@ import {render, RenderPosition} from "./utils.js";
 import {generateFilms} from "./mock/film";
 
 
-const FILM_COUNT = 23;
+const FILM_COUNT = 13;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
@@ -47,8 +47,10 @@ render(siteHeaderElement, new UserRank(filmsFilters).getElement(), RenderPositio
 render(siteMainElement, siteMenuComponent.getElement(), RenderPosition.BEFOREEND);
 render(siteMenuComponent.getElement(), new Filters(filmsFilters).getElement(), RenderPosition.AFTERBEGIN);
 render(siteMainElement, new Sort().getElement(), RenderPosition.BEFOREEND);
-/* render(siteMainElement, createFilmsBoardTemplate(), `beforeend`);
-render(footerStatisticsElement, createFooterStatisticsTemplate(films.length), `beforeend`); */
+// render(siteMainElement, createFilmsBoardTemplate(), `beforeend`);
+render(footerStatisticsElement, new FooterStatistics(films.length).getElement(), RenderPosition.BEFOREEND);
+
+
 
 /*
 
