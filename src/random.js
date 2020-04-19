@@ -47,4 +47,12 @@ const generateRandomText = (textPrototype, minSentenseCount, maxSentenseCount) =
 };
 
 
-export {getRandomIntegerNumber, getRandomArrayElement, getRandomArrayElements, getRandomDate, getRandomIntegerNumberInRange, generateBoolean, generateRandomText};
+export {
+  getRandomIntegerNumber,
+  getRandomArrayElement,
+  getRandomArrayElements,
+  getRandomDate,
+  getRandomIntegerNumberInRange,
+  generateBoolean,
+  generateRandomText,
+};

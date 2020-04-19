@@ -1,6 +1,6 @@
 import {FILM_CARD_EXTRA_COUNT} from "../const.js";
 import {getRandomIntegerNumber} from "../random.js";
-import {getSortingFilms, createElement} from "../utils.js";
+import {getSortingFilms} from "../utils.js";
 
 export class FilmsListExtra {
   constructor(title, selectionParameter) {
@@ -8,12 +8,6 @@ export class FilmsListExtra {
     this._selectionParameter = selectionParameter;
     this._element = null;
   }
-
-  /* const filmsListsExtra = [
-    new FilmsListExtra(`Top rated`, `rating`),
-    new FilmsListExtra(`Most commented`, `commentsCount`),
-  ]; */
-
 
   _getTopFilms(films, selectionParameter, topFilms = []) {
     const filmsExtraCount = FILM_CARD_EXTRA_COUNT;
@@ -46,31 +40,4 @@ export class FilmsListExtra {
   get title() {
     return this._title;
   }
-
-  /* getClassName(title) {
-    return title.toLowerCase()
-      .split(` `)
-      .join(`-`);
-  } */
-
-  /* getTemplate(title) {
-    return (
-      `<section class="films-list--extra ${this._getClassName(title)}">
-        <h2 class="films-list__title">${title}</h2>
-        <div class="films-list__container"></div>
-      </section>`
-    );
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  } */
 }
