@@ -27,14 +27,21 @@ const siteMainElement = bodyElement.querySelector(`.main`);
 const siteFooterElement = bodyElement.querySelector(`.footer`);
 const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statistics`);
 
+let openFilmDetailsPopup = null;
+
 
 const renderFilm = (filmsListContainerElement, film) => {
   const openFilmDetails = () => {
-    bodyElement.appendChild(filmDetailsComponent.getElement());
+    if (openFilmDetailsPopup) {
+      bodyElement.removeChild(openFilmDetailsPopup);
+      openFilmDetailsPopup = null;
+    }
+    openFilmDetailsPopup = bodyElement.appendChild(filmDetailsComponent.getElement());
   };
 
   const closeFilmDetails = () => {
     bodyElement.removeChild(filmDetailsComponent.getElement());
+    openFilmDetailsPopup = null;
   };
 
   const onFilmCardPosterElementClick = () => {
@@ -140,13 +147,11 @@ const filmsListsExtra = [
 ];
 
 const siteMenuComponent = new SiteMenu();
-
 render(siteHeaderElement, new UserRank(filmsFilters).getElement(), RenderPosition.BEFOREEND);
 render(siteMainElement, siteMenuComponent.getElement(), RenderPosition.BEFOREEND);
 render(siteMenuComponent.getElement(), new Filters(filmsFilters).getElement(), RenderPosition.AFTERBEGIN);
 render(siteMainElement, new Sort().getElement(), RenderPosition.BEFOREEND);
 render(footerStatisticsElement, new FooterStatistics(films.length).getElement(), RenderPosition.BEFOREEND);
-
 
 const filmsBoardComponent = new FilmsBoard();
 render(siteMainElement, filmsBoardComponent.getElement(), RenderPosition.BEFOREEND);
