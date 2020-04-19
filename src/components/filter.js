@@ -22,4 +22,8 @@ export class Filter {
   _filterFavoritesFun(films) {
     return films.filter((film) => film.isFavorite);
   }
+
+  get filteredFilms() {
+    return this._filteredFilms;
+  }
 }

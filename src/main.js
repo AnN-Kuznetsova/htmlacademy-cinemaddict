@@ -20,6 +20,12 @@ const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 
+const siteHeaderElement = document.querySelector(`.header`);
+const siteMainElement = document.querySelector(`.main`);
+const siteFooterElement = document.querySelector(`.footer`);
+const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statistics`);
+
+
 const films = generateFilms(FILM_COUNT);
 
 const filmsFilters = {
@@ -28,7 +34,7 @@ const filmsFilters = {
   history: new Filter(`History`, `filterHistoryFun`, films),
   favorites: new Filter(`Favorites`, `filterFavoritesFun`, films),
 };
-//window.console.log(filmsFilters);
+window.console.log(filmsFilters);
 
 const filmsListsExtra = [
   new FilmsListExtra(`Top rated`, `rating`),
@@ -36,18 +42,13 @@ const filmsListsExtra = [
 ];
 
 
-
-
-/* const siteHeaderElement = document.querySelector(`.header`);
-const siteMainElement = document.querySelector(`.main`);
-const siteFooterElement = document.querySelector(`.footer`);
-const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statistics`);
-
-render(siteHeaderElement, createUserRankTemplate(), `beforeend`);
-render(siteMainElement, createSiteMenuTemplate(), `beforeend`);
-render(siteMainElement, createSortingTemplate(), `beforeend`);
+render(siteHeaderElement, new UserRank(filmsFilters).getElement(), RenderPosition.BEFOREEND);
+//render(siteMainElement, new SiteMenu().getElement(), RenderPosition.BEFOREEND); // createSiteMenuTemplate(), `beforeend`);
+/* render(siteMainElement, createSortingTemplate(), `beforeend`);
 render(siteMainElement, createFilmsBoardTemplate(), `beforeend`);
-render(footerStatisticsElement, createFooterStatisticsTemplate(films.length), `beforeend`);
+render(footerStatisticsElement, createFooterStatisticsTemplate(films.length), `beforeend`); */
+
+/*
 
 const filmsBoardElement = siteMainElement.querySelector(`.films`);
 render(filmsBoardElement, createFilmsListTemplate(), `beforeend`);

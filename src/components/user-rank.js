@@ -1,14 +1,14 @@
-import {filmsFilters} from "./filter.js";
 import {createElement} from "../utils.js";
 
 export class UserRank {
-  constructor() {
+  constructor(filters) {
+    this._filters = filters;
     this._element = null;
   }
 
-  _getUserRank(filters = filmsFilters) {
+  _getUserRank() {
     let userRank = ``;
-    const watchedFilmsCount = filters.history.filteredFilms().length;
+    const watchedFilmsCount = this._filters.history.filteredFilms.length;
     switch (true) {
       case ((watchedFilmsCount >= 1) && (watchedFilmsCount <= 10)):
         userRank = `Novice`;
