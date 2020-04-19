@@ -46,8 +46,8 @@ const siteMenuComponent =  new SiteMenu();
 render(siteHeaderElement, new UserRank(filmsFilters).getElement(), RenderPosition.BEFOREEND);
 render(siteMainElement, siteMenuComponent.getElement(), RenderPosition.BEFOREEND);
 render(siteMenuComponent.getElement(), new Filters(filmsFilters).getElement(), RenderPosition.AFTERBEGIN);
-/* render(siteMainElement, createSortingTemplate(), `beforeend`);
-render(siteMainElement, createFilmsBoardTemplate(), `beforeend`);
+render(siteMainElement, new Sort().getElement(), RenderPosition.BEFOREEND);
+/* render(siteMainElement, createFilmsBoardTemplate(), `beforeend`);
 render(footerStatisticsElement, createFooterStatisticsTemplate(films.length), `beforeend`); */
 
 /*
