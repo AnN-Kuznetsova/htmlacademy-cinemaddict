@@ -33,9 +33,9 @@ export class FilmsListExtra {
   }
 
   getFilmsExtra(films) {
-    const filmsExtra = getSortingFilms(films, this._selectionParameter);
+    const filmsExtra = films.length > 0 ? getSortingFilms(films, this._selectionParameter) : 0;
 
-    if (filmsExtra[0][this._selectionParameter] === 0) {
+    if (filmsExtra === 0 || filmsExtra[0][this._selectionParameter] === 0) {
       return 0;
     }
     return this._getTopFilms(filmsExtra, this._selectionParameter);
