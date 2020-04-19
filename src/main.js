@@ -1,14 +1,17 @@
-import {createUserRankTemplate} from "./components/user-rank.js";
-import {createSiteMenuTemplate} from "./components/site-menu.js";
-import {createSortingTemplate} from "./components/sorting.js";
-import {createFilmsBoardTemplate} from "./components/films-board.js";
-import {createFilmsListTemplate} from "./components/films-list.js";
-import {createFilmCardTemplate} from "./components/film-card.js";
-import {createShowMoreButtonTemplate} from "./components/show-more-button.js";
-import {createFilmsListExtraTemplate, filmsListsExtra, getClassName} from "./components/films-list-extra.js";
-import {createFooterStatisticsTemplate} from "./components/footer-statistics.js";
-import {createFilmDetailsTemplate} from "./components/film-details.js";
-import {noData} from "./components/no-data.js";
+import {UserRank} from "./components/user-rank.js";
+import {SiteMenu} from "./components/site-menu.js";
+import {Filter} from "./components/filter.js";
+import {Filters} from "./components/filters.js";
+import {Sort} from "./components/sort.js";
+import {FilmsBoard} from "./components/films-board.js";
+import {FilmsList} from "./components/films-list.js";
+import {FilmCard} from "./components/film-card.js";
+import {ShowMoreButton} from "./components/show-more-button.js";
+import {FilmsListExtra} from "./components/films-list-extra.js";
+import {FooterStatistics} from "./components/footer-statistics.js";
+import {FilmDetails} from "./components/film-details.js";
+import {NoData} from "./components/no-data.js";
+import {render, RenderPosition} from "./utils.js";
 import {generateFilms} from "./mock/film";
 
 
@@ -19,12 +22,23 @@ const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 const films = generateFilms(FILM_COUNT);
 
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
+const filmsFilters = {
+  all: new Filter(`All movies`, `filterDefaultFun`, films, true, true),
+  watchlist: new Filter(`Watchlist`, `filterAddToWatchlistFun`, films),
+  history: new Filter(`History`, `filterHistoryFun`, films),
+  favorites: new Filter(`Favorites`, `filterFavoritesFun`, films),
 };
+//window.console.log(filmsFilters);
+
+const filmsListsExtra = [
+  new FilmsListExtra(`Top rated`, `rating`),
+  new FilmsListExtra(`Most commented`, `commentsCount`),
+];
 
 
-const siteHeaderElement = document.querySelector(`.header`);
+
+
+/* const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 const siteFooterElement = document.querySelector(`.footer`);
 const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statistics`);
@@ -86,6 +100,6 @@ if (films.length > 0) {
   const filmsListTitleElement = filmsListElement.querySelector(`.films-list__title`);
   noData(filmsListTitleElement);
 }
+ */
 
 
-export {films};

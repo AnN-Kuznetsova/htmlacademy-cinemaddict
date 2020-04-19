@@ -1,14 +1,19 @@
 import {createElement} from "../utils.js";
 
-export class ShowMoreButton {
-  constructor() {
+export class Genres {
+  constructor(genres) {
+    this._genres = genres;
     this._element = null;
   }
 
-  getTemplate() {
+  _createGenreMarkup(genre) {
     return (
-      `<button class="films-list__show-more">Show more</button>`
+      `<span class="film-details__genre">${genre}</span>`
     );
+  }
+
+  getTemplate() {
+    return this._genres.slice().map((it) => this._createGenreMarkup(it)).join(`\n`);
   }
 
   getElement() {

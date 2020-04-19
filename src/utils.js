@@ -1,3 +1,8 @@
+const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};
+
 const MonthFormat = {
   0: `January`,
   1: `February`,
@@ -44,5 +49,23 @@ const createElement = (template) => {
   return newElement.firstChild;
 };
 
+const render = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
 
-export {formatDateToString, formatDateWithSlash, formatTime, createElement};
+
+export {
+  RenderPosition,
+  render,
+  createElement,
+  formatDateToString,
+  formatDateWithSlash,
+  formatTime,
+};
