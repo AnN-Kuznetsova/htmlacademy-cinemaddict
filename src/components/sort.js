@@ -5,11 +5,6 @@ export class Sort {
     this._element = null;
   }
 
-  getSortingFilms(films, selectionParameter) {
-    return films.slice()
-    .sort((left, right) => (right[selectionParameter] - left[selectionParameter]));
-  }
-
   getTemplate() {
     return (
       `<ul class="sort">

@@ -1,14 +1,18 @@
 import {createElement} from "../utils.js";
 
 export class FilmsListTitle {
-  constructor(filmsCount) {
-    this._filmsCount = filmsCount;
+  constructor(title, isVisually = true) {
+    this._title = title;
+    this._isVisually = isVisually;
     this._element = null;
   }
 
   getTemplate() {
-    return this._filmsCount ? (`<h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>`) :
-      (`<h2 class="films-list__title">There are no movies in our database</h2>`);
+    const visuallyClass = this._isVisually ? `` : `visually-hidden`;
+
+    return (
+      `<h2 class="films-list__title ${visuallyClass}">${this._title}</h2>`
+    );
   }
 
   getElement() {

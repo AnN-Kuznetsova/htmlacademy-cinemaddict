@@ -1,13 +1,15 @@
 import {createElement} from "../utils.js";
 
 export class FilmsList {
-  constructor() {
+  constructor(isExtra = false) {
+    this._isExtra = isExtra;
     this._element = null;
   }
 
   getTemplate() {
+    const extra = this._isExtra ? `--extra` : ``;
     return (
-      `<section class="films-list"></section>`
+      `<section class="films-list${extra}"></section>`
     );
   }
 

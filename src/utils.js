@@ -60,6 +60,11 @@ const render = (container, element, place) => {
   }
 };
 
+const getSortingFilms = (films, selectionParameter) => {
+  return films.slice()
+  .sort((left, right) => (right[selectionParameter] - left[selectionParameter]));
+};
+
 
 export {
   RenderPosition,
@@ -68,4 +73,5 @@ export {
   formatDateToString,
   formatDateWithSlash,
   formatTime,
+  getSortingFilms,
 };

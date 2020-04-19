@@ -16,7 +16,7 @@ import {render, RenderPosition, formatTime} from "./utils.js";
 import {generateFilms} from "./mock/film";
 
 
-const FILM_COUNT = 13;
+const FILM_COUNT = 8;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
@@ -39,12 +39,16 @@ const renderFilm = (filmsListContainerElement, film) => {
 
 }; */
 
-const renderFilmsList = (filmsListComponent, films) => {
-  render(filmsListComponent.getElement(), new FilmsListTitle(films.length).getElement(), RenderPosition.AFTERBEGIN);
-
+const renderFilmsList = (filmsListComponent, films, isExtra = false, title = ``) => {
   if (films.length === 0) {
+    render(filmsListComponent.getElement(), new FilmsListTitle(`There are no movies in our database`).getElement(), RenderPosition.AFTERBEGIN);
     return;
   }
+
+  const listTitle = isExtra ? title : `All movies. Upcoming`;
+  const isVisually = isExtra ? true : false;
+  const filmsListTitleComponent = new FilmsListTitle(listTitle, isVisually);
+  render(filmsListComponent.getElement(), filmsListTitleComponent.getElement(), RenderPosition.AFTERBEGIN);
 
   const filmsListContainerComponent = new FilmsListContainer();
   render(filmsListComponent.getElement(), filmsListContainerComponent.getElement(), RenderPosition.BEFOREEND);
@@ -80,6 +84,17 @@ const renderFilmsBoard = (filmsBoardComponent, films) => {
   render(filmsBoardComponent.getElement(), filmsListComponent.getElement(), RenderPosition.BEFOREEND);
   renderFilmsList(filmsListComponent, films);
 
+  if (filmsListsExtra.length > 0) {
+    for (const list of filmsListsExtra) {
+      const filmsExtra = list.getFilmsExtra(films);
+      if (filmsExtra) {
+        const filmsListExtraComponent = new FilmsList(true);
+        render(filmsBoardComponent.getElement(), filmsListExtraComponent.getElement(), RenderPosition.BEFOREEND);
+        // filmsListExtraComponent.getElement().classList.add(`${list.getClassName(list.title)}`);
+        renderFilmsList(filmsListExtraComponent, filmsExtra, true, list.title);
+      }
+    }
+  }
 };
 
 
@@ -91,7 +106,7 @@ const filmsFilters = {
   history: new Filter(`History`, `filterHistoryFun`, films),
   favorites: new Filter(`Favorites`, `filterFavoritesFun`, films),
 };
-window.console.log(filmsFilters);
+// window.console.log(filmsFilters);
 
 const filmsListsExtra = [
   new FilmsListExtra(`Top rated`, `rating`),
