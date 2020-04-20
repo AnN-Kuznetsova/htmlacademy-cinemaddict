@@ -1,15 +1,19 @@
 import {createElement} from "../utils.js";
 
-export class FooterStatistics {
-  constructor(filmsCount) {
-    this._filmsCount = filmsCount;
+export class Genres {
+  constructor(genres) {
+    this._genres = genres;
     this._element = null;
   }
 
-  getTemplate() {
+  _createGenreMarkup(genre) {
     return (
-      `<p>${this._filmsCount.toLocaleString(`ru-RU`)} movies inside</p>`
+      `<span class="film-details__genre">${genre}</span>`
     );
+  }
+
+  getTemplate() {
+    return this._genres.slice().map((it) => this._createGenreMarkup(it)).join(`\n`);
   }
 
   getElement() {
