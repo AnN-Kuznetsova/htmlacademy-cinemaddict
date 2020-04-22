@@ -12,7 +12,7 @@ import {ShowMoreButton} from "./components/show-more-button.js";
 import {FilmsListExtra} from "./components/films-list-extra.js";
 import {FooterStatistics} from "./components/footer-statistics.js";
 import {FilmDetails} from "./components/film-details.js";
-import {render, RenderPosition} from "./utils.js";
+import {render, RenderPosition, onEscPress} from "./utils.js";
 import {generateFilms} from "./mock/film";
 
 
@@ -30,9 +30,14 @@ const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statis
 
 let openFilmDetailsElement = null;
 
+const onEscKeyDown = (evt) => {
+  onEscPress(evt, closeFilmDetailsPopup);
+};
+
 const closeFilmDetailsPopup = () => {
   bodyElement.removeChild(openFilmDetailsElement);
   openFilmDetailsElement = null;
+  document.removeEventListener(`keydown`, onEscKeyDown);
 };
 
 
@@ -42,6 +47,7 @@ const renderFilm = (filmsListContainerElement, film) => {
       closeFilmDetailsPopup();
     }
     openFilmDetailsElement = bodyElement.appendChild(filmDetailsComponent.getElement());
+    document.addEventListener(`keydown`, onEscKeyDown);
   };
 
   const onFilmCardPosterElementClick = () => {

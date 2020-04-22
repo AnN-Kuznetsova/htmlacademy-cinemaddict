@@ -65,8 +65,16 @@ const getSortingFilms = (films, selectionParameter) => {
   .sort((left, right) => (right[selectionParameter] - left[selectionParameter]));
 };
 
+const onEscPress = (evt, action) => {
+  const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+  if (isEscKey) {
+    action();
+  }
+};
+
 
 export {
+  onEscPress,
   RenderPosition,
   render,
   createElement,
