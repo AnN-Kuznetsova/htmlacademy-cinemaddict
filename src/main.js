@@ -36,7 +36,8 @@ const onEscKeyDown = (evt) => {
 };
 
 const closeFilmDetailsPopup = () => {
-  bodyElement.removeChild(openFilmDetailsElement);
+  // bodyElement.removeChild(openFilmDetailsElement);
+  remove(openFilmDetailsElement);
   openFilmDetailsElement = null;
   document.removeEventListener(`keydown`, onEscKeyDown);
 };
