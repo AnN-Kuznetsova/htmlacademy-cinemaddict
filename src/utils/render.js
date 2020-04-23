@@ -10,13 +10,13 @@ const createElement = (template) => {
   return newElement.firstChild;
 };
 
-const render = (container, element, place) => {
+const render = (containerElement, component, place) => {
   switch (place) {
     case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
+      containerElement.prepend(component.getElement());
       break;
     case RenderPosition.BEFOREEND:
-      return container.appendChild(element);
+      return containerElement.appendChild(component.getElement());
     default:
   }
 };
