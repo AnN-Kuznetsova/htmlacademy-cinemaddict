@@ -103,30 +103,27 @@ const renderFilmsList = (filmsListComponent, films, isExtra = false, title = ``)
 };
 
 
-const renderFilmsBoard = (filmsBoardComponent, films, filmsListsExtra) => {
-  const filmsBoardElement = filmsBoardComponent.getElement();
-  const filmsListComponent = new FilmsList();
-  render(filmsBoardElement, filmsListComponent, RenderPosition.BEFOREEND);
-  renderFilmsList(filmsListComponent, films);
-
-  if (filmsListsExtra.length > 0) {
-    for (const list of filmsListsExtra) {
-      const filmsExtra = list.getFilmsExtra(films);
-      if (filmsExtra) {
-        const filmsListExtraComponent = new FilmsList(true);
-        render(filmsBoardElement, filmsListExtraComponent, RenderPosition.BEFOREEND);
-        renderFilmsList(filmsListExtraComponent, filmsExtra, true, list.title);
-      }
-    }
-  }
-};
-
 export class PageController {
   constructor(filmsBoardComponent) {
     this._filmsBoardComponent = filmsBoardComponent;
+
+    this._filmsListComponent = new FilmsList();
   }
 
   render(films, filmsListsExtra) {
-    renderFilmsBoard(this._filmsBoardComponent, films, filmsListsExtra);
+    const filmsBoardElement = this._filmsBoardComponent.getElement();
+    render(filmsBoardElement, this._filmsListComponent, RenderPosition.BEFOREEND);
+    renderFilmsList(this._filmsListComponent, films);
+
+    if (filmsListsExtra.length > 0) {
+      for (const list of filmsListsExtra) {
+        const filmsExtra = list.getFilmsExtra(films);
+        if (filmsExtra) {
+          const filmsListExtraComponent = new FilmsList(true);
+          render(filmsBoardElement, filmsListExtraComponent, RenderPosition.BEFOREEND);
+          renderFilmsList(filmsListExtraComponent, filmsExtra, true, list.title);
+        }
+      }
+    }
   }
 }
