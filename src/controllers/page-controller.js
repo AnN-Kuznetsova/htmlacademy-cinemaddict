@@ -66,7 +66,7 @@ const renderFilm = (filmsListContainerComponent, film) => {
 
 const renderFilms = (filmsListContainerComponent, films) => {
   films.forEach((film) => {
-    renderFilm(filmsListContainerComponent, film)
+    renderFilm(filmsListContainerComponent, film);
   });
 };
 

@@ -16,10 +16,11 @@ const render = (containerElement, component, place) => {
       containerElement.prepend(component.getElement());
       break;
     case RenderPosition.BEFOREEND:
-      containerElement.appendChild(component.getElement());
-      return component;
+      containerElement.append(component.getElement());
+      break;
     default:
   }
+  return component;
 };
 
 const removeElement = (component) => {
