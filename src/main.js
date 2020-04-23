@@ -13,7 +13,7 @@ import {FilmsListExtra} from "./components/films-list-extra.js";
 import {FooterStatistics} from "./components/footer-statistics.js";
 import {FilmDetails} from "./components/film-details.js";
 import {onEscPress} from "./utils/common.js";
-import {render, RenderPosition, remove} from "./utils/render.js";
+import {render, RenderPosition, removeElement, remove} from "./utils/render.js";
 import {generateFilms} from "./mock/film";
 
 
@@ -36,8 +36,7 @@ const onEscKeyDown = (evt) => {
 };
 
 const closeFilmDetailsPopup = () => {
-  // bodyElement.removeChild(openFilmDetailsElement);
-  remove(openFilmDetailsComponent);
+  removeElement(openFilmDetailsComponent);
   openFilmDetailsComponent = null;
   document.removeEventListener(`keydown`, onEscKeyDown);
 };

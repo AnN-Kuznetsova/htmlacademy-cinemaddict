@@ -22,8 +22,12 @@ const render = (containerElement, component, place) => {
   }
 };
 
-const remove = (component) => {
+const removeElement = (component) => {
   component.getElement().remove();
+};
+
+const remove = (component) => {
+  removeElement(component);
   component.removeElement();
 };
 
@@ -32,5 +36,6 @@ export {
   createElement,
   RenderPosition,
   render,
+  removeElement,
   remove,
 };
