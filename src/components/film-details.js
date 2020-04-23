@@ -1,5 +1,5 @@
 import {AbstractComponent} from "./abstract-component.js";
-import {formatDateToString} from "../utils.js";
+import {formatDateToString} from "../utils/common.js";
 import {Genres} from "./genres.js";
 import {Comments} from "./comments.js";
 

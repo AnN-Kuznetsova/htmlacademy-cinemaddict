@@ -1,4 +1,4 @@
-import {getRandomIntegerNumber, getRandomIntegerNumberInRange, getRandomArrayElement, getRandomArrayElements, generateBoolean, generateRandomText} from "../random.js";
+import {getRandomIntegerNumber, getRandomIntegerNumberInRange, getRandomArrayElement, getRandomArrayElements, generateBoolean, generateRandomText} from "../utils/random.js";
 import {generateComments} from "./comment.js";
 
 const AGE = [`0`, `6`, `12`, `16`, `18`];

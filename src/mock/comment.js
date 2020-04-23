@@ -1,4 +1,4 @@
-import {getRandomArrayElement, getRandomDate, generateRandomText} from "../random.js";
+import {getRandomArrayElement, getRandomDate, generateRandomText} from "../utils/random.js";
 import {EMOJIS} from "../const.js";
 
 const AUTORS = [
