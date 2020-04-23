@@ -7,4 +7,8 @@ export class ShowMoreButton extends AbstractComponent {
       `<button class="films-list__show-more">Show more</button>`
     );
   }
+
+  setOnShowMoreButtonClick(cb) {
+    this.getElement().addEventListener(`click`, cb);
+  }
 }

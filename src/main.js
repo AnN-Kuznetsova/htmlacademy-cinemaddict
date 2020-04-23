@@ -117,7 +117,7 @@ const renderFilmsList = (filmsListComponent, films, isExtra = false, title = ``)
       }
     };
 
-    showMoreButtonComponent.getElement().addEventListener(`click`, onShowMoreButtonClick);
+    showMoreButtonComponent.setOnShowMoreButtonClick(onShowMoreButtonClick);
   }
 };
 
