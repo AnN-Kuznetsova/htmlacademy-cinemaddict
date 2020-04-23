@@ -43,7 +43,7 @@ const closeFilmDetailsPopup = () => {
 };
 
 
-const renderFilm = (filmsListContainerElement, film) => {
+const renderFilm = (filmsListContainerComponent, film) => {
   const openFilmDetails = () => {
     if (openFilmDetailsElement) {
       closeFilmDetailsPopup();
@@ -80,7 +80,7 @@ const renderFilm = (filmsListContainerElement, film) => {
   const filmDetailsCloseButton = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
   filmDetailsCloseButton.addEventListener(`click`, onfilmDetailsCloseButtonClick);
 
-  render(filmsListContainerElement, filmCardComponent, RenderPosition.BEFOREEND);
+  render(filmsListContainerComponent.getElement(), filmCardComponent, RenderPosition.BEFOREEND);
 };
 
 
@@ -100,7 +100,7 @@ const renderFilmsList = (filmsListComponent, films, isExtra = false, title = ``)
 
   let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
   films.slice(0, showingFilmsCount)
-    .forEach((film) => renderFilm(filmsListContainerComponent.getElement(), film));
+    .forEach((film) => renderFilm(filmsListContainerComponent, film));
 
   if (films.length > SHOWING_FILMS_COUNT_ON_START) {
     const showMoreButtonComponent = new ShowMoreButton();
@@ -111,7 +111,7 @@ const renderFilmsList = (filmsListComponent, films, isExtra = false, title = ``)
       showingFilmsCount += SHOWING_FILMS_COUNT_BY_BUTTON;
 
       films.slice(prevFilmsCount, showingFilmsCount)
-        .forEach((film) => renderFilm(filmsListContainerComponent.getElement(), film));
+        .forEach((film) => renderFilm(filmsListContainerComponent, film));
 
       if (showingFilmsCount >= films.length) {
         remove(showMoreButtonComponent.getElement());
