@@ -29,7 +29,7 @@ const siteFooterElement = bodyElement.querySelector(`.footer`);
 const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statistics`);
 
 
-let openFilmDetailsElement = null;
+let openFilmDetailsComponent = null;
 
 const onEscKeyDown = (evt) => {
   onEscPress(evt, closeFilmDetailsPopup);
@@ -37,18 +37,18 @@ const onEscKeyDown = (evt) => {
 
 const closeFilmDetailsPopup = () => {
   // bodyElement.removeChild(openFilmDetailsElement);
-  remove(openFilmDetailsElement);
-  openFilmDetailsElement = null;
+  remove(openFilmDetailsComponent);
+  openFilmDetailsComponent = null;
   document.removeEventListener(`keydown`, onEscKeyDown);
 };
 
 
 const renderFilm = (filmsListContainerComponent, film) => {
   const openFilmDetails = () => {
-    if (openFilmDetailsElement) {
+    if (openFilmDetailsComponent) {
       closeFilmDetailsPopup();
     }
-    openFilmDetailsElement = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
+    openFilmDetailsComponent = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
     document.addEventListener(`keydown`, onEscKeyDown);
   };
 
@@ -114,8 +114,7 @@ const renderFilmsList = (filmsListComponent, films, isExtra = false, title = ``)
         .forEach((film) => renderFilm(filmsListContainerComponent, film));
 
       if (showingFilmsCount >= films.length) {
-        remove(showMoreButtonComponent.getElement());
-        showMoreButtonComponent.removeElement();
+        remove(showMoreButtonComponent);
       }
     };
 
