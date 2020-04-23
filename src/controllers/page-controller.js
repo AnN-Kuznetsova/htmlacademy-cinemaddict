@@ -64,6 +64,13 @@ const renderFilm = (filmsListContainerComponent, film) => {
 };
 
 
+const renderFilms = (filmsListContainerComponent, films) => {
+  films.forEach((film) => {
+    renderFilm(filmsListContainerComponent, film)
+  });
+};
+
+
 const renderFilmsList = (filmsListComponent, films, isExtra = false, title = ``) => {
   if (films.length === 0) {
     render(filmsListComponent.getElement(), new FilmsListTitle(`There are no movies in our database`), RenderPosition.AFTERBEGIN);
@@ -79,8 +86,7 @@ const renderFilmsList = (filmsListComponent, films, isExtra = false, title = ``)
   render(filmsListComponent.getElement(), filmsListContainerComponent, RenderPosition.BEFOREEND);
 
   let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
-  films.slice(0, showingFilmsCount)
-    .forEach((film) => renderFilm(filmsListContainerComponent, film));
+  renderFilms(filmsListContainerComponent, films.slice(0, showingFilmsCount));
 
   if (films.length > SHOWING_FILMS_COUNT_ON_START) {
     const showMoreButtonComponent = new ShowMoreButton();
@@ -89,9 +95,7 @@ const renderFilmsList = (filmsListComponent, films, isExtra = false, title = ``)
     const onShowMoreButtonClick = () => {
       const prevFilmsCount = showingFilmsCount;
       showingFilmsCount += SHOWING_FILMS_COUNT_BY_BUTTON;
-
-      films.slice(prevFilmsCount, showingFilmsCount)
-        .forEach((film) => renderFilm(filmsListContainerComponent, film));
+      renderFilms(filmsListContainerComponent, films.slice(prevFilmsCount, showingFilmsCount));
 
       if (showingFilmsCount >= films.length) {
         remove(showMoreButtonComponent);
