@@ -12,7 +12,8 @@ import {ShowMoreButton} from "./components/show-more-button.js";
 import {FilmsListExtra} from "./components/films-list-extra.js";
 import {FooterStatistics} from "./components/footer-statistics.js";
 import {FilmDetails} from "./components/film-details.js";
-import {render, RenderPosition, onEscPress} from "./utils.js";
+import {onEscPress} from "./utils.js";
+import {render, RenderPosition} from "./utils/render.js";
 import {generateFilms} from "./mock/film";
 
 
