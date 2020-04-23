@@ -42,4 +42,19 @@ export class FilmCard extends AbstractComponent {
       </article>`
     );
   }
+
+  setOnFilmCardPosterElementClick(cb) {
+    this.getElement().querySelector(`.film-card__poster`)
+      .addEventListener(`click`, cb);
+  }
+
+  setOnFilmCardTitleElementClick(cb) {
+    this.getElement().querySelector(`.film-card__title`)
+      .addEventListener(`click`, cb);
+  }
+
+  setOnFilmСardСommentsElementClick(cb) {
+    this.getElement().querySelector(`.film-card__comments`)
+      .addEventListener(`click`, cb);
+  }
 }

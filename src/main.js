@@ -68,12 +68,9 @@ const renderFilm = (filmsListContainerComponent, film) => {
   };
 
   const filmCardComponent = new FilmCard(film);
-  const filmCardPosterElement = filmCardComponent.getElement().querySelector(`.film-card__poster`);
-  const filmCardTitleElement = filmCardComponent.getElement().querySelector(`.film-card__title`);
-  const filmСardСommentsElement = filmCardComponent.getElement().querySelector(`.film-card__comments`);
-  filmCardPosterElement.addEventListener(`click`, onFilmCardPosterElementClick);
-  filmCardTitleElement.addEventListener(`click`, onFilmCardTitleElementClick);
-  filmСardСommentsElement.addEventListener(`click`, onFilmСardСommentsElementClick);
+  filmCardComponent.setOnFilmCardPosterElementClick(onFilmCardPosterElementClick);
+  filmCardComponent.setOnFilmCardTitleElementClick(onFilmCardTitleElementClick);
+  filmCardComponent.setOnFilmСardСommentsElementClick(onFilmСardСommentsElementClick);
 
   const filmDetailsComponent = new FilmDetails(film);
   const filmDetailsCloseButton = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
