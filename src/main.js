@@ -13,7 +13,7 @@ import {FilmsListExtra} from "./components/films-list-extra.js";
 import {FooterStatistics} from "./components/footer-statistics.js";
 import {FilmDetails} from "./components/film-details.js";
 import {onEscPress} from "./utils/common.js";
-import {render, RenderPosition} from "./utils/render.js";
+import {render, RenderPosition, remove} from "./utils/render.js";
 import {generateFilms} from "./mock/film";
 
 
@@ -113,7 +113,7 @@ const renderFilmsList = (filmsListComponent, films, isExtra = false, title = ``)
         .forEach((film) => renderFilm(filmsListContainerComponent.getElement(), film));
 
       if (showingFilmsCount >= films.length) {
-        showMoreButtonComponent.getElement().remove();
+        remove(showMoreButtonComponent.getElement());
         showMoreButtonComponent.removeElement();
       }
     };

@@ -21,9 +21,14 @@ const render = (container, element, place) => {
   }
 };
 
+const remove = (element) => {
+  element.remove();
+};
+
 
 export {
+  createElement,
   RenderPosition,
   render,
-  createElement,
+  remove,
 };
