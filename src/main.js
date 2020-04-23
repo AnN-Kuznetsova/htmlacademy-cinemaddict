@@ -63,7 +63,7 @@ const renderFilm = (filmsListContainerComponent, film) => {
     openFilmDetails();
   };
 
-  const onfilmDetailsCloseButtonClick = () => {
+  const onFilmDetailsCloseButtonClick = () => {
     closeFilmDetailsPopup();
   };
 
@@ -73,8 +73,7 @@ const renderFilm = (filmsListContainerComponent, film) => {
   filmCardComponent.setOnFilmСardСommentsElementClick(onFilmСardСommentsElementClick);
 
   const filmDetailsComponent = new FilmDetails(film);
-  const filmDetailsCloseButton = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
-  filmDetailsCloseButton.addEventListener(`click`, onfilmDetailsCloseButtonClick);
+  filmDetailsComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
 
   render(filmsListContainerComponent.getElement(), filmCardComponent, RenderPosition.BEFOREEND);
 };

@@ -105,4 +105,9 @@ export class FilmDetails extends AbstractComponent {
       </section>`
     );
   }
+
+  setOnFilmDetailsCloseButtonClick(cb) {
+    this.getElement().querySelector(`.film-details__close-btn`)
+      .addEventListener(`click`, cb);
+  }
 }
