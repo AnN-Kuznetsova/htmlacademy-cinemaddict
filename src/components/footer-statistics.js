@@ -1,26 +1,15 @@
-import {createElement} from "../utils.js";
+import {AbstractComponent} from "./abstract-component.js";
 
-export class FooterStatistics {
+export class FooterStatistics extends AbstractComponent {
   constructor(filmsCount) {
+    super();
+
     this._filmsCount = filmsCount;
-    this._element = null;
   }
 
   getTemplate() {
     return (
       `<p>${this._filmsCount.toLocaleString(`ru-RU`)} movies inside</p>`
     );
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
