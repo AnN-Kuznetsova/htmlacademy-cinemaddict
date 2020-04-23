@@ -47,7 +47,7 @@ const renderFilm = (filmsListContainerElement, film) => {
     if (openFilmDetailsElement) {
       closeFilmDetailsPopup();
     }
-    openFilmDetailsElement = bodyElement.appendChild(filmDetailsComponent.getElement());
+    openFilmDetailsElement = render(bodyElement, filmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
     document.addEventListener(`keydown`, onEscKeyDown);
   };
 

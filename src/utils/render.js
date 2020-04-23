@@ -16,8 +16,8 @@ const render = (container, element, place) => {
       container.prepend(element);
       break;
     case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
+      return container.appendChild(element);
+    default:
   }
 };
 
