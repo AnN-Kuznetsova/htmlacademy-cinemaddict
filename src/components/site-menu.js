@@ -1,9 +1,6 @@
-import {createElement} from "../utils.js";
+import {AbstractComponent} from "./abstract-component.js";
 
-export class SiteMenu {
-  constructor() {
-    this._element = null;
-  }
+export class SiteMenu extends AbstractComponent {
 
   getTemplate() {
     return (
@@ -11,17 +8,5 @@ export class SiteMenu {
         <a href="#stats" class="main-navigation__additional">Stats</a>
       </nav>`
     );
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
