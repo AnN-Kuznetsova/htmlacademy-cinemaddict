@@ -31,10 +31,9 @@ export class PageController {
 
 
   _closeFilmDetailsPopup() {
-    const onDocumentEscKeyDown = this._onDocumentEscKeyDown;
     removeElement(this._openFilmDetailsComponent);
     this._openFilmDetailsComponent = null;
-    document.removeEventListener(`keydown`, onDocumentEscKeyDown);
+    document.removeEventListener(`keydown`, this._onDocumentEscKeyDown);
     this._onDocumentEscKeyDown = null;
   }
 
