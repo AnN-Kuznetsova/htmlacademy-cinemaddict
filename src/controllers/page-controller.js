@@ -38,26 +38,27 @@ export class PageController {
   }
 
 
-  _renderFilm(filmsListContainerComponent, film) {
-    const openFilmDetails = () => {
-      if (this._openFilmDetailsComponent) {
-        this._closeFilmDetailsPopup();
-      }
-      this._openFilmDetailsComponent = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
-      this._onDocumentEscKeyDown = this._onEscKeyDown.bind(this);
-      document.addEventListener(`keydown`, this._onDocumentEscKeyDown);
-    };
+  _openFilmDetails(filmDetailsComponent) {
+    if (this._openFilmDetailsComponent) {
+      this._closeFilmDetailsPopup();
+    }
+    this._openFilmDetailsComponent = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
+    this._onDocumentEscKeyDown = this._onEscKeyDown.bind(this);
+    document.addEventListener(`keydown`, this._onDocumentEscKeyDown);
+  }
 
+
+  _renderFilm(filmsListContainerComponent, film) {
     const onFilmCardPosterElementClick = () => {
-      openFilmDetails();
+      this._openFilmDetails(filmDetailsComponent);
     };
 
     const onFilmCardTitleElementClick = () => {
-      openFilmDetails();
+      this._openFilmDetails(filmDetailsComponent);
     };
 
     const onFilmСardСommentsElementClick = () => {
-      openFilmDetails();
+      this._openFilmDetails(filmDetailsComponent);
     };
 
     const onFilmDetailsCloseButtonClick = () => {
