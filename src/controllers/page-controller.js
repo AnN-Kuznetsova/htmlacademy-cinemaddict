@@ -64,18 +64,18 @@ const renderFilm = (filmsListContainerComponent, film) => {
 };
 
 
-const renderFilms = (filmsListContainerComponent, films) => {
-  films.forEach((film) => {
-    renderFilm(filmsListContainerComponent, film);
-  });
-};
-
-
 export class PageController {
   constructor(filmsBoardComponent) {
     this._filmsBoardComponent = filmsBoardComponent;
 
     this._filmsListComponent = new FilmsList();
+  }
+
+
+  _renderFilms(filmsListContainerComponent, films) {
+    films.forEach((film) => {
+      renderFilm(filmsListContainerComponent, film);
+    });
   }
 
 
@@ -94,7 +94,7 @@ export class PageController {
     render(filmsListComponent.getElement(), filmsListContainerComponent, RenderPosition.BEFOREEND);
 
     let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
-    renderFilms(filmsListContainerComponent, films.slice(0, showingFilmsCount));
+    this._renderFilms(filmsListContainerComponent, films.slice(0, showingFilmsCount));
 
     if (films.length > SHOWING_FILMS_COUNT_ON_START) {
       const showMoreButtonComponent = new ShowMoreButton();
@@ -103,7 +103,7 @@ export class PageController {
       const onShowMoreButtonClick = () => {
         const prevFilmsCount = showingFilmsCount;
         showingFilmsCount += SHOWING_FILMS_COUNT_BY_BUTTON;
-        renderFilms(filmsListContainerComponent, films.slice(prevFilmsCount, showingFilmsCount));
+        this._renderFilms(filmsListContainerComponent, films.slice(prevFilmsCount, showingFilmsCount));
 
         if (showingFilmsCount >= films.length) {
           remove(showMoreButtonComponent);
