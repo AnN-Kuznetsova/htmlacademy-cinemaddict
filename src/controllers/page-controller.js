@@ -71,42 +71,6 @@ const renderFilms = (filmsListContainerComponent, films) => {
 };
 
 
-const renderFilmsList = (filmsListComponent, films, isExtra = false, title = ``) => {
-  if (films.length === 0) {
-    render(filmsListComponent.getElement(), new FilmsListTitle(`There are no movies in our database`), RenderPosition.AFTERBEGIN);
-    return;
-  }
-
-  const listTitle = isExtra ? title : `All movies. Upcoming`;
-  const isVisually = isExtra ? true : false;
-  const filmsListTitleComponent = new FilmsListTitle(listTitle, isVisually);
-  render(filmsListComponent.getElement(), filmsListTitleComponent, RenderPosition.AFTERBEGIN);
-
-  const filmsListContainerComponent = new FilmsListContainer();
-  render(filmsListComponent.getElement(), filmsListContainerComponent, RenderPosition.BEFOREEND);
-
-  let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
-  renderFilms(filmsListContainerComponent, films.slice(0, showingFilmsCount));
-
-  if (films.length > SHOWING_FILMS_COUNT_ON_START) {
-    const showMoreButtonComponent = new ShowMoreButton();
-    render(filmsListComponent.getElement(), showMoreButtonComponent, RenderPosition.BEFOREEND);
-
-    const onShowMoreButtonClick = () => {
-      const prevFilmsCount = showingFilmsCount;
-      showingFilmsCount += SHOWING_FILMS_COUNT_BY_BUTTON;
-      renderFilms(filmsListContainerComponent, films.slice(prevFilmsCount, showingFilmsCount));
-
-      if (showingFilmsCount >= films.length) {
-        remove(showMoreButtonComponent);
-      }
-    };
-
-    showMoreButtonComponent.setOnShowMoreButtonClick(onShowMoreButtonClick);
-  }
-};
-
-
 export class PageController {
   constructor(filmsBoardComponent) {
     this._filmsBoardComponent = filmsBoardComponent;
@@ -114,10 +78,47 @@ export class PageController {
     this._filmsListComponent = new FilmsList();
   }
 
+
+  _renderFilmsList(filmsListComponent, films, isExtra = false, title = ``) {
+    if (films.length === 0) {
+      render(filmsListComponent.getElement(), new FilmsListTitle(`There are no movies in our database`), RenderPosition.AFTERBEGIN);
+      return;
+    }
+
+    const listTitle = isExtra ? title : `All movies. Upcoming`;
+    const isVisually = isExtra ? true : false;
+    const filmsListTitleComponent = new FilmsListTitle(listTitle, isVisually);
+    render(filmsListComponent.getElement(), filmsListTitleComponent, RenderPosition.AFTERBEGIN);
+
+    const filmsListContainerComponent = new FilmsListContainer();
+    render(filmsListComponent.getElement(), filmsListContainerComponent, RenderPosition.BEFOREEND);
+
+    let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
+    renderFilms(filmsListContainerComponent, films.slice(0, showingFilmsCount));
+
+    if (films.length > SHOWING_FILMS_COUNT_ON_START) {
+      const showMoreButtonComponent = new ShowMoreButton();
+      render(filmsListComponent.getElement(), showMoreButtonComponent, RenderPosition.BEFOREEND);
+
+      const onShowMoreButtonClick = () => {
+        const prevFilmsCount = showingFilmsCount;
+        showingFilmsCount += SHOWING_FILMS_COUNT_BY_BUTTON;
+        renderFilms(filmsListContainerComponent, films.slice(prevFilmsCount, showingFilmsCount));
+
+        if (showingFilmsCount >= films.length) {
+          remove(showMoreButtonComponent);
+        }
+      };
+
+      showMoreButtonComponent.setOnShowMoreButtonClick(onShowMoreButtonClick);
+    }
+  }
+
+
   render(films, filmsListsExtra) {
     const filmsBoardElement = this._filmsBoardComponent.getElement();
     render(filmsBoardElement, this._filmsListComponent, RenderPosition.BEFOREEND);
-    renderFilmsList(this._filmsListComponent, films);
+    this._renderFilmsList(this._filmsListComponent, films);
 
     if (filmsListsExtra.length > 0) {
       for (const list of filmsListsExtra) {
@@ -125,7 +126,7 @@ export class PageController {
         if (filmsExtra) {
           const filmsListExtraComponent = new FilmsList(true);
           render(filmsBoardElement, filmsListExtraComponent, RenderPosition.BEFOREEND);
-          renderFilmsList(filmsListExtraComponent, filmsExtra, true, list.title);
+          this._renderFilmsList(filmsListExtraComponent, filmsExtra, true, list.title);
         }
       }
     }
