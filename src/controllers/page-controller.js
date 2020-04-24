@@ -14,16 +14,13 @@ const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 const bodyElement = document.querySelector(`body`);
 
 
-let openFilmDetailsComponent = null;
-//let onDocumentEscKeyDown = null;
-
-
 export class PageController {
   constructor(filmsBoardComponent) {
     this._filmsBoardComponent = filmsBoardComponent;
 
     this._filmsListComponent = new FilmsList();
 
+    this._openFilmDetailsComponent = null;
     this._onDocumentEscKeyDown = null;
   }
 
@@ -35,8 +32,8 @@ export class PageController {
 
   _closeFilmDetailsPopup() {
     const onDocumentEscKeyDown = this._onDocumentEscKeyDown;
-    removeElement(openFilmDetailsComponent);
-    openFilmDetailsComponent = null;
+    removeElement(this._openFilmDetailsComponent);
+    this._openFilmDetailsComponent = null;
     document.removeEventListener(`keydown`, onDocumentEscKeyDown);
     this._onDocumentEscKeyDown = null;
   }
@@ -44,10 +41,10 @@ export class PageController {
 
   _renderFilm(filmsListContainerComponent, film) {
     const openFilmDetails = () => {
-      if (openFilmDetailsComponent) {
+      if (this._openFilmDetailsComponent) {
         this._closeFilmDetailsPopup();
       }
-      openFilmDetailsComponent = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
+      this._openFilmDetailsComponent = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
       this._onDocumentEscKeyDown = this._onEscKeyDown.bind(this);
       document.addEventListener(`keydown`, this._onDocumentEscKeyDown);
     };
