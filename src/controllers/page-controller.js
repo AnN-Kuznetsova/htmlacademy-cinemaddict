@@ -16,16 +16,6 @@ const bodyElement = document.querySelector(`body`);
 
 let openFilmDetailsComponent = null;
 
-const onEscKeyDown = (evt) => {
-  onEscPress(evt, closeFilmDetailsPopup);
-};
-
-const closeFilmDetailsPopup = () => {
-  removeElement(openFilmDetailsComponent);
-  openFilmDetailsComponent = null;
-  document.removeEventListener(`keydown`, onEscKeyDown);
-};
-
 
 export class PageController {
   constructor(filmsBoardComponent) {
@@ -35,13 +25,25 @@ export class PageController {
   }
 
 
+  _onEscKeyDown(evt) {
+    onEscPress(evt, this._closeFilmDetailsPopup);
+  }
+
+
+  _closeFilmDetailsPopup() {
+    removeElement(openFilmDetailsComponent);
+    openFilmDetailsComponent = null;
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
+
   _renderFilm(filmsListContainerComponent, film) {
     const openFilmDetails = () => {
       if (openFilmDetailsComponent) {
-        closeFilmDetailsPopup();
+        this._closeFilmDetailsPopup();
       }
       openFilmDetailsComponent = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
-      document.addEventListener(`keydown`, onEscKeyDown);
+      document.addEventListener(`keydown`, this._onEscKeyDown);
     };
 
     const onFilmCardPosterElementClick = () => {
@@ -57,7 +59,7 @@ export class PageController {
     };
 
     const onFilmDetailsCloseButtonClick = () => {
-      closeFilmDetailsPopup();
+      this._closeFilmDetailsPopup();
     };
 
     const filmCardComponent = new FilmCard(film);
