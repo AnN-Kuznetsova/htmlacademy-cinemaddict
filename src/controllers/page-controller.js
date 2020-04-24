@@ -27,43 +27,6 @@ const closeFilmDetailsPopup = () => {
 };
 
 
-const renderFilm = (filmsListContainerComponent, film) => {
-  const openFilmDetails = () => {
-    if (openFilmDetailsComponent) {
-      closeFilmDetailsPopup();
-    }
-    openFilmDetailsComponent = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
-    document.addEventListener(`keydown`, onEscKeyDown);
-  };
-
-  const onFilmCardPosterElementClick = () => {
-    openFilmDetails();
-  };
-
-  const onFilmCardTitleElementClick = () => {
-    openFilmDetails();
-  };
-
-  const onFilmСardСommentsElementClick = () => {
-    openFilmDetails();
-  };
-
-  const onFilmDetailsCloseButtonClick = () => {
-    closeFilmDetailsPopup();
-  };
-
-  const filmCardComponent = new FilmCard(film);
-  filmCardComponent.setOnFilmCardPosterElementClick(onFilmCardPosterElementClick);
-  filmCardComponent.setOnFilmCardTitleElementClick(onFilmCardTitleElementClick);
-  filmCardComponent.setOnFilmСardСommentsElementClick(onFilmСardСommentsElementClick);
-
-  const filmDetailsComponent = new FilmDetails(film);
-  filmDetailsComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
-
-  render(filmsListContainerComponent.getElement(), filmCardComponent, RenderPosition.BEFOREEND);
-};
-
-
 export class PageController {
   constructor(filmsBoardComponent) {
     this._filmsBoardComponent = filmsBoardComponent;
@@ -72,9 +35,46 @@ export class PageController {
   }
 
 
+  _renderFilm(filmsListContainerComponent, film) {
+    const openFilmDetails = () => {
+      if (openFilmDetailsComponent) {
+        closeFilmDetailsPopup();
+      }
+      openFilmDetailsComponent = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
+      document.addEventListener(`keydown`, onEscKeyDown);
+    };
+
+    const onFilmCardPosterElementClick = () => {
+      openFilmDetails();
+    };
+
+    const onFilmCardTitleElementClick = () => {
+      openFilmDetails();
+    };
+
+    const onFilmСardСommentsElementClick = () => {
+      openFilmDetails();
+    };
+
+    const onFilmDetailsCloseButtonClick = () => {
+      closeFilmDetailsPopup();
+    };
+
+    const filmCardComponent = new FilmCard(film);
+    filmCardComponent.setOnFilmCardPosterElementClick(onFilmCardPosterElementClick);
+    filmCardComponent.setOnFilmCardTitleElementClick(onFilmCardTitleElementClick);
+    filmCardComponent.setOnFilmСardСommentsElementClick(onFilmСardСommentsElementClick);
+
+    const filmDetailsComponent = new FilmDetails(film);
+    filmDetailsComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
+
+    render(filmsListContainerComponent.getElement(), filmCardComponent, RenderPosition.BEFOREEND);
+  }
+
+
   _renderFilms(filmsListContainerComponent, films) {
     films.forEach((film) => {
-      renderFilm(filmsListContainerComponent, film);
+      this._renderFilm(filmsListContainerComponent, film);
     });
   }
 
