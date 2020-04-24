@@ -17,11 +17,15 @@ const bodyElement = document.querySelector(`body`);
 let openFilmDetailsComponent = null;
 
 
+let onDocumentEscKeyDown = null;
+
+
 export class PageController {
   constructor(filmsBoardComponent) {
     this._filmsBoardComponent = filmsBoardComponent;
 
     this._filmsListComponent = new FilmsList();
+    //this._onDocumentEscKeyDown = new Function();
   }
 
 
@@ -33,7 +37,7 @@ export class PageController {
   _closeFilmDetailsPopup() {
     removeElement(openFilmDetailsComponent);
     openFilmDetailsComponent = null;
-    document.removeEventListener(`keydown`, this._onEscKeyDown);
+    document.removeEventListener(`keydown`, onDocumentEscKeyDown);
   }
 
 
@@ -43,7 +47,8 @@ export class PageController {
         this._closeFilmDetailsPopup();
       }
       openFilmDetailsComponent = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
-      document.addEventListener(`keydown`, this._onEscKeyDown);
+      onDocumentEscKeyDown = this._onEscKeyDown.bind(this);
+      document.addEventListener(`keydown`, onDocumentEscKeyDown);
     };
 
     const onFilmCardPosterElementClick = () => {
