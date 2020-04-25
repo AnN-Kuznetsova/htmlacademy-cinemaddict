@@ -1,6 +1,6 @@
-import {AbstractComponent} from "./abstract-component.js";
+import AbstractComponent from "./abstract-component.js";
 
-export class FooterStatistics extends AbstractComponent {
+export default class FooterStatistics extends AbstractComponent {
   constructor(filmsCount) {
     super();
 

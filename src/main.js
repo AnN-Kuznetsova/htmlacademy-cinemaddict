@@ -1,13 +1,13 @@
-import {UserRank} from "./components/user-rank.js";
-import {SiteMenu} from "./components/site-menu.js";
-import {Filter} from "./components/filter.js";
-import {Filters} from "./components/filters.js";
-import {Sort} from "./components/sort.js";
-import {FilmsBoard} from "./components/films-board.js";
-import {FilmsListExtra} from "./components/films-list-extra.js";
-import {FooterStatistics} from "./components/footer-statistics.js";
+import UserRank from "./components/user-rank.js";
+import SiteMenu from "./components/site-menu.js";
+import Filter from "./components/filter.js";
+import Filters from "./components/filters.js";
+import Sort from "./components/sort.js";
+import FilmsBoard from "./components/films-board.js";
+import FilmsListExtra from "./components/films-list-extra.js";
+import FooterStatistics from "./components/footer-statistics.js";
+import PageController from "./controllers/page-controller.js";
 import {render, RenderPosition} from "./utils/render.js";
-import {PageController} from "./controllers/page-controller.js";
 import {generateFilms} from "./mock/film";
 
 

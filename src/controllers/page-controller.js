@@ -1,9 +1,9 @@
-import {FilmsList} from "../components/films-list.js";
-import {FilmsListTitle} from "../components/films-list-title.js";
-import {FilmsListContainer} from "../components/films-list-container.js";
-import {FilmCard} from "../components/film-card.js";
-import {ShowMoreButton} from "../components/show-more-button.js";
-import {FilmDetails} from "../components/film-details.js";
+import FilmsList from "../components/films-list.js";
+import FilmsListTitle from "../components/films-list-title.js";
+import FilmsListContainer from "../components/films-list-container.js";
+import FilmCard from "../components/film-card.js";
+import ShowMoreButton from "../components/show-more-button.js";
+import FilmDetails from "../components/film-details.js";
 import {onEscPress} from "../utils/common.js";
 import {render, RenderPosition, removeElement, remove} from "../utils/render.js";
 
@@ -14,7 +14,7 @@ const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 const bodyElement = document.querySelector(`body`);
 
 
-export class PageController {
+export default class PageController {
   constructor(filmsBoardComponent) {
     this._filmsBoardComponent = filmsBoardComponent;
 

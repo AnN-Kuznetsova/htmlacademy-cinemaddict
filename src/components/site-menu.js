@@ -1,6 +1,6 @@
-import {AbstractComponent} from "./abstract-component.js";
+import AbstractComponent from "./abstract-component.js";
 
-export class SiteMenu extends AbstractComponent {
+export default class SiteMenu extends AbstractComponent {
 
   getTemplate() {
     return (

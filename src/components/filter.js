@@ -1,4 +1,4 @@
-export class Filter {
+export default class Filter {
   constructor(value, functionName, films, isDefault = false, isNotDisplayCount = false) {
     this._value = value;
     this._isDefault = isDefault;

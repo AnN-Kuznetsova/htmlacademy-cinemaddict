@@ -1,7 +1,7 @@
-import {AbstractComponent} from "./abstract-component.js";
+import AbstractComponent from "./abstract-component.js";
 import {MAX_DESCRIPTION_LENGTH} from "../const.js";
 
-export class FilmCard extends AbstractComponent {
+export default class FilmCard extends AbstractComponent {
   constructor(film) {
     super();
 

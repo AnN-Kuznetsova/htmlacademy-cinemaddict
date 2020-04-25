@@ -1,6 +1,6 @@
-import {AbstractComponent} from "./abstract-component.js";
+import AbstractComponent from "./abstract-component.js";
 
-export class ShowMoreButton extends AbstractComponent {
+export default class ShowMoreButton extends AbstractComponent {
 
   getTemplate() {
     return (

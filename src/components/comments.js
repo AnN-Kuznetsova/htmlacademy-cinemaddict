@@ -1,8 +1,8 @@
-import {AbstractComponent} from "./abstract-component.js";
+import AbstractComponent from "./abstract-component.js";
 import {formatDateWithSlash, formatTime} from "../utils/common.js";
 import {EMOJIS} from "../const.js";
 
-export class Comments extends AbstractComponent {
+export default class Comments extends AbstractComponent {
   constructor(comments) {
     super();
 

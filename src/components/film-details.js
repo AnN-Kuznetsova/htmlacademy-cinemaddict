@@ -1,9 +1,9 @@
-import {AbstractComponent} from "./abstract-component.js";
+import AbstractComponent from "./abstract-component.js";
+import Genres from "./genres.js";
+import Comments from "./comments.js";
 import {formatDateToString} from "../utils/common.js";
-import {Genres} from "./genres.js";
-import {Comments} from "./comments.js";
 
-export class FilmDetails extends AbstractComponent {
+export default class FilmDetails extends AbstractComponent {
   constructor(film) {
     super();
 

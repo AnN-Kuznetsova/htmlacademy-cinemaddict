@@ -1,6 +1,6 @@
-import {AbstractComponent} from "./abstract-component.js";
+import AbstractComponent from "./abstract-component.js";
 
-export class UserRank extends AbstractComponent {
+export default class UserRank extends AbstractComponent {
   constructor(filters) {
     super();
 
