@@ -20,7 +20,7 @@ export class PageController {
 
     this._filmsListComponent = new FilmsList();
 
-    this._openFilmDetailsComponent = null;
+    this._openedFilmDetailsComponent = null;
     this._onDocumentEscKeyDown = null;
   }
 
@@ -31,18 +31,18 @@ export class PageController {
 
 
   _closeFilmDetailsPopup() {
-    removeElement(this._openFilmDetailsComponent);
-    this._openFilmDetailsComponent = null;
+    removeElement(this._openedFilmDetailsComponent);
+    this._openedFilmDetailsComponent = null;
     document.removeEventListener(`keydown`, this._onDocumentEscKeyDown);
     this._onDocumentEscKeyDown = null;
   }
 
 
-  _openFilmDetails(filmDetailsComponent) {
-    if (this._openFilmDetailsComponent) {
+  _openFilmDetailsPopup(filmDetailsComponent) {
+    if (this._openedFilmDetailsComponent) {
       this._closeFilmDetailsPopup();
     }
-    this._openFilmDetailsComponent = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
+    this._openedFilmDetailsComponent = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
     this._onDocumentEscKeyDown = this._onEscKeyDown.bind(this);
     document.addEventListener(`keydown`, this._onDocumentEscKeyDown);
   }
@@ -50,15 +50,15 @@ export class PageController {
 
   _renderFilm(filmsListContainerComponent, film) {
     const onFilmCardPosterElementClick = () => {
-      this._openFilmDetails(filmDetailsComponent);
+      this._openFilmDetailsPopup(filmDetailsComponent);
     };
 
     const onFilmCardTitleElementClick = () => {
-      this._openFilmDetails(filmDetailsComponent);
+      this._openFilmDetailsPopup(filmDetailsComponent);
     };
 
     const onFilmСardСommentsElementClick = () => {
-      this._openFilmDetails(filmDetailsComponent);
+      this._openFilmDetailsPopup(filmDetailsComponent);
     };
 
     const onFilmDetailsCloseButtonClick = () => {
