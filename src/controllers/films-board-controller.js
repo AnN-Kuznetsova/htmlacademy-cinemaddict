@@ -1,3 +1,4 @@
+import FilmsListExtra from "../components/films-list-extra.js";
 import FilmsList from "../components/films-list.js";
 import FilmsListTitle from "../components/films-list-title.js";
 import FilmsListContainer from "../components/films-list-container.js";
@@ -10,6 +11,12 @@ import {render, RenderPosition, removeElement, remove} from "../utils/render.js"
 
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
+
+
+const filmsListsExtra = [
+  new FilmsListExtra(`Top rated`, `rating`),
+  new FilmsListExtra(`Most commented`, `commentsCount`),
+];
 
 
 export default class FilmsBoardController {
@@ -119,7 +126,7 @@ export default class FilmsBoardController {
   }
 
 
-  render(films, filmsListsExtra) {
+  render(films) {
     const filmsBoardElement = this._filmsBoardComponent.getElement();
     filmsBoardElement.innerHTML = ``;
     this._filmsListComponent.getElement().innerHTML = ``;

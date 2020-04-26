@@ -3,7 +3,6 @@ import SiteMenu from "../components/site-menu.js";
 import Filters from "../components/filters.js";
 import Sort from "../components/sort.js";
 import FilmsBoard from "../components/films-board.js";
-import FilmsListExtra from "../components/films-list-extra.js";
 import FooterStatistics from "../components/footer-statistics.js";
 import FilmsBoardController from "./films-board-controller.js";
 import {render, RenderPosition} from "../utils/render.js";
@@ -16,17 +15,10 @@ const siteFooterElement = bodyElement.querySelector(`.footer`);
 const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statistics`);
 
 
-const filmsListsExtra = [
-  new FilmsListExtra(`Top rated`, `rating`),
-  new FilmsListExtra(`Most commented`, `commentsCount`),
-];
-
-
 export default class PageController {
   constructor(films, filmsFilters) {
     this._films = films;
     this._filmsFilters = filmsFilters;
-    this._filmsListsExtra = filmsListsExtra;
 
     this._siteMenuComponent = new SiteMenu();
     this._userRankComponent = new UserRank(this._filmsFilters);
@@ -49,11 +41,11 @@ export default class PageController {
     render(footerStatisticsElement, this._footerStatisticsComponent, RenderPosition.BEFOREEND);
 
     const filmsBoardController = new FilmsBoardController(this._filmsBoardComponent);
-    filmsBoardController.render(this._showingFilms, this._filmsListsExtra);
+    filmsBoardController.render(this._showingFilms);
 
     const onSortTypeChange = () => {
       this._showingFilms = this._sortComponent.getSortedFilms(this._films);
-      filmsBoardController.render(this._showingFilms, this._filmsListsExtra);
+      filmsBoardController.render(this._showingFilms);
     };
 
     this._sortComponent.setOnSortTypeChange(onSortTypeChange);
