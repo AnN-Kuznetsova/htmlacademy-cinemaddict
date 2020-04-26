@@ -12,7 +12,7 @@ const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 
-export default class PageController {
+export default class FilmsBoardController {
   constructor(filmsBoardComponent) {
     this._filmsBoardComponent = filmsBoardComponent;
 

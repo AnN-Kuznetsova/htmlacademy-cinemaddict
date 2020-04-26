@@ -6,7 +6,7 @@ import Sort from "./components/sort.js";
 import FilmsBoard from "./components/films-board.js";
 import FilmsListExtra from "./components/films-list-extra.js";
 import FooterStatistics from "./components/footer-statistics.js";
-import PageController from "./controllers/page-controller.js";
+import FilmsBoardController from "./controllers/films-board-controller.js";
 import {render, RenderPosition} from "./utils/render.js";
 import {generateFilms} from "./mock/film";
 
@@ -43,7 +43,7 @@ render(siteMainElement, new Sort(), RenderPosition.BEFOREEND);
 render(footerStatisticsElement, new FooterStatistics(films.length), RenderPosition.BEFOREEND);
 
 const filmsBoardComponent = new FilmsBoard();
-const pageController = new PageController(filmsBoardComponent);
+const pageController = new FilmsBoardController(filmsBoardComponent);
 
 render(siteMainElement, filmsBoardComponent, RenderPosition.BEFOREEND);
 pageController.render(films, filmsListsExtra);
