@@ -22,22 +22,28 @@ export default class PageController {
     this._filmsListsExtra = filmsListsExtra;
 
     this._siteMenuComponent = new SiteMenu();
-    this._userRank = new UserRank(this._filmsFilters);
-    this._filters = new Filters(this._filmsFilters);
-    this._sort = new Sort();
+    this._userRankComponent = new UserRank(this._filmsFilters);
+    this._filtersComponent = new Filters(this._filmsFilters);
+    this._sortComponent = new Sort();
     this._filmsBoardComponent = new FilmsBoard();
-    this._footerStatistics = new FooterStatistics(this._films.length);
+    this._footerStatisticsComponent = new FooterStatistics(this._films.length);
   }
 
   render() {
-    render(siteHeaderElement, this._userRank, RenderPosition.BEFOREEND);
+    render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
     render(siteMainElement, this._siteMenuComponent, RenderPosition.BEFOREEND);
-    render(this._siteMenuComponent.getElement(), this._filters, RenderPosition.AFTERBEGIN);
-    render(siteMainElement, this._sort, RenderPosition.BEFOREEND);
+    render(this._siteMenuComponent.getElement(), this._filtersComponent, RenderPosition.AFTERBEGIN);
+    render(siteMainElement, this._sortComponent, RenderPosition.BEFOREEND);
     render(siteMainElement, this._filmsBoardComponent, RenderPosition.BEFOREEND);
-    render(footerStatisticsElement, this._footerStatistics, RenderPosition.BEFOREEND);
+    render(footerStatisticsElement, this._footerStatisticsComponent, RenderPosition.BEFOREEND);
 
     const filmsBoardController = new FilmsBoardController(this._filmsBoardComponent);
     filmsBoardController.render(this._films, this._filmsListsExtra);
+
+    const onSortTypeChange = () => {
+
+    };
+
+    this._sortComponent.setOnSortTypeChange(onSortTypeChange);
   }
 }
