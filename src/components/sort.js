@@ -7,6 +7,11 @@ const SortType = {
 };
 
 export default class Sort extends AbstractComponent {
+  constructor() {
+    super();
+
+    this._currentSortType = SortType.DEFAULT;
+  }
 
   getTemplate() {
     return (
