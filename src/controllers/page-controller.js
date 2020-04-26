@@ -41,7 +41,7 @@ export default class PageController {
     filmsBoardController.render(this._films, this._filmsListsExtra);
 
     const onSortTypeChange = () => {
-
+      filmsBoardController.render(this._films, this._filmsListsExtra);
     };
 
     this._sortComponent.setOnSortTypeChange(onSortTypeChange);

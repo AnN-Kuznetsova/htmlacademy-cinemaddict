@@ -121,6 +121,8 @@ export default class FilmsBoardController {
 
   render(films, filmsListsExtra) {
     const filmsBoardElement = this._filmsBoardComponent.getElement();
+    filmsBoardElement.innerHTML = ``;
+    this._filmsListComponent.getElement().innerHTML = ``;
     render(filmsBoardElement, this._filmsListComponent, RenderPosition.BEFOREEND);
     this._renderFilmsList(this._filmsListComponent, films);
 
