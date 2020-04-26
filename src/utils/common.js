@@ -37,8 +37,8 @@ const formatDateWithSlash = (date) => {
   return `${year}/${month}/${day}`;
 };
 
-const getSortingFilms = (films, selectionParameter) => {
-  return films.slice()
+const getSortDescending = (array, selectionParameter) => {
+  return array.slice()
   .sort((left, right) => (right[selectionParameter] - left[selectionParameter]));
 };
 
@@ -55,5 +55,5 @@ export {
   formatDateToString,
   formatDateWithSlash,
   formatTime,
-  getSortingFilms,
+  getSortDescending,
 };

@@ -1,4 +1,5 @@
 import AbstractComponent from "./abstract-component.js";
+import {getSortDescending} from "../utils/common.js";
 
 const SortType = {
   DEFAULT: `default`,
@@ -54,10 +55,10 @@ export default class Sort extends AbstractComponent {
 
     switch (sortType) {
       case SortType.BY_DATE:
-        sortedTasks = this.sortDescending(films, `releaseDate`);
+        sortedTasks = getSortDescending(films, `releaseDate`);
         break;
       case SortType.BY_RATING:
-        sortedTasks = this.sortDescending(films, `rating`);
+        sortedTasks = getSortDescending(films, `rating`);
         break;
       case SortType.DEFAULT:
         sortedTasks = films;
@@ -67,10 +68,5 @@ export default class Sort extends AbstractComponent {
     }
 
     return sortedTasks;
-  }
-
-  sortDescending(films, selectionParameter) {
-    return films.slice()
-    .sort((left, right) => (right[selectionParameter] - left[selectionParameter]));
   }
 }

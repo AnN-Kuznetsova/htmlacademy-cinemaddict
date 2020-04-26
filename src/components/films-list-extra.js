@@ -1,6 +1,6 @@
 import {FILM_CARD_EXTRA_COUNT} from "../const.js";
 import {getRandomIntegerNumber} from "../utils/random.js";
-import {getSortingFilms} from "../utils/common.js";
+import {getSortDescending} from "../utils/common.js";
 
 export default class FilmsListExtra {
   constructor(title, selectionParameter) {
@@ -28,7 +28,7 @@ export default class FilmsListExtra {
   }
 
   getFilmsExtra(films) {
-    const filmsSorting = getSortingFilms(films, this._selectionParameter);
+    const filmsSorting = getSortDescending(films, this._selectionParameter);
     const filmsExtra = this._getTopFilms(filmsSorting, this._selectionParameter);
 
     if (filmsExtra.length === 0 || filmsExtra[0][this._selectionParameter] === 0) {
