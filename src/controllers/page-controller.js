@@ -27,9 +27,13 @@ export default class PageController {
     this._sortComponent = new Sort();
     this._filmsBoardComponent = new FilmsBoard();
     this._footerStatisticsComponent = new FooterStatistics(this._films.length);
+
+    this._showingFilms = [];
   }
 
   render() {
+    this._showingFilms = this._films.slice();
+
     render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
     render(siteMainElement, this._siteMenuComponent, RenderPosition.BEFOREEND);
     render(this._siteMenuComponent.getElement(), this._filtersComponent, RenderPosition.AFTERBEGIN);
@@ -38,10 +42,11 @@ export default class PageController {
     render(footerStatisticsElement, this._footerStatisticsComponent, RenderPosition.BEFOREEND);
 
     const filmsBoardController = new FilmsBoardController(this._filmsBoardComponent);
-    filmsBoardController.render(this._films, this._filmsListsExtra);
+    filmsBoardController.render(this._showingFilms, this._filmsListsExtra);
 
     const onSortTypeChange = () => {
-      filmsBoardController.render(this._films, this._filmsListsExtra);
+      this._showingFilms = this._sortComponent.getSortedFilms(this._films);
+      filmsBoardController.render(this._showingFilms, this._filmsListsExtra);
     };
 
     this._sortComponent.setOnSortTypeChange(onSortTypeChange);

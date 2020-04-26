@@ -47,4 +47,30 @@ export default class Sort extends AbstractComponent {
 
     this.getElement().addEventListener(`click`, onSortTypeButtonClick);
   }
+
+  getSortedFilms(films) {
+    const sortType = this._currentSortType;
+    let sortedTasks = [];
+
+    switch (sortType) {
+      case SortType.BY_DATE:
+        sortedTasks = this.sortDescending(films, `releaseDate`);
+        break;
+      case SortType.BY_RATING:
+        sortedTasks = this.sortDescending(films, `rating`);
+        break;
+      case SortType.DEFAULT:
+        sortedTasks = films;
+        break;
+      default:
+        sortedTasks = films;
+    }
+
+    return sortedTasks;
+  }
+
+  sortDescending(films, selectionParameter) {
+    return films.slice()
+    .sort((left, right) => (right[selectionParameter] - left[selectionParameter]));
+  }
 }
