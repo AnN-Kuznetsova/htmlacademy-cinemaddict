@@ -11,8 +11,6 @@ import {render, RenderPosition, removeElement, remove} from "../utils/render.js"
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
-const bodyElement = document.querySelector(`body`);
-
 
 export default class PageController {
   constructor(filmsBoardComponent) {
@@ -42,7 +40,7 @@ export default class PageController {
     if (this._openedFilmDetailsComponent) {
       this._closeFilmDetailsPopup();
     }
-    this._openedFilmDetailsComponent = render(bodyElement, filmDetailsComponent, RenderPosition.BEFOREEND);
+    this._openedFilmDetailsComponent = render(document.body, filmDetailsComponent, RenderPosition.BEFOREEND);
     this._onDocumentEscKeyDown = this._onEscKeyDown.bind(this);
     document.addEventListener(`keydown`, this._onDocumentEscKeyDown);
   }
@@ -50,15 +48,15 @@ export default class PageController {
 
   _renderFilm(filmsListContainerComponent, film) {
     const onFilmCardPosterElementClick = () => {
-      this._openFilmDetailsPopup(filmDetailsComponent);
+      openPopup();
     };
 
     const onFilmCardTitleElementClick = () => {
-      this._openFilmDetailsPopup(filmDetailsComponent);
+      openPopup();
     };
 
     const onFilmСardСommentsElementClick = () => {
-      this._openFilmDetailsPopup(filmDetailsComponent);
+      openPopup();
     };
 
     const onFilmDetailsCloseButtonClick = () => {
@@ -71,6 +69,7 @@ export default class PageController {
     filmCardComponent.setOnFilmСardСommentsElementClick(onFilmСardСommentsElementClick);
 
     const filmDetailsComponent = new FilmDetails(film);
+    const openPopup = this._openFilmDetailsPopup.bind(this, filmDetailsComponent);
     filmDetailsComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
 
     render(filmsListContainerComponent.getElement(), filmCardComponent, RenderPosition.BEFOREEND);
@@ -91,7 +90,7 @@ export default class PageController {
     }
 
     const listTitle = isExtra ? title : `All movies. Upcoming`;
-    const isVisually = isExtra ? true : false;
+    const isVisually = isExtra;
     const filmsListTitleComponent = new FilmsListTitle(listTitle, isVisually);
     render(filmsListComponent.getElement(), filmsListTitleComponent, RenderPosition.AFTERBEGIN);
 
@@ -125,7 +124,7 @@ export default class PageController {
     render(filmsBoardElement, this._filmsListComponent, RenderPosition.BEFOREEND);
     this._renderFilmsList(this._filmsListComponent, films);
 
-    if (filmsListsExtra.length > 0) {
+    if (filmsListsExtra) {
       for (const list of filmsListsExtra) {
         const filmsExtra = list.getFilmsExtra(films);
         if (filmsExtra) {
