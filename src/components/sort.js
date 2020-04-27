@@ -1,11 +1,6 @@
 import AbstractComponent from "./abstract-component.js";
-import {getSortDescending} from "../utils/common.js";
+import {SortType, getSortedFilms} from "../sorting.js";
 
-const SortType = {
-  DEFAULT: `default`,
-  BY_DATE: `by-date`,
-  BY_RATING: `by-rating`,
-};
 
 export default class Sort extends AbstractComponent {
   constructor() {
@@ -50,23 +45,6 @@ export default class Sort extends AbstractComponent {
   }
 
   getSortedFilms(films) {
-    const sortType = this._currentSortType;
-    let sortedTasks = [];
-
-    switch (sortType) {
-      case SortType.BY_DATE:
-        sortedTasks = getSortDescending(films, `releaseDate`);
-        break;
-      case SortType.BY_RATING:
-        sortedTasks = getSortDescending(films, `rating`);
-        break;
-      case SortType.DEFAULT:
-        sortedTasks = films;
-        break;
-      default:
-        sortedTasks = films;
-    }
-
-    return sortedTasks;
+    return getSortedFilms(films, this._currentSortType);
   }
 }

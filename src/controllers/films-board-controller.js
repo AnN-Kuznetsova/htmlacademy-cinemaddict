@@ -13,8 +13,8 @@ const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 const filmsListsExtra = [
-  new FilmsListExtra(`Top rated`, `rating`),
-  new FilmsListExtra(`Most commented`, `commentsCount`),
+  /* new FilmsListExtra(`Top rated`, `rating`),
+  new FilmsListExtra(`Most commented`, `commentsCount`), */
 ];
 
 
