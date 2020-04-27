@@ -8,10 +8,9 @@ import FilmsBoardController from "./films-board-controller.js";
 import {render, RenderPosition} from "../utils/render.js";
 
 
-const bodyElement = document.querySelector(`body`);
-const siteHeaderElement = bodyElement.querySelector(`.header`);
-const siteMainElement = bodyElement.querySelector(`.main`);
-const siteFooterElement = bodyElement.querySelector(`.footer`);
+const siteHeaderElement = document.body.querySelector(`.header`);
+const siteMainElement = document.body.querySelector(`.main`);
+const siteFooterElement = document.body.querySelector(`.footer`);
 const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statistics`);
 
 
