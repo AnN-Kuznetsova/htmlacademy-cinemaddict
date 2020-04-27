@@ -1,9 +1,10 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstract-component.js";
 
-export class Genres {
+export default class Genres extends AbstractComponent {
   constructor(genres) {
+    super();
+
     this._genres = genres;
-    this._element = null;
   }
 
   _createGenreMarkup(genre) {
@@ -14,17 +15,5 @@ export class Genres {
 
   getTemplate() {
     return this._genres.slice().map((it) => this._createGenreMarkup(it)).join(`\n`);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

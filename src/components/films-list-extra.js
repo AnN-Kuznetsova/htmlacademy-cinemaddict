@@ -1,8 +1,8 @@
 import {FILM_CARD_EXTRA_COUNT} from "../const.js";
-import {getRandomIntegerNumber} from "../random.js";
-import {getSortingFilms} from "../utils.js";
+import {getRandomIntegerNumber} from "../utils/random.js";
+import {getSortingFilms} from "../utils/common.js";
 
-export class FilmsListExtra {
+export default class FilmsListExtra {
   constructor(title, selectionParameter) {
     this._title = title;
     this._selectionParameter = selectionParameter;

@@ -1,11 +1,13 @@
-import {formatDateToString, createElement} from "../utils.js";
-import {Genres} from "./genres.js";
-import {Comments} from "./comments.js";
+import AbstractComponent from "./abstract-component.js";
+import Genres from "./genres.js";
+import Comments from "./comments.js";
+import {formatDateToString} from "../utils/common.js";
 
-export class FilmDetails {
+export default class FilmDetails extends AbstractComponent {
   constructor(film) {
+    super();
+
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
@@ -104,15 +106,8 @@ export class FilmDetails {
     );
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setOnFilmDetailsCloseButtonClick(cb) {
+    this.getElement().querySelector(`.film-details__close-btn`)
+      .addEventListener(`click`, cb);
   }
 }

@@ -1,10 +1,12 @@
-import {formatDateWithSlash, formatTime, createElement} from "../utils.js";
+import AbstractComponent from "./abstract-component.js";
+import {formatDateWithSlash, formatTime} from "../utils/common.js";
 import {EMOJIS} from "../const.js";
 
-export class Comments {
+export default class Comments extends AbstractComponent {
   constructor(comments) {
+    super();
+
     this._comments = comments;
-    this._element = null;
   }
 
   _createEmojiListMarkup(emojis) {
@@ -74,17 +76,5 @@ export class Comments {
         </div>
       </section>`
     );
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

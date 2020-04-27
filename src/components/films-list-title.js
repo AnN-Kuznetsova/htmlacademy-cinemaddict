@@ -1,10 +1,11 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstract-component.js";
 
-export class FilmsListTitle {
+export default class FilmsListTitle extends AbstractComponent {
   constructor(title, isVisually = true) {
+    super();
+
     this._title = title;
     this._isVisually = isVisually;
-    this._element = null;
   }
 
   getTemplate() {
@@ -13,17 +14,5 @@ export class FilmsListTitle {
     return (
       `<h2 class="films-list__title ${visuallyClass}">${this._title}</h2>`
     );
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
