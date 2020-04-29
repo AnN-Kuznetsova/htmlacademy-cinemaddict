@@ -1,5 +1,5 @@
 import AbstractComponent from "./abstract-component.js";
-import {SortType, getSortedFilms} from "../sorting.js";
+import {SortType, getSortFilms} from "../sorting.js";
 
 
 export default class Sort extends AbstractComponent {
@@ -45,6 +45,6 @@ export default class Sort extends AbstractComponent {
   }
 
   getSortedFilms(films) {
-    return getSortedFilms(films, this._currentSortType);
+    return getSortFilms(films, this._currentSortType);
   }
 }
