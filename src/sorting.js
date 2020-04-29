@@ -5,7 +5,7 @@ const SortType = {
 };
 
 
-const getFindField = (sortType) => {
+const getFieldFinder = (sortType) => {
   let findField = null;
 
   switch (sortType) {
@@ -37,7 +37,7 @@ const getSortFilms = (films, sortType) => {
       sortedTasks = films;
       break;
     default:
-      sortedTasks = getSortDescending(films, getFindField(sortType));
+      sortedTasks = getSortDescending(films, getFieldFinder(sortType));
   }
 
   return sortedTasks;
@@ -47,4 +47,5 @@ const getSortFilms = (films, sortType) => {
 export {
   SortType,
   getSortFilms,
+  getFieldFinder,
 };

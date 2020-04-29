@@ -1,18 +1,19 @@
 import {FILM_CARD_EXTRA_COUNT} from "../const.js";
 import {getRandomIntegerNumber} from "../utils/random.js";
-import {getSortDescending} from "../utils/common.js";
+import {getFieldFinder, getSortFilms} from "../sorting.js";
 
 export default class FilmsListExtra {
-  constructor(title, selectionParameter) {
+  constructor(title, sortType) {
     this._title = title;
-    this._selectionParameter = selectionParameter;
-    this._element = null;
+    this._sortType = sortType;
+    this._selectionFieldFinder = getFieldFinder(this._sortType);
   }
 
-  _getTopFilms(films, selectionParameter, topFilms = []) {
+
+  _getTopFilms(sortedFilms, topFilms = []) {
     const filmsExtraCount = FILM_CARD_EXTRA_COUNT;
-    const sortingFilms = films.slice();
-    const filteredFilms = sortingFilms.filter((film) => (film[selectionParameter] === sortingFilms[0][selectionParameter]));
+    const maxElement = this._selectionFieldFinder(sortedFilms[0]);
+    const filteredFilms = sortedFilms.filter((film) => (this._selectionFieldFinder(film) === maxElement));
 
     if ((topFilms.length + filteredFilms.length) >= filmsExtraCount) {
       while (topFilms.length < filmsExtraCount) {
@@ -20,18 +21,18 @@ export default class FilmsListExtra {
       }
     } else {
       topFilms.splice(topFilms.length, 0, ...filteredFilms.slice());
-      sortingFilms.splice(0, filteredFilms.length);
-      this._getTopFilms(sortingFilms, selectionParameter, topFilms);
+      sortedFilms.splice(0, filteredFilms.length);
+      this._getTopFilms(sortedFilms, topFilms);
     }
 
     return topFilms;
   }
 
   getFilmsExtra(films) {
-    const filmsSorting = getSortDescending(films, this._selectionParameter);
-    const filmsExtra = this._getTopFilms(filmsSorting, this._selectionParameter);
+    const sortedFilms = getSortFilms(films, this._sortType);
+    const filmsExtra = this._getTopFilms(sortedFilms);
 
-    if (filmsExtra.length === 0 || filmsExtra[0][this._selectionParameter] === 0) {
+    if (filmsExtra.length === 0 || this._selectionFieldFinder(filmsExtra[0]) === 0) {
       return 0;
     }
     return filmsExtra;
