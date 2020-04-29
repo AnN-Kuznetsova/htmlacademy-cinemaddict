@@ -2,6 +2,7 @@ const SortType = {
   DEFAULT: `default`,
   BY_DATE: `by-date`,
   BY_RATING: `by-rating`,
+  BY_COMMENTS_COUNT: `by-comments-count`,
 };
 
 
@@ -14,6 +15,9 @@ const getFieldFinder = (sortType) => {
       break;
     case SortType.BY_RATING:
       findField = (film) => film.rating;
+      break;
+    case SortType.BY_COMMENTS_COUNT:
+      findField = (film) => film.commentsCount;
       break;
     default:
       findField = (element) => element;
