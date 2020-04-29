@@ -34,17 +34,11 @@ const getSortDescending = (array, cb = (element) => element) => {
 
 
 const getSortFilms = (films, sortType) => {
-  let sortedTasks = [];
-
-  switch (sortType) {
-    case SortType.DEFAULT.name:
-      sortedTasks = films;
-      break;
-    default:
-      sortedTasks = getSortDescending(films, getFieldFinder(sortType));
+  if (sortType === SortType.DEFAULT) {
+    return films;
   }
 
-  return sortedTasks;
+  return getSortDescending(films, getFieldFinder(sortType));
 };
 
 
