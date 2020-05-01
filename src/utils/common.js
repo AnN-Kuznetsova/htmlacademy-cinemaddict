@@ -37,11 +37,6 @@ const formatDateWithSlash = (date) => {
   return `${year}/${month}/${day}`;
 };
 
-const getSortingFilms = (films, selectionParameter) => {
-  return films.slice()
-  .sort((left, right) => (right[selectionParameter] - left[selectionParameter]));
-};
-
 const onEscPress = (evt, action) => {
   const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
   if (isEscKey) {
@@ -55,5 +50,4 @@ export {
   formatDateToString,
   formatDateWithSlash,
   formatTime,
-  getSortingFilms,
 };
