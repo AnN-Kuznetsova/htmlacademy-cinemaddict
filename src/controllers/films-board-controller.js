@@ -91,7 +91,7 @@ export default class FilmsBoardController {
 
 
   _renderFilmsList(filmsListComponent, films, isExtra = false, title = ``) {
-    if (films.length === 0) {
+    if (!films.length) {
       render(filmsListComponent.getElement(), new FilmsListTitle(`There are no movies in our database`), RenderPosition.AFTERBEGIN);
       return;
     }
@@ -133,7 +133,7 @@ export default class FilmsBoardController {
     render(filmsBoardElement, this._filmsListComponent, RenderPosition.BEFOREEND);
     this._renderFilmsList(this._filmsListComponent, films);
 
-    if (filmsListsExtra) {
+    if (films.length && filmsListsExtra) {
       for (const list of filmsListsExtra) {
         const filmsExtra = list.getFilmsExtra(films);
         if (filmsExtra) {
