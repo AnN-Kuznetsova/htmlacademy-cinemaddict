@@ -80,6 +80,8 @@ export default class FilmsBoardController {
 
 
   render(films) {
+    this._showingFilmControllers = [];
+
     const filmsBoardElement = this._filmsBoardComponent.getElement();
     filmsBoardElement.innerHTML = ``;
     this._filmsListComponent.getElement().innerHTML = ``;
