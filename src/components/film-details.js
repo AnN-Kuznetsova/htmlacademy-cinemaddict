@@ -115,4 +115,19 @@ export default class FilmDetails extends AbstractComponent {
     this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, cb);
   }
+
+  setOnAddToWatchlistButtonClick(cb) {
+    this.getElement().querySelector(`#watchlist`)
+      .addEventListener(`click`, cb);
+  }
+
+  setOnMarkAsWatchedButtonClick(cb) {
+    this.getElement().querySelector(`#watched`)
+      .addEventListener(`click`, cb);
+  }
+
+  setOnFavoriteButtonClick(cb) {
+    this.getElement().querySelector(`#favorite`)
+      .addEventListener(`click`, cb);
+  }
 }

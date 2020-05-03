@@ -51,15 +51,15 @@ export default class FilmController {
     };
 
     const onAddToWatchlistButtonClick = () => {
-
+      window.console.log(`onAddToWatchlistButtonClick`);
     };
 
     const onMarkAsWatchedButtonClick = () => {
-
+      window.console.log(`onMarkAsWatchedButtonClick`);
     };
 
     const onFavoriteButtonClick = () => {
-
+      window.console.log(`onFavoriteButtonClick`);
     };
 
     const onFilmDetailsCloseButtonClick = () => {
@@ -77,6 +77,9 @@ export default class FilmController {
     const filmDetailsComponent = new FilmDetails(film);
     const openPopup = this._openFilmDetailsPopup.bind(this, filmDetailsComponent);
     filmDetailsComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
+    filmDetailsComponent.setOnAddToWatchlistButtonClick(onAddToWatchlistButtonClick);
+    filmDetailsComponent.setOnMarkAsWatchedButtonClick(onMarkAsWatchedButtonClick);
+    filmDetailsComponent.setOnFavoriteButtonClick(onFavoriteButtonClick);
 
     render(this._container, filmCardComponent, RenderPosition.BEFOREEND);
   }
