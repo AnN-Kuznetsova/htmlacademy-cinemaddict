@@ -3,6 +3,7 @@ import Genres from "./genres.js";
 import Comments from "./comments.js";
 import {formatDateToString} from "../utils/common.js";
 
+
 export default class FilmDetails extends AbstractComponent {
   constructor(film) {
     super();
@@ -10,14 +11,23 @@ export default class FilmDetails extends AbstractComponent {
     this._film = film;
   }
 
+
+  _createButtonMarkup(name, value, isActive = true) {
+    return (
+      `<input type="checkbox" class="film-details__control-input visually-hidden" id="${name}" name="${name}" ${isActive ? `checked` : ``}>
+      <label for="${name}" class="film-details__control-label film-details__control-label--${name}">${value}</label>`
+    );
+  }
+
+
   getTemplate() {
     const {title, originalTitle, rating, director, writers, actors, releaseDate, duration, country, genre, poster, description, age, isAddToWatchlist, isMarkAsWatched, isFavorite, comments} = this._film;
 
     const releaseDateFormat = formatDateToString(releaseDate);
 
-    const addToWatchlistButtonIsActive = isAddToWatchlist ? `checked` : ``;
-    const markAsWatchedButtonIsActive = isMarkAsWatched ? `checked` : ``;
-    const favoriteButtonIsActive = isFavorite ? `checked` : ``;
+    const addToWatchlistButton = this._createButtonMarkup(`watchlist`, `Add to watchlist`, isAddToWatchlist);
+    const markAsWatchedButton = this._createButtonMarkup(`watched`, `Already watched`, isMarkAsWatched);
+    const favoriteButton = this._createButtonMarkup(`favorite`, `Add to favorites`, isFavorite);
 
     const genreMarkup = new Genres(genre).getTemplate();
     const commentsMarkup = new Comments(comments).getTemplate();
@@ -87,14 +97,9 @@ export default class FilmDetails extends AbstractComponent {
             </div>
 
             <section class="film-details__controls">
-              <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${addToWatchlistButtonIsActive}>
-              <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
-
-              <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${markAsWatchedButtonIsActive}>
-              <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-
-              <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${favoriteButtonIsActive}>
-              <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
+              ${addToWatchlistButton}
+              ${markAsWatchedButton}
+              ${favoriteButton}
             </section>
           </div>
 

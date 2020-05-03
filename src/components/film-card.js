@@ -1,12 +1,14 @@
 import AbstractComponent from "./abstract-component.js";
 import {MAX_DESCRIPTION_LENGTH} from "../const.js";
 
+
 export default class FilmCard extends AbstractComponent {
   constructor(film) {
     super();
 
     this._film = film;
   }
+
 
   _createButtonMarkup(name, value, isActive = true) {
     return (
@@ -54,6 +56,7 @@ export default class FilmCard extends AbstractComponent {
       </article>`
     );
   }
+
 
   setOnFilmCardPosterElementClick(cb) {
     this.getElement().querySelector(`.film-card__poster`)
