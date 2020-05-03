@@ -8,14 +8,26 @@ export default class FilmCard extends AbstractComponent {
     this._film = film;
   }
 
+  _createButtonMarkup(name, value, isActive = true) {
+    return (
+      `<button
+        type="button"
+        class="film-card__controls-item button film-card__controls-item--${name} ${isActive ? `film-card__controls-item--active` : ``}"
+        >
+        ${value}
+      </button>`
+    );
+  }
+
+
   getTemplate() {
     const {title, rating, releaseDate, duration, genre, poster, description, isAddToWatchlist, isMarkAsWatched, isFavorite, commentsCount} = this._film;
 
     const releaseYear = releaseDate.getFullYear();
 
-    const addToWatchlistButtonActiveClass = isAddToWatchlist ? `film-card__controls-item--active` : ``;
-    const markAsWatchedButtonActiveClass = isMarkAsWatched ? `film-card__controls-item--active` : ``;
-    const favoriteButtonActiveClass = isFavorite ? `film-card__controls-item--active` : ``;
+    const addToWatchlistButton = this._createButtonMarkup(`add-to-watchlist`, `Add to watchlist`, isAddToWatchlist);
+    const markAsWatchedButton = this._createButtonMarkup(`mark-as-watched`, `Mark as watched`, isMarkAsWatched);
+    const favoriteButton = this._createButtonMarkup(`favorite`, `Mark as favorite`, isFavorite);
 
     let descriptionText = description;
     if (description.length > MAX_DESCRIPTION_LENGTH) {
@@ -35,9 +47,9 @@ export default class FilmCard extends AbstractComponent {
         <p class="film-card__description">${descriptionText}</p>
         <a class="film-card__comments">${commentsCount} comments</a>
         <form class="film-card__controls">
-          <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${addToWatchlistButtonActiveClass}">Add to watchlist</button>
-          <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${markAsWatchedButtonActiveClass}">Mark as watched</button>
-          <button class="film-card__controls-item button film-card__controls-item--favorite ${favoriteButtonActiveClass}">Mark as favorite</button>
+          ${addToWatchlistButton}
+          ${markAsWatchedButton}
+          ${favoriteButton}
         </form>
       </article>`
     );
