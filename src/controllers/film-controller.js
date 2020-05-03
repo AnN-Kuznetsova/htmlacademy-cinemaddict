@@ -50,6 +50,18 @@ export default class FilmController {
       openPopup();
     };
 
+    const onAddToWatchlistButtonClick = () => {
+
+    };
+
+    const onMarkAsWatchedButtonClick = () => {
+
+    };
+
+    const onFavoriteButtonClick = () => {
+
+    };
+
     const onFilmDetailsCloseButtonClick = () => {
       this._closeFilmDetailsPopup();
     };
@@ -58,6 +70,9 @@ export default class FilmController {
     filmCardComponent.setOnFilmCardPosterElementClick(onFilmCardPosterElementClick);
     filmCardComponent.setOnFilmCardTitleElementClick(onFilmCardTitleElementClick);
     filmCardComponent.setOnFilmСardСommentsElementClick(onFilmСardСommentsElementClick);
+    filmCardComponent.setOnAddToWatchlistButtonClick(onAddToWatchlistButtonClick);
+    filmCardComponent.setOnMarkAsWatchedButtonClick(onMarkAsWatchedButtonClick);
+    filmCardComponent.setOnFavoriteButtonClick(onFavoriteButtonClick);
 
     const filmDetailsComponent = new FilmDetails(film);
     const openPopup = this._openFilmDetailsPopup.bind(this, filmDetailsComponent);
