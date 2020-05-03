@@ -5,8 +5,9 @@ import {render, RenderPosition, removeElement} from "../utils/render.js";
 
 
 export default class FilmController {
-  constructor(container) {
+  constructor(container, onDataChange) {
     this._container = container;
+    this._onDataChange = onDataChange;
 
     this._film = null;
 
@@ -51,15 +52,15 @@ export default class FilmController {
     };
 
     const onAddToWatchlistButtonClick = () => {
-      window.console.log(`onAddToWatchlistButtonClick`);
+      this._onDataChange(this, film, Object.assign({}, film, {isAddToWatchlist: !film.isAddToWatchlist}));
     };
 
     const onMarkAsWatchedButtonClick = () => {
-      window.console.log(`onMarkAsWatchedButtonClick`);
+      this._onDataChange(this, film, Object.assign({}, film, {isMarkAsWatched: !film.isMarkAsWatched}));
     };
 
     const onFavoriteButtonClick = () => {
-      window.console.log(`onFavoriteButtonClick`);
+      this._onDataChange(this, film, Object.assign({}, film, {isFavorite: !film.isFavorite}));
     };
 
     const onFilmDetailsCloseButtonClick = () => {

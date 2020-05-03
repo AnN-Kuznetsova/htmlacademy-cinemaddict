@@ -23,16 +23,32 @@ export default class FilmsBoardController {
 
     this._filmsListComponent = new FilmsList();
 
+    this._films = [];
     this._showingFilmControllers = [];
+
+    this._onDataChange = this._onDataChange.bind(this);
 
     this._openedFilmDetailsComponent = null;
     this._onDocumentEscKeyDown = null;
   }
 
 
-  _renderFilms(filmsListContainerComponent, films) {
+  _onDataChange(filmController, oldData, newData) {
+    const index = this._films.findIndex((it) => it === oldData);
+
+    if (index === -1) {
+      return;
+    }
+
+    this._films = [].concat(this._films.slice(0, index), newData, this._films.slice(index + 1));
+
+    filmController.render(this._films[index]);
+  }
+
+
+  _renderFilms(filmsListContainerComponent, films, onDataChange) {
     const newFilmControllers = films.map((film) => {
-      const filmController = new FilmController(filmsListContainerComponent.getElement());
+      const filmController = new FilmController(filmsListContainerComponent.getElement(), onDataChange);
 
       filmController.render(film);
 
@@ -58,7 +74,7 @@ export default class FilmsBoardController {
     render(filmsListComponent.getElement(), filmsListContainerComponent, RenderPosition.BEFOREEND);
 
     let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
-    this._renderFilms(filmsListContainerComponent, films.slice(0, showingFilmsCount));
+    this._renderFilms(filmsListContainerComponent, films.slice(0, showingFilmsCount), this._onDataChange);
 
     if (films.length > SHOWING_FILMS_COUNT_ON_START) {
       const showMoreButtonComponent = new ShowMoreButton();
@@ -67,7 +83,7 @@ export default class FilmsBoardController {
       const onShowMoreButtonClick = () => {
         const prevFilmsCount = showingFilmsCount;
         showingFilmsCount += SHOWING_FILMS_COUNT_BY_BUTTON;
-        this._renderFilms(filmsListContainerComponent, films.slice(prevFilmsCount, showingFilmsCount));
+        this._renderFilms(filmsListContainerComponent, films.slice(prevFilmsCount, showingFilmsCount), this._onDataChange);
 
         if (showingFilmsCount >= films.length) {
           remove(showMoreButtonComponent);
@@ -80,6 +96,7 @@ export default class FilmsBoardController {
 
 
   render(films) {
+    this._films = films;
     this._showingFilmControllers = [];
 
     const filmsBoardElement = this._filmsBoardComponent.getElement();
