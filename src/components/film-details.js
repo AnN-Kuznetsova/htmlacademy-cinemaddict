@@ -1,10 +1,10 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 import Genres from "./genres.js";
 import Comments from "./comments.js";
 import {formatDateToString} from "../utils/common.js";
 
 
-export default class FilmDetails extends AbstractComponent {
+export default class FilmDetails extends AbstractSmartComponent {
   constructor(film) {
     super();
 
@@ -110,6 +110,12 @@ export default class FilmDetails extends AbstractComponent {
       </section>`
     );
   }
+
+
+  recoveryListeners() {
+
+  }
+
 
   setOnFilmDetailsCloseButtonClick(cb) {
     this.getElement().querySelector(`.film-details__close-btn`)
