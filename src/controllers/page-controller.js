@@ -27,18 +27,18 @@ export default class PageController {
     this._footerStatisticsComponent = new FooterStatistics(this._films.length);
     this._filmsBoardController = new FilmsBoardController(this._filmsBoardComponent);
 
-    this._showingFilms = [];
+    this._sortedFilms = [];
   }
 
 
   _onSortTypeChange() {
-    this._showingFilms = this._sortComponent.getSortedFilms(this._films);
-    this._filmsBoardController.render(this._showingFilms);
+    this._sortedFilms = this._sortComponent.getSortedFilms(this._films);
+    this._filmsBoardController.render(this._sortedFilms);
   }
 
 
   render() {
-    this._showingFilms = this._films.slice();
+    this._sortedFilms = this._films.slice();
 
     render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
     render(siteMainElement, this._siteMenuComponent, RenderPosition.BEFOREEND);
@@ -47,7 +47,7 @@ export default class PageController {
     render(siteMainElement, this._filmsBoardComponent, RenderPosition.BEFOREEND);
     render(footerStatisticsElement, this._footerStatisticsComponent, RenderPosition.BEFOREEND);
 
-    this._filmsBoardController.render(this._showingFilms);
+    this._filmsBoardController.render(this._sortedFilms);
 
     this._sortComponent.setOnSortTypeChange(this._onSortTypeChange.bind(this));
   }

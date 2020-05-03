@@ -2,11 +2,9 @@ import FilmsListExtra from "../components/films-list-extra.js";
 import FilmsList from "../components/films-list.js";
 import FilmsListTitle from "../components/films-list-title.js";
 import FilmsListContainer from "../components/films-list-container.js";
-import FilmCard from "../components/film-card.js";
 import ShowMoreButton from "../components/show-more-button.js";
-import FilmDetails from "../components/film-details.js";
-import {onEscPress} from "../utils/common.js";
-import {render, RenderPosition, removeElement, remove} from "../utils/render.js";
+import FilmController from "./film-controller.js";
+import {render, RenderPosition, remove} from "../utils/render.js";
 import {SortType} from "../sorting.js";
 
 
@@ -25,68 +23,23 @@ export default class FilmsBoardController {
 
     this._filmsListComponent = new FilmsList();
 
+    this._showingFilmControllers = [];
+
     this._openedFilmDetailsComponent = null;
     this._onDocumentEscKeyDown = null;
-  }
-
-
-  _onEscKeyDown(evt) {
-    onEscPress(evt, this._closeFilmDetailsPopup.bind(this));
-  }
-
-
-  _closeFilmDetailsPopup() {
-    removeElement(this._openedFilmDetailsComponent);
-    this._openedFilmDetailsComponent = null;
-    document.removeEventListener(`keydown`, this._onDocumentEscKeyDown);
-    this._onDocumentEscKeyDown = null;
-  }
-
-
-  _openFilmDetailsPopup(filmDetailsComponent) {
-    if (this._openedFilmDetailsComponent) {
-      this._closeFilmDetailsPopup();
-    }
-    this._openedFilmDetailsComponent = render(document.body, filmDetailsComponent, RenderPosition.BEFOREEND);
-    this._onDocumentEscKeyDown = this._onEscKeyDown.bind(this);
-    document.addEventListener(`keydown`, this._onDocumentEscKeyDown);
-  }
-
-
-  _renderFilm(filmsListContainerComponent, film) {
-    const onFilmCardPosterElementClick = () => {
-      openPopup();
-    };
-
-    const onFilmCardTitleElementClick = () => {
-      openPopup();
-    };
-
-    const onFilmСardСommentsElementClick = () => {
-      openPopup();
-    };
-
-    const onFilmDetailsCloseButtonClick = () => {
-      this._closeFilmDetailsPopup();
-    };
-
-    const filmCardComponent = new FilmCard(film);
-    filmCardComponent.setOnFilmCardPosterElementClick(onFilmCardPosterElementClick);
-    filmCardComponent.setOnFilmCardTitleElementClick(onFilmCardTitleElementClick);
-    filmCardComponent.setOnFilmСardСommentsElementClick(onFilmСardСommentsElementClick);
-
-    const filmDetailsComponent = new FilmDetails(film);
-    const openPopup = this._openFilmDetailsPopup.bind(this, filmDetailsComponent);
-    filmDetailsComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
-
-    render(filmsListContainerComponent.getElement(), filmCardComponent, RenderPosition.BEFOREEND);
   }
 
 
   _renderFilms(filmsListContainerComponent, films) {
-    films.forEach((film) => {
-      this._renderFilm(filmsListContainerComponent, film);
+    const newFilmControllers = films.map((film) => {
+      const filmController = new FilmController(filmsListContainerComponent.getElement());
+
+      filmController.render(film);
+
+      return filmController;
     });
+
+    this._showingFilmControllers = this._showingFilmControllers.concat(newFilmControllers);
   }
 
 
