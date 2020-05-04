@@ -27,9 +27,6 @@ export default class FilmsBoardController {
     this._showingFilmControllers = [];
 
     this._onDataChange = this._onDataChange.bind(this);
-
-    this._openedFilmDetailsComponent = null;
-    this._onDocumentEscKeyDown = null;
   }
 
 

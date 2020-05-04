@@ -21,23 +21,15 @@ export default class FilmController {
     onEscPress(evt, this._closeFilmDetailsPopup.bind(this));
   }
 
-
   _closeFilmDetailsPopup() {
     this._filmDetailsComponent.reset();
-    removeElement(this._openedFilmDetailsComponent);
-    this._openedFilmDetailsComponent = null;
-    document.removeEventListener(`keydown`, this._onDocumentEscKeyDown);
-    this._onDocumentEscKeyDown = null;
+    removeElement(this._filmDetailsComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
-
   _openFilmDetailsPopup(filmDetailsComponent) {
-    if (this._openedFilmDetailsComponent) {
-      this._closeFilmDetailsPopup();
-    }
-    this._openedFilmDetailsComponent = render(document.body, filmDetailsComponent, RenderPosition.BEFOREEND);
-    this._onDocumentEscKeyDown = this._onEscKeyDown.bind(this);
-    document.addEventListener(`keydown`, this._onDocumentEscKeyDown);
+    render(document.body, filmDetailsComponent, RenderPosition.BEFOREEND);
+    document.addEventListener(`keydown`, this._onEscKeyDown);
   }
 
 
