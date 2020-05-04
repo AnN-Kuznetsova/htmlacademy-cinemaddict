@@ -141,6 +141,17 @@ export default class FilmDetails extends AbstractSmartComponent {
   }
 
 
+  reset() {
+    this._newComment = {
+      emojiTitle: null,
+      emojiUrl: null,
+      text: null,
+    };
+
+    this.rerender();
+  }
+
+
   recoveryListeners() {
     this.setOnFilmDetailsCloseButtonClick(this._closeButtonClickCallback);
     this._subscribeOnEvents();

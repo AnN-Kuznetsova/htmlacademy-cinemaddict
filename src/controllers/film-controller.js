@@ -10,6 +10,8 @@ export default class FilmController {
     this._onDataChange = onDataChange;
 
     this._film = null;
+    this._filmCardComponent = null;
+    this._filmDetailsComponent = null;
 
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
   }
@@ -21,6 +23,7 @@ export default class FilmController {
 
 
   _closeFilmDetailsPopup() {
+    this._filmDetailsComponent.reset();
     removeElement(this._openedFilmDetailsComponent);
     this._openedFilmDetailsComponent = null;
     document.removeEventListener(`keydown`, this._onDocumentEscKeyDown);
@@ -67,21 +70,21 @@ export default class FilmController {
       this._closeFilmDetailsPopup();
     };
 
-    const filmCardComponent = new FilmCard(film);
-    filmCardComponent.setOnFilmCardPosterElementClick(onFilmCardPosterElementClick);
-    filmCardComponent.setOnFilmCardTitleElementClick(onFilmCardTitleElementClick);
-    filmCardComponent.setOnFilmСardСommentsElementClick(onFilmСardСommentsElementClick);
-    filmCardComponent.setOnAddToWatchlistButtonClick(onAddToWatchlistButtonClick);
-    filmCardComponent.setOnMarkAsWatchedButtonClick(onMarkAsWatchedButtonClick);
-    filmCardComponent.setOnFavoriteButtonClick(onFavoriteButtonClick);
+    this._filmCardComponent = new FilmCard(film);
+    this._filmCardComponent.setOnFilmCardPosterElementClick(onFilmCardPosterElementClick);
+    this._filmCardComponent.setOnFilmCardTitleElementClick(onFilmCardTitleElementClick);
+    this._filmCardComponent.setOnFilmСardСommentsElementClick(onFilmСardСommentsElementClick);
+    this._filmCardComponent.setOnAddToWatchlistButtonClick(onAddToWatchlistButtonClick);
+    this._filmCardComponent.setOnMarkAsWatchedButtonClick(onMarkAsWatchedButtonClick);
+    this._filmCardComponent.setOnFavoriteButtonClick(onFavoriteButtonClick);
 
-    const filmDetailsComponent = new FilmDetails(film);
-    const openPopup = this._openFilmDetailsPopup.bind(this, filmDetailsComponent);
-    filmDetailsComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
-    filmDetailsComponent.setOnAddToWatchlistButtonClick(onAddToWatchlistButtonClick);
-    filmDetailsComponent.setOnMarkAsWatchedButtonClick(onMarkAsWatchedButtonClick);
-    filmDetailsComponent.setOnFavoriteButtonClick(onFavoriteButtonClick);
+    this._filmDetailsComponent = new FilmDetails(film);
+    const openPopup = this._openFilmDetailsPopup.bind(this, this._filmDetailsComponent);
+    this._filmDetailsComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
+    this._filmDetailsComponent.setOnAddToWatchlistButtonClick(onAddToWatchlistButtonClick);
+    this._filmDetailsComponent.setOnMarkAsWatchedButtonClick(onMarkAsWatchedButtonClick);
+    this._filmDetailsComponent.setOnFavoriteButtonClick(onFavoriteButtonClick);
 
-    render(this._container, filmCardComponent, RenderPosition.BEFOREEND);
+    render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
   }
 }
