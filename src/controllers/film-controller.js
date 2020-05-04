@@ -97,9 +97,6 @@ export default class FilmController {
     this._filmDetailsComponent = new FilmDetails(film);
     const openPopup = this._openFilmDetailsPopup.bind(this, this._filmDetailsComponent);
     this._filmDetailsComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
-    /* this._filmDetailsComponent.setOnAddToWatchlistButtonClick(onAddToWatchlistButtonClick);
-    this._filmDetailsComponent.setOnMarkAsWatchedButtonClick(onMarkAsWatchedButtonClick);
-    this._filmDetailsComponent.setOnFavoriteButtonClick(onFavoriteButtonClick); */
 
     if (oldFilmCardComponent && oldFilmDetailsComponent) {
       replace(this._filmCardComponent, oldFilmCardComponent);

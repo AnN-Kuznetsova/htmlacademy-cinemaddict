@@ -11,6 +11,12 @@ export default class FilmDetails extends AbstractSmartComponent {
 
     this._film = film;
 
+    this._filmSettings = {
+      isAddToWatchlist: film.isAddToWatchlist,
+      isMarkAsWatched: film.isMarkAsWatched,
+      isFavorite: film.isFavorite,
+    };
+
     this._newComment = {
       emojiTitle: null,
       emojiUrl: null,
@@ -18,14 +24,7 @@ export default class FilmDetails extends AbstractSmartComponent {
     };
 
     this._closeButtonClickCallback = null;
-    /* this._addToWatchlistButtonClickCallback = null;
-    this._markAsWatchedButtonClickCallback = null;
-    this._favoriteButtonClickCallback = null; */
-    this._filmSettings = {
-      isAddToWatchlist: film.isAddToWatchlist,
-      isMarkAsWatched: film.isMarkAsWatched,
-      isFavorite: film.isFavorite,
-    };
+
 
     this._subscribeOnEvents();
   }
@@ -183,10 +182,6 @@ export default class FilmDetails extends AbstractSmartComponent {
 
   recoveryListeners() {
     this.setOnFilmDetailsCloseButtonClick(this._closeButtonClickCallback);
-    /* this.setOnAddToWatchlistButtonClick(this._addToWatchlistButtonClickCallback);
-    this.setOnMarkAsWatchedButtonClick(this._markAsWatchedButtonClickCallback);
-    this.setOnFavoriteButtonClick(this._favoriteButtonClickCallback); */
-
     this._subscribeOnEvents();
   }
 
@@ -197,25 +192,4 @@ export default class FilmDetails extends AbstractSmartComponent {
 
     this._closeButtonClickCallback = cb;
   }
-
-  /* setOnAddToWatchlistButtonClick(cb) {
-    this.getElement().querySelector(`#watchlist`)
-      .addEventListener(`click`, cb);
-
-    this._addToWatchlistButtonClickCallback = cb;
-  }
-
-  setOnMarkAsWatchedButtonClick(cb) {
-    this.getElement().querySelector(`#watched`)
-      .addEventListener(`click`, cb);
-
-    this._markAsWatchedButtonClickCallback = cb;
-  }
-
-  setOnFavoriteButtonClick(cb) {
-    this.getElement().querySelector(`#favorite`)
-      .addEventListener(`click`, cb);
-
-    this._favoriteButtonClickCallback = cb;
-  } */
 }
