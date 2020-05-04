@@ -1,7 +1,7 @@
 import FilmCard from "../components/film-card.js";
 import FilmDetails from "../components/film-details.js";
 import {onEscPress} from "../utils/common.js";
-import {render, RenderPosition, removeElement} from "../utils/render.js";
+import {render, RenderPosition, replace, removeElement} from "../utils/render.js";
 
 
 const Mode = {
@@ -74,6 +74,9 @@ export default class FilmController {
       this._closeFilmDetailsPopup();
     };
 
+    const oldFilmCardComponent = this._filmCardComponent;
+    const oldFilmDetailsComponent = this._filmDetailsComponent;
+
     this._filmCardComponent = new FilmCard(film);
     this._filmCardComponent.setOnFilmCardPosterElementClick(onFilmCardPosterElementClick);
     this._filmCardComponent.setOnFilmCardTitleElementClick(onFilmCardTitleElementClick);
@@ -89,7 +92,12 @@ export default class FilmController {
     this._filmDetailsComponent.setOnMarkAsWatchedButtonClick(onMarkAsWatchedButtonClick);
     this._filmDetailsComponent.setOnFavoriteButtonClick(onFavoriteButtonClick);
 
-    render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
+    if (oldFilmCardComponent && oldFilmDetailsComponent) {
+      replace(this._filmCardComponent, oldFilmCardComponent);
+      replace(this._filmDetailsComponent, oldFilmDetailsComponent);
+    } else {
+      render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
+    }
   }
 
 
