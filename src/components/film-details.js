@@ -18,9 +18,14 @@ export default class FilmDetails extends AbstractSmartComponent {
     };
 
     this._closeButtonClickCallback = null;
-    this._addToWatchlistButtonClickCallback = null;
+    /* this._addToWatchlistButtonClickCallback = null;
     this._markAsWatchedButtonClickCallback = null;
-    this._favoriteButtonClickCallback = null;
+    this._favoriteButtonClickCallback = null; */
+    this._filmSettings = {
+      isAddToWatchlist: film.isAddToWatchlist,
+      isMarkAsWatched: film.isMarkAsWatched,
+      isFavorite: film.isFavorite,
+    };
 
     this._subscribeOnEvents();
   }
@@ -41,6 +46,22 @@ export default class FilmDetails extends AbstractSmartComponent {
       .addEventListener(`input`, (evt) => {
         this._newComment.text = evt.target.value;
       });
+
+
+    element.querySelector(`#watchlist`)
+      .addEventListener(`click`, () => {
+        this._filmSettings.isAddToWatchlist = !this._filmSettings.isAddToWatchlist;
+      });
+
+    element.querySelector(`#watched`)
+      .addEventListener(`click`, () => {
+        this._filmSettings.isMarkAsWatched = !this._filmSettings.isMarkAsWatched;
+      });
+
+    element.querySelector(`#favorite`)
+      .addEventListener(`click`, () => {
+        this._filmSettings.isFavorite = !this._filmSettings.isFavorite;
+      });
   }
 
 
@@ -53,7 +74,8 @@ export default class FilmDetails extends AbstractSmartComponent {
 
 
   getTemplate() {
-    const {title, originalTitle, rating, director, writers, actors, releaseDate, duration, country, genre, poster, description, age, isAddToWatchlist, isMarkAsWatched, isFavorite, comments} = this._film;
+    const {title, originalTitle, rating, director, writers, actors, releaseDate, duration, country, genre, poster, description, age, comments} = this._film;
+    const {isAddToWatchlist, isMarkAsWatched, isFavorite} = this._filmSettings;
 
     const releaseDateFormat = formatDateToString(releaseDate);
 
@@ -154,12 +176,16 @@ export default class FilmDetails extends AbstractSmartComponent {
     this.rerender();
   }
 
+  getFilmSettings() {
+    return this._filmSettings;
+  }
+
 
   recoveryListeners() {
     this.setOnFilmDetailsCloseButtonClick(this._closeButtonClickCallback);
-    this.setOnAddToWatchlistButtonClick(this._addToWatchlistButtonClickCallback);
+    /* this.setOnAddToWatchlistButtonClick(this._addToWatchlistButtonClickCallback);
     this.setOnMarkAsWatchedButtonClick(this._markAsWatchedButtonClickCallback);
-    this.setOnFavoriteButtonClick(this._favoriteButtonClickCallback);
+    this.setOnFavoriteButtonClick(this._favoriteButtonClickCallback); */
 
     this._subscribeOnEvents();
   }
@@ -172,7 +198,7 @@ export default class FilmDetails extends AbstractSmartComponent {
     this._closeButtonClickCallback = cb;
   }
 
-  setOnAddToWatchlistButtonClick(cb) {
+  /* setOnAddToWatchlistButtonClick(cb) {
     this.getElement().querySelector(`#watchlist`)
       .addEventListener(`click`, cb);
 
@@ -191,5 +217,5 @@ export default class FilmDetails extends AbstractSmartComponent {
       .addEventListener(`click`, cb);
 
     this._favoriteButtonClickCallback = cb;
-  }
+  } */
 }
