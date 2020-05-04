@@ -17,6 +17,8 @@ export default class FilmDetails extends AbstractSmartComponent {
       text: null,
     };
 
+    this._closeButtonClickCallback = null;
+
     this._subscribeOnEvents();
   }
 
@@ -140,6 +142,7 @@ export default class FilmDetails extends AbstractSmartComponent {
 
 
   recoveryListeners() {
+    this.setOnFilmDetailsCloseButtonClick(this._closeButtonClickCallback);
     this._subscribeOnEvents();
   }
 
@@ -147,6 +150,8 @@ export default class FilmDetails extends AbstractSmartComponent {
   setOnFilmDetailsCloseButtonClick(cb) {
     this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, cb);
+
+    this._closeButtonClickCallback = cb;
   }
 
   setOnAddToWatchlistButtonClick(cb) {
