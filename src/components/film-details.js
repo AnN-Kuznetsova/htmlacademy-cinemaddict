@@ -26,10 +26,15 @@ export default class FilmDetails extends AbstractSmartComponent {
 
     element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, (evt) => {
-        /* this._newComment.emojiTitle = evt.target.value;
-        this._newComment.emojiUrl = EMOJIS[this._newComment.emojiTitle]; */
+        this._newComment.emojiTitle = evt.target.value;
+        this._newComment.emojiUrl = EMOJIS[this._newComment.emojiTitle];
 
         this.rerender();
+      });
+
+    element.querySelector(`.film-details__comment-input`)
+      .addEventListener(`input`, (evt) => {
+        this._newComment.text = evt.target.value;
       });
   }
 

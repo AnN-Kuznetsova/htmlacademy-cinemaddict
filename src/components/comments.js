@@ -15,7 +15,7 @@ export default class Comments extends AbstractComponent {
     const {emojiTitle, emojiUrl} = newComment;
 
     return (emojiTitle && emojiUrl) ?
-      `<img src="${emojiUrl}" width="55" height="55" alt="emoji-${emojiTitle}">` :
+      `<img src="./images/emoji/${emojiUrl}" width="55" height="55" alt="emoji-${emojiTitle}">` :
       ``;
   }
 
