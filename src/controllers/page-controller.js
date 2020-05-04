@@ -6,6 +6,7 @@ import FilmsBoard from "../components/films-board.js";
 import FooterStatistics from "../components/footer-statistics.js";
 import FilmsBoardController from "./films-board-controller.js";
 import {render, RenderPosition} from "../utils/render.js";
+import {arrayDataChange} from "../utils/common.js";
 
 
 const siteHeaderElement = document.body.querySelector(`.header`);
@@ -19,15 +20,22 @@ export default class PageController {
     this._films = films;
     this._filmsFilters = filmsFilters;
 
+    this._onFilmsChange = this._onFilmsChange.bind(this);
+
     this._siteMenuComponent = new SiteMenu();
     this._userRankComponent = new UserRank(this._filmsFilters);
     this._filtersComponent = new Filters(this._filmsFilters);
     this._sortComponent = new Sort();
     this._filmsBoardComponent = new FilmsBoard();
     this._footerStatisticsComponent = new FooterStatistics(this._films.length);
-    this._filmsBoardController = new FilmsBoardController(this._filmsBoardComponent);
+    this._filmsBoardController = new FilmsBoardController(this._filmsBoardComponent, this._onFilmsChange);
 
     this._sortedFilms = [];
+  }
+
+
+  _onFilmsChange(oldData, newData) {
+    this._films = arrayDataChange(this._films, oldData, newData).array;
   }
 
 

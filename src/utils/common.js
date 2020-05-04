@@ -44,10 +44,24 @@ const onEscPress = (evt, action) => {
   }
 };
 
+const arrayDataChange = (array, oldData, newData) => {
+  const index = array.findIndex((it) => it === oldData);
+
+  if (index !== -1) {
+    array = [].concat(array.slice(0, index), newData, array.slice(index + 1));
+  }
+
+  return {
+    array,
+    index,
+  };
+};
+
 
 export {
   onEscPress,
   formatDateToString,
   formatDateWithSlash,
   formatTime,
+  arrayDataChange,
 };

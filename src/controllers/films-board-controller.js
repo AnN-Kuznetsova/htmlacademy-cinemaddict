@@ -6,6 +6,7 @@ import ShowMoreButton from "../components/show-more-button.js";
 import FilmController from "./film-controller.js";
 import {render, RenderPosition, remove} from "../utils/render.js";
 import {SortType} from "../sorting.js";
+import {arrayDataChange} from "../utils/common.js";
 
 
 const SHOWING_FILMS_COUNT_ON_START = 5;
@@ -18,8 +19,9 @@ const filmsListsExtra = [
 
 
 export default class FilmsBoardController {
-  constructor(filmsBoardComponent) {
+  constructor(filmsBoardComponent, onFilmsChange) {
     this._filmsBoardComponent = filmsBoardComponent;
+    this._onFilmsChange = onFilmsChange;
 
     this._filmsListComponent = new FilmsList();
 
@@ -35,15 +37,19 @@ export default class FilmsBoardController {
     const filmControllers = this._showingFilmControllers
       .filter((filmController) => filmController.film === oldData);
 
-    const index = this._films.findIndex((it) => it === oldData);
+    /* const index = this._films.findIndex((it) => it === oldData);
 
     if (index === -1) {
       return;
     }
 
-    this._films = [].concat(this._films.slice(0, index), newData, this._films.slice(index + 1));
+    this._films = [].concat(this._films.slice(0, index), newData, this._films.slice(index + 1)); */
+    const newArray = arrayDataChange(this._films, oldData, newData);
+    const index = newArray.index;
+    this._films = newArray.array;
 
     filmControllers.forEach((filmController) => filmController.render(this._films[index]));
+    this._onFilmsChange(oldData, newData);
   }
 
 
@@ -65,7 +71,27 @@ export default class FilmsBoardController {
   }
 
 
-  _renderFilmsList(filmsListComponent, films, isExtra = false, title = ``) {
+  /* _renderShowMoreButton(films = this._films) {
+    if (films.length > SHOWING_FILMS_COUNT_ON_START) {
+      const showMoreButtonComponent = new ShowMoreButton();
+      render(filmsListComponent.getElement(), showMoreButtonComponent, RenderPosition.BEFOREEND);
+
+      const onShowMoreButtonClick = () => {
+        const prevFilmsCount = showingFilmsCount;
+        showingFilmsCount += SHOWING_FILMS_COUNT_BY_BUTTON;
+        this._renderFilms(filmsListContainerComponent, films.slice(prevFilmsCount, showingFilmsCount), this._onDataChange, this._onViewChange);
+
+        if (showingFilmsCount >= films.length) {
+          remove(showMoreButtonComponent);
+        }
+      };
+
+      showMoreButtonComponent.setOnShowMoreButtonClick(onShowMoreButtonClick);
+    }
+  } */
+
+
+  _renderFilmsList(filmsListComponent, films, isExtra = false, title = ``) { // (component, strategy)
     if (!films.length) {
       render(filmsListComponent.getElement(), new FilmsListTitle(`There are no movies in our database`), RenderPosition.AFTERBEGIN);
       return;
@@ -80,7 +106,7 @@ export default class FilmsBoardController {
     render(filmsListComponent.getElement(), filmsListContainerComponent, RenderPosition.BEFOREEND);
 
     let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
-    this._renderFilms(filmsListContainerComponent, films.slice(0, showingFilmsCount), this._onDataChange, this._onViewChange);
+    this._renderFilms(filmsListContainerComponent, films.slice(0, showingFilmsCount), this._onDataChange, this._onViewChange); // sort here
 
     if (films.length > SHOWING_FILMS_COUNT_ON_START) {
       const showMoreButtonComponent = new ShowMoreButton();
@@ -89,7 +115,7 @@ export default class FilmsBoardController {
       const onShowMoreButtonClick = () => {
         const prevFilmsCount = showingFilmsCount;
         showingFilmsCount += SHOWING_FILMS_COUNT_BY_BUTTON;
-        this._renderFilms(filmsListContainerComponent, films.slice(prevFilmsCount, showingFilmsCount), this._onDataChange, this._onViewChange);
+        this._renderFilms(filmsListContainerComponent, films.slice(prevFilmsCount, showingFilmsCount), this._onDataChange, this._onViewChange); // sort here
 
         if (showingFilmsCount >= films.length) {
           remove(showMoreButtonComponent);
@@ -109,11 +135,11 @@ export default class FilmsBoardController {
     filmsBoardElement.innerHTML = ``;
     this._filmsListComponent.getElement().innerHTML = ``;
     render(filmsBoardElement, this._filmsListComponent, RenderPosition.BEFOREEND);
-    this._renderFilmsList(this._filmsListComponent, films);
+    this._renderFilmsList(this._filmsListComponent, this._films);
 
-    if (films.length && filmsListsExtra) {
+    if (this._films.length && filmsListsExtra) {
       for (const list of filmsListsExtra) {
-        const filmsExtra = list.getFilmsExtra(films);
+        const filmsExtra = list.getFilmsExtra(this._films);
         if (filmsExtra) {
           const filmsListExtraComponent = new FilmsList(true);
           render(filmsBoardElement, filmsListExtraComponent, RenderPosition.BEFOREEND);
