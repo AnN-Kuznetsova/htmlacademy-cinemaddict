@@ -2,6 +2,7 @@ import AbstractSmartComponent from "./abstract-smart-component.js";
 import Genres from "./genres.js";
 import Comments from "./comments.js";
 import {formatDateToString} from "../utils/common.js";
+import {EMOJIS} from "../const.js";
 
 
 export default class FilmDetails extends AbstractSmartComponent {
@@ -9,6 +10,27 @@ export default class FilmDetails extends AbstractSmartComponent {
     super();
 
     this._film = film;
+
+    this._newComment = {
+      emojiTitle: null,
+      emojiUrl: null,
+      text: null,
+    };
+
+    this._subscribeOnEvents();
+  }
+
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+
+    element.querySelector(`.film-details__emoji-list`)
+      .addEventListener(`change`, (evt) => {
+        /* this._newComment.emojiTitle = evt.target.value;
+        this._newComment.emojiUrl = EMOJIS[this._newComment.emojiTitle]; */
+
+        this.rerender();
+      });
   }
 
 
@@ -30,7 +52,7 @@ export default class FilmDetails extends AbstractSmartComponent {
     const favoriteButton = this._createButtonMarkup(`favorite`, `Add to favorites`, isFavorite);
 
     const genreMarkup = new Genres(genre).getTemplate();
-    const commentsMarkup = new Comments(comments).getTemplate();
+    const commentsMarkup = new Comments(comments, this._newComment).getTemplate();
 
     return (
       `<section class="film-details">
@@ -113,7 +135,7 @@ export default class FilmDetails extends AbstractSmartComponent {
 
 
   recoveryListeners() {
-
+    this._subscribeOnEvents();
   }
 
 
