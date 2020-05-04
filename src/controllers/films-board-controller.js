@@ -31,7 +31,10 @@ export default class FilmsBoardController {
   }
 
 
-  _onDataChange(filmController, oldData, newData) {
+  _onDataChange(oldData, newData) {
+    const filmControllers = this._showingFilmControllers
+      .filter((filmController) => filmController.film === oldData);
+
     const index = this._films.findIndex((it) => it === oldData);
 
     if (index === -1) {
@@ -40,7 +43,7 @@ export default class FilmsBoardController {
 
     this._films = [].concat(this._films.slice(0, index), newData, this._films.slice(index + 1));
 
-    filmController.render(this._films[index]);
+    filmControllers.forEach((filmController) => filmController.render(this._films[index]));
   }
 
 
