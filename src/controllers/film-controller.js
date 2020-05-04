@@ -4,10 +4,19 @@ import {onEscPress} from "../utils/common.js";
 import {render, RenderPosition, removeElement} from "../utils/render.js";
 
 
+const Mode = {
+  CARD: `card`,
+  DETAILS: `details`,
+};
+
+
 export default class FilmController {
-  constructor(container, onDataChange) {
+  constructor(container, onDataChange, onViewChange) {
     this._container = container;
     this._onDataChange = onDataChange;
+    this._onViewChange = onViewChange;
+
+    this._mode = Mode.CARD;
 
     this._film = null;
     this._filmCardComponent = null;
@@ -25,11 +34,14 @@ export default class FilmController {
     this._filmDetailsComponent.reset();
     removeElement(this._filmDetailsComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
+    this._mode = Mode.CARD;
   }
 
   _openFilmDetailsPopup(filmDetailsComponent) {
+    this._onViewChange();
     render(document.body, filmDetailsComponent, RenderPosition.BEFOREEND);
     document.addEventListener(`keydown`, this._onEscKeyDown);
+    this._mode = Mode.DETAILS;
   }
 
 
@@ -78,5 +90,12 @@ export default class FilmController {
     this._filmDetailsComponent.setOnFavoriteButtonClick(onFavoriteButtonClick);
 
     render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
+  }
+
+
+  setDefaultView() {
+    if (this._mode !== Mode.CARD) {
+      this._closeFilmDetailsPopup();
+    }
   }
 }
