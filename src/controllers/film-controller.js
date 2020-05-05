@@ -32,11 +32,15 @@ export default class FilmController {
 
   _closeFilmDetailsPopup() {
     const filmSettings = this._filmDetailsComponent.getFilmSettings();
-    this._onDataChange(this._film, Object.assign({}, this._film, {
-      isAddToWatchlist: filmSettings.isAddToWatchlist,
-      isMarkAsWatched: filmSettings.isMarkAsWatched,
-      isFavorite: filmSettings.isFavorite,
-    }));
+    if ((this._film.isAddToWatchlist !== filmSettings.isAddToWatchlist) ||
+      (this._film.isMarkAsWatched !== filmSettings.isMarkAsWatched) ||
+      (this._film.isFavorite !== filmSettings.isFavorite)) {
+      this._onDataChange(this._film, Object.assign({}, this._film, {
+        isAddToWatchlist: filmSettings.isAddToWatchlist,
+        isMarkAsWatched: filmSettings.isMarkAsWatched,
+        isFavorite: filmSettings.isFavorite,
+      }));
+    }
 
     this._filmDetailsComponent.reset();
     removeElement(this._filmDetailsComponent);
