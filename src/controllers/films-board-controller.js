@@ -1,19 +1,9 @@
-import FilmsListController from "./films-list-conrtoller.js";
+/* import FilmsListController from "./films-list-conrtoller.js";
 import {SortType} from "../sorting.js";
 import {arrayDataChange} from "../utils/common.js";
 
 
-/* const filmsListsControllers = [
-  new FilmsListController(``, SortType.DEFAULT),
-  new FilmsListController(`Top rated`, SortType.BY_RATING, true),
-  new FilmsListController(`Most commented`, SortType.BY_COMMENTS_COUNT, true),
-]; */
-/* const filmsLists = [
-  [`Default`, SortType.DEFAULT],
-  [`Top rated`, SortType.BY_RATING, true],
-  [`Most commented`, SortType.BY_COMMENTS_COUNT, true],
-]; */
-const Mode = {
+const ListMode = {
   DEFAULT: `default`,
   EXTRA: `extra`,
 };
@@ -22,14 +12,14 @@ class List {
   constructor(title, sortType, mode) {
     this.title = title;
     this.sortType = sortType;
-    this.isExtra = (mode === Mode.EXTRA);
+    this.isExtra = (mode === ListMode.EXTRA);
   }
 }
 
 const filmsLists = [
-  new List(`Default`, SortType.DEFAULT, Mode.DEFAULT),
-  new List(`Top rated`, SortType.BY_RATING, Mode.EXTRA),
-  new List(`Most commented`, SortType.BY_COMMENTS_COUNT, Mode.EXTRA),
+  new List(`Default`, SortType.DEFAULT, ListMode.DEFAULT),
+  new List(`Top rated`, SortType.BY_RATING, ListMode.EXTRA),
+  new List(`Most commented`, SortType.BY_COMMENTS_COUNT, ListMode.EXTRA),
 ];
 
 
@@ -82,3 +72,4 @@ export default class FilmsBoardController {
     });
   }
 }
+ */
