@@ -1,8 +1,4 @@
-// import FilmsListExtra from "../components/films-list-extra.js";
 import FilmsListController from "./films-list-conrtoller.js";
-
-
-
 import {SortType} from "../sorting.js";
 import {arrayDataChange} from "../utils/common.js";
 

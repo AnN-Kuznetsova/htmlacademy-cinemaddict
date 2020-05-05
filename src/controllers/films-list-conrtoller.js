@@ -4,14 +4,12 @@ import FilmsListContainer from "../components/films-list-container.js";
 import ShowMoreButton from "../components/show-more-button.js";
 import FilmController from "./film-controller.js";
 import {render, RenderPosition, remove} from "../utils/render.js";
-import {FILM_CARD_EXTRA_COUNT} from "../const.js";
+import {FILM_CARD_EXTRA_COUNT,
+  SHOWING_FILMS_COUNT_ON_START,
+  SHOWING_FILMS_COUNT_BY_BUTTON} from "../const.js";
 import {getRandomIntegerNumber} from "../utils/random.js";
 import {getFieldFinder, getSortFilms} from "../sorting.js";
 import {arrayDataChange} from "../utils/common.js";
-
-
-const SHOWING_FILMS_COUNT_ON_START = 5;
-const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 
 export default class FilmsListController {
@@ -27,9 +25,13 @@ export default class FilmsListController {
     this._listFilms = [];
     this._showingFilmControllers = [];
     this._selectionFieldFinder = getFieldFinder(this._sortType);
+    this._filmsExtraCount = FILM_CARD_EXTRA_COUNT;
+    this._showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
+    this._showingFilmsCountByButton = SHOWING_FILMS_COUNT_BY_BUTTON;
 
     this._filmsListComponent = null;
     this._filmsListContainerComponent = null;
+    this._showMoreButtonComponent = null;
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
@@ -46,13 +48,12 @@ export default class FilmsListController {
 
 
   _getTopFilms(sortedFilms, topFilms = []) {
-    const filmsExtraCount = FILM_CARD_EXTRA_COUNT;
     const maxElement = this._selectionFieldFinder(sortedFilms[0]);
     const filteredFilms = sortedFilms.filter((film) => (this._selectionFieldFinder(film) === maxElement));
 
-    if ((topFilms.length + filteredFilms.length) >= filmsExtraCount) {
-      while (topFilms.length < filmsExtraCount) {
-        topFilms.push(...filteredFilms.splice(getRandomIntegerNumber(filmsExtraCount - filteredFilms.length), 1));
+    if ((topFilms.length + filteredFilms.length) >= this._filmsExtraCount) {
+      while (topFilms.length < this._filmsExtraCount) {
+        topFilms.push(...filteredFilms.splice(getRandomIntegerNumber(this._filmsExtraCount - filteredFilms.length), 1));
       }
     } else {
       topFilms.splice(topFilms.length, 0, ...filteredFilms.slice());
@@ -94,6 +95,24 @@ export default class FilmsListController {
   }
 
 
+  _renderShowMoreButton() {
+    this._showMoreButtonComponent = new ShowMoreButton();
+    render(this._filmsListComponent.getElement(), this._showMoreButtonComponent, RenderPosition.BEFOREEND);
+
+    const onShowMoreButtonClick = () => {
+      const prevFilmsCount = this._showingFilmsCount;
+      this._showingFilmsCount += this._showingFilmsCountByButton;
+      this._renderFilms(this._listFilms.slice(prevFilmsCount, this._showingFilmsCount), this._onDataChange, this._onViewChange); // sort here
+
+      if (this._showingFilmsCount >= this._listFilms.length) {
+        remove(this._showMoreButtonComponent);
+      }
+    };
+
+    this._showMoreButtonComponent.setOnShowMoreButtonClick(onShowMoreButtonClick);
+  }
+
+
   _renderFilmsList() { // (component, strategy)
     const filmsListElement = this._filmsListComponent.getElement();
 
@@ -108,25 +127,11 @@ export default class FilmsListController {
     this._filmsListContainerComponent = new FilmsListContainer();
     render(filmsListElement, this._filmsListContainerComponent, RenderPosition.BEFOREEND);
 
-    let showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
-    this._renderFilms(this._listFilms.slice(0, showingFilmsCount), this._onDataChange, this._onViewChange); // sort here
+    this._renderFilms(this._listFilms.slice(0, this._showingFilmsCount), this._onDataChange, this._onViewChange); // sort here
 
-  /*  if (films.length > SHOWING_FILMS_COUNT_ON_START) {
-      const showMoreButtonComponent = new ShowMoreButton();
-      render(filmsListElement, showMoreButtonComponent, RenderPosition.BEFOREEND);
-
-      const onShowMoreButtonClick = () => {
-        const prevFilmsCount = showingFilmsCount;
-        showingFilmsCount += SHOWING_FILMS_COUNT_BY_BUTTON;
-        this._renderFilms(filmsListContainerComponent, films.slice(prevFilmsCount, showingFilmsCount), this._onDataChange, this._onViewChange); // sort here
-
-        if (showingFilmsCount >= films.length) {
-          remove(showMoreButtonComponent);
-        }
-      };
-
-      showMoreButtonComponent.setOnShowMoreButtonClick(onShowMoreButtonClick);
-    } */
+    if (this._listFilms.length > SHOWING_FILMS_COUNT_ON_START) {
+      this._renderShowMoreButton();
+    }
   }
 
 
