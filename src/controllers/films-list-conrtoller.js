@@ -4,7 +4,6 @@ import FilmsListContainer from "../components/films-list-container.js";
 import ShowMoreButton from "../components/show-more-button.js";
 import FilmController from "./film-controller.js";
 import {render, RenderPosition, remove} from "../utils/render.js";
-
 import {FILM_CARD_EXTRA_COUNT} from "../const.js";
 import {getRandomIntegerNumber} from "../utils/random.js";
 import {getFieldFinder, getSortFilms} from "../sorting.js";
@@ -16,41 +15,30 @@ const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 
 export default class FilmsListController {
-  constructor(container, title, sortType, isExtra, onDataChange, onFilmsListViewChange) {
+  constructor(container, title, sortType, isExtra, onFilmsListDataChange, onFilmsListViewChange) {
     this._container = container;
     this._listTitle = isExtra ? title : `All movies. Upcoming`;
     this._isTitleVisually = isExtra;
     this._sortType = sortType;
     this._isExtra = isExtra;
+    this._onFilmsListDataChange = onFilmsListDataChange;
     this._onFilmsListViewChange = onFilmsListViewChange;
 
+    this._listFilms = [];
+    this._showingFilmControllers = [];
     this._selectionFieldFinder = getFieldFinder(this._sortType);
 
     this._filmsListComponent = null;
     this._filmsListContainerComponent = null;
 
-    this._listFilms = [];
-    this._showingFilmControllers = [];
-
-    //this._onDataChange = this._onDataChange.bind(this);
-    this._onDataChange = onDataChange;
+    this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
   }
 
 
-  /* _onDataChange(oldData, newData) {
-    const filmControllers = this._showingFilmControllers
-      .filter((filmController) => filmController.film === oldData);
-
-    const newArray = arrayDataChange(this._films, oldData, newData);
-    const index = newArray.index;
-    this._films = newArray.array;
-
-    filmControllers.forEach((filmController) => filmController.render(this._films[index]));
-    this._onFilmsChange(oldData, newData);
-
-  } */
-
+  _onDataChange(oldData, newData) {
+    this._onFilmsListDataChange(oldData, newData);
+  }
 
   _onViewChange() {
     this._onFilmsListViewChange();
@@ -92,10 +80,6 @@ export default class FilmsListController {
     return listFilms;
   }
 
-  /* get title() {
-    return this._title;
-  } */
-
 
   _renderFilms(films, onDataChange, onViewChange) {
     const newFilmControllers = films.map((film) => {
@@ -110,7 +94,7 @@ export default class FilmsListController {
   }
 
 
-  _renderFilmsList(/* filmsListComponent, films, isExtra = false, title = `` */) { // (component, strategy)
+  _renderFilmsList() { // (component, strategy)
     const filmsListElement = this._filmsListComponent.getElement();
 
     if (!this._listFilms.length) {
@@ -152,8 +136,24 @@ export default class FilmsListController {
     if (!(this._isExtra && !this._listFilms)) {
       this._filmsListComponent = new FilmsList(this._isExtra);
       render(this._container, this._filmsListComponent, RenderPosition.BEFOREEND);
-      //this._renderFilmsList(list, listFilms, list.isExtra, list.title);
       this._renderFilmsList();
+    }
+  }
+
+
+  setDataChange(oldData, newData) {
+    const newArray = arrayDataChange(this._listFilms, oldData, newData);
+    const index = newArray.index;
+    this._listFilms = newArray.array;
+
+    if (index === -1) {
+      return;
+    }
+
+    for (const filmController of this._showingFilmControllers) {
+      if (filmController.film === oldData) {
+        filmController.render(this._listFilms[index]);
+      }
     }
   }
 
