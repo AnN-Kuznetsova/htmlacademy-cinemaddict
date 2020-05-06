@@ -15,6 +15,12 @@ const ListMode = {
   EXTRA: `extra`,
 };
 
+const ListName = {
+  DEFAULT: `DEFAULT`,
+  TOP_RATING: `TOP_RATING`,
+  MOST_COMMENTED: `MOST_COMMENTED`,
+};
+
 class List {
   constructor(title, sortType, mode) {
     this.title = title;
@@ -23,11 +29,11 @@ class List {
   }
 }
 
-const filmsLists = [
-  new List(`Default`, SortType.DEFAULT, ListMode.DEFAULT),
-  new List(`Top rated`, SortType.BY_RATING, ListMode.EXTRA),
-  new List(`Most commented`, SortType.BY_COMMENTS_COUNT, ListMode.EXTRA),
-];
+const FilmsLists = {
+  [ListName.DEFAULT]: new List(`Default`, SortType.DEFAULT, ListMode.DEFAULT),
+  [ListName.TOP_RATING]: new List(`Top rated`, SortType.BY_RATING, ListMode.EXTRA),
+  [ListName.MOST_COMMENTED]: new List(`Most commented`, SortType.BY_COMMENTS_COUNT, ListMode.EXTRA),
+};
 
 
 const siteHeaderElement = document.body.querySelector(`.header`);
@@ -58,8 +64,15 @@ export default class PageController {
 
 
   _onSortTypeChange() {
-    this._sortedFilms = this._sortComponent.getSortedFilms(this._films);
-    this._renderFilmsBoardController();
+    const newSortType = this._sortComponent.getSortType();
+
+    for (const listController of this._filmsListsControllers) {
+      if (listController.name === ListName.DEFAULT) {
+        listController.sortType = newSortType;
+        listController.render(this._films);
+        break;
+      }
+    }
   }
 
 
@@ -77,21 +90,19 @@ export default class PageController {
 
 
   _renderFilmsBoardController() {
-    this._showingFilmControllers = [];
-
     const filmsBoardElement = this._filmsBoardComponent.getElement();
     filmsBoardElement.innerHTML = ``;
+
+    const filmsLists = Object.entries(FilmsLists);
 
     if (!filmsLists.length) {
       return;
     }
 
     this._filmsListsControllers = filmsLists.map((list) => {
-      const {title, sortType, isExtra} = list;
-      const filmsListController = new FilmsListController(filmsBoardElement, title, sortType, isExtra, this._onFilmsDataChange, this._onFilmsListViewChange);
-
+      const [listName, {title, sortType, isExtra}] = list;
+      const filmsListController = new FilmsListController(filmsBoardElement, listName, title, sortType, isExtra, this._onFilmsDataChange, this._onFilmsListViewChange);
       filmsListController.render(this._films);
-
       return filmsListController;
     });
   }

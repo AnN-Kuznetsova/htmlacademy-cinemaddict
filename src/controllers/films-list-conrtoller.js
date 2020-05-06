@@ -13,8 +13,9 @@ import {arrayDataChange} from "../utils/common.js";
 
 
 export default class FilmsListController {
-  constructor(container, title, sortType, isExtra, onFilmsDataChange, onFilmsListViewChange) {
+  constructor(container, listName, title, sortType, isExtra, onFilmsDataChange, onFilmsListViewChange) {
     this._container = container;
+    this._listName = listName;
     this._listTitle = isExtra ? title : `All movies. Upcoming`;
     this._isTitleVisually = isExtra;
     this._sortType = sortType;
@@ -26,7 +27,7 @@ export default class FilmsListController {
     this._showingFilmControllers = [];
     this._selectionFieldFinder = getFieldFinder(this._sortType);
     this._filmsExtraCount = FILM_CARD_EXTRA_COUNT;
-    this._showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
+    this._showingFilmsCount = 0;
     this._showingFilmsCountByButton = SHOWING_FILMS_COUNT_BY_BUTTON;
 
     this._filmsListComponent = null;
@@ -113,8 +114,10 @@ export default class FilmsListController {
   }
 
 
-  _renderFilmsList() { // (component, strategy)
+  _renderFilmsList() {
     const filmsListElement = this._filmsListComponent.getElement();
+    filmsListElement.innerHTML = ``;
+    this._showingFilmControllers = [];
 
     if (!this._listFilms.length) {
       render(filmsListElement, new FilmsListTitle(`There are no movies in our database`), RenderPosition.AFTERBEGIN);
@@ -127,7 +130,7 @@ export default class FilmsListController {
     this._filmsListContainerComponent = new FilmsListContainer();
     render(filmsListElement, this._filmsListContainerComponent, RenderPosition.BEFOREEND);
 
-    this._renderFilms(this._listFilms.slice(0, this._showingFilmsCount), this._onDataChange, this._onViewChange); // sort here
+    this._renderFilms(this._listFilms.slice(0, this._showingFilmsCount), this._onDataChange, this._onViewChange);
 
     if (this._listFilms.length > SHOWING_FILMS_COUNT_ON_START) {
       this._renderShowMoreButton();
@@ -137,10 +140,13 @@ export default class FilmsListController {
 
   render(films) {
     this._listFilms = this._getFilms(films);
+    this._showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
 
     if (!(this._isExtra && !this._listFilms)) {
-      this._filmsListComponent = new FilmsList(this._isExtra);
-      render(this._container, this._filmsListComponent, RenderPosition.BEFOREEND);
+      if (!this._filmsListComponent) {
+        this._filmsListComponent = new FilmsList(this._isExtra);
+        render(this._container, this._filmsListComponent, RenderPosition.BEFOREEND);
+      }
       this._renderFilmsList();
     }
   }
@@ -158,6 +164,7 @@ export default class FilmsListController {
     for (const filmController of this._showingFilmControllers) {
       if (filmController.film === oldData) {
         filmController.render(this._listFilms[index]);
+        break;
       }
     }
   }
@@ -165,5 +172,13 @@ export default class FilmsListController {
 
   setDefaultView() {
     this._showingFilmControllers.forEach((it) => it.setDefaultView());
+  }
+
+  get name() {
+    return this._listName;
+  }
+
+  set sortType(newSortType) {
+    this._sortType = newSortType;
   }
 }
