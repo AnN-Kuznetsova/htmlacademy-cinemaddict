@@ -4,16 +4,12 @@ import Filters from "../components/filters.js";
 import Sort from "../components/sort.js";
 import FilmsBoard from "../components/films-board.js";
 import FooterStatistics from "../components/footer-statistics.js";
+import FilmsList from "../data-structure/films-list.js";
 import FilmsListController from "./films-list-conrtoller.js";
 import {render, RenderPosition} from "../utils/render.js";
 import {arrayDataChange} from "../utils/common.js";
-import {SortType} from "../sorting.js";
+import {SortType} from "../utils/sorting.js";
 
-
-const ListMode = {
-  DEFAULT: `default`,
-  EXTRA: `extra`,
-};
 
 const ListName = {
   DEFAULT: `DEFAULT`,
@@ -21,18 +17,10 @@ const ListName = {
   MOST_COMMENTED: `MOST_COMMENTED`,
 };
 
-class List {
-  constructor(title, sortType, mode) {
-    this.title = title;
-    this.sortType = sortType;
-    this.isExtra = (mode === ListMode.EXTRA);
-  }
-}
-
 const FilmsLists = {
-  [ListName.DEFAULT]: new List(`Default`, SortType.DEFAULT, ListMode.DEFAULT),
-  [ListName.TOP_RATING]: new List(`Top rated`, SortType.BY_RATING, ListMode.EXTRA),
-  [ListName.MOST_COMMENTED]: new List(`Most commented`, SortType.BY_COMMENTS_COUNT, ListMode.EXTRA),
+  [ListName.DEFAULT]: new FilmsList(`Default`, SortType.DEFAULT),
+  [ListName.TOP_RATING]: new FilmsList(`Top rated`, SortType.BY_RATING, true),
+  [ListName.MOST_COMMENTED]: new FilmsList(`Most commented`, SortType.BY_COMMENTS_COUNT, true),
 };
 
 

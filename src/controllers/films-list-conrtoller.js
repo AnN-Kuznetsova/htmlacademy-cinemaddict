@@ -8,7 +8,7 @@ import {FILM_CARD_EXTRA_COUNT,
   SHOWING_FILMS_COUNT_ON_START,
   SHOWING_FILMS_COUNT_BY_BUTTON} from "../const.js";
 import {getRandomIntegerNumber} from "../utils/random.js";
-import {getFieldFinder, getSortFilms} from "../sorting.js";
+import {getFieldFinder, getSortFilms} from "../utils/sorting.js";
 import {arrayDataChange} from "../utils/common.js";
 
 

@@ -1,4 +1,4 @@
-import Filter from "./components/filter.js";
+import Filter from "./data-structure/filter.js";
 import PageController from "./controllers/page-controller.js";
 import {generateFilms} from "./mock/film";
 
