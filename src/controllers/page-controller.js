@@ -5,6 +5,7 @@ import Sort from "../components/sort.js";
 import FilmsBoard from "../components/films-board.js";
 import FooterStatistics from "../components/footer-statistics.js";
 import FilmsList from "../data-structure/films-list.js";
+import Filter from "../data-structure/filter.js";
 import FilmsListController from "./films-list-conrtoller.js";
 import {render, RenderPosition} from "../utils/render.js";
 import {arrayDataChange} from "../utils/common.js";
@@ -12,15 +13,23 @@ import {SortType} from "../utils/sorting.js";
 
 
 const ListName = {
-  DEFAULT: `DEFAULT`,
-  TOP_RATING: `TOP_RATING`,
-  MOST_COMMENTED: `MOST_COMMENTED`,
+  DEFAULT: `default`,
+  TOP_RATING: `top-rating`,
+  MOST_COMMENTED: `most-commented`,
 };
 
-const FilmsLists = {
+const filmsLists = {
   [ListName.DEFAULT]: new FilmsList(`Default`, SortType.DEFAULT),
   [ListName.TOP_RATING]: new FilmsList(`Top rated`, SortType.BY_RATING, true),
   [ListName.MOST_COMMENTED]: new FilmsList(`Most commented`, SortType.BY_COMMENTS_COUNT, true),
+};
+
+
+const filmsFilters = {
+  all: new Filter(`All movies`, `filterDefaultFun`, true, true),
+  watchlist: new Filter(`Watchlist`, `filterAddToWatchlistFun`),
+  history: new Filter(`History`, `filterHistoryFun`),
+  favorites: new Filter(`Favorites`, `filterFavoritesFun`),
 };
 
 
@@ -31,16 +40,17 @@ const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statis
 
 
 export default class PageController {
-  constructor(films, filmsFilters) {
+  constructor(films) {
     this._films = films;
     this._filmsFilters = filmsFilters;
+    this._filmsLists = filmsLists;
 
     this._onFilmsDataChange = this._onFilmsDataChange.bind(this);
     this._onFilmsListViewChange = this._onFilmsListViewChange.bind(this);
 
     this._siteMenuComponent = new SiteMenu();
-    this._userRankComponent = new UserRank(this._filmsFilters);
-    this._filtersComponent = new Filters(this._filmsFilters);
+    this._userRankComponent = new UserRank(this._filmsFilters.history);
+    this._filtersComponent = new Filters(this._filmsFilters, this._films);
     this._sortComponent = new Sort();
     this._filmsBoardComponent = new FilmsBoard();
     this._footerStatisticsComponent = new FooterStatistics(this._films.length);
@@ -81,13 +91,13 @@ export default class PageController {
     const filmsBoardElement = this._filmsBoardComponent.getElement();
     filmsBoardElement.innerHTML = ``;
 
-    const filmsLists = Object.entries(FilmsLists);
+    const lists = Object.entries(this._filmsLists);
 
-    if (!filmsLists.length) {
+    if (!lists.length) {
       return;
     }
 
-    this._filmsListsControllers = filmsLists.map((list) => {
+    this._filmsListsControllers = lists.map((list) => {
       const [listName, {title, sortType, isExtra}] = list;
       const filmsListController = new FilmsListController(filmsBoardElement, listName, title, sortType, isExtra, this._onFilmsDataChange, this._onFilmsListViewChange);
       filmsListController.render(this._films);

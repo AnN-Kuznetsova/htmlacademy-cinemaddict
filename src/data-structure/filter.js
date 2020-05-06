@@ -1,10 +1,9 @@
 export default class Filter {
-  constructor(value, functionName, films, isDefault = false, isNotDisplayCount = false) {
+  constructor(value, functionName, isDefault = false, isNotDisplayCount = false) {
     this._value = value;
     this._isDefault = isDefault;
     this._isNotDisplayCount = isNotDisplayCount;
     this._functionName = `_${functionName}`;
-    this._filteredFilms = this[this._functionName](films);
   }
 
   _filterDefaultFun(films) {
@@ -39,7 +38,7 @@ export default class Filter {
     return this._functionName;
   }
 
-  get filteredFilms() {
-    return this._filteredFilms;
+  getFilteredFilms(films) {
+    return this[this._functionName](films);
   }
 }
