@@ -41,7 +41,7 @@ export default class PageController {
     this._films = films;
     this._filmsFilters = filmsFilters;
 
-    this._onFilmsListDataChange = this._onFilmsListDataChange.bind(this);
+    this._onFilmsDataChange = this._onFilmsDataChange.bind(this);
     this._onFilmsListViewChange = this._onFilmsListViewChange.bind(this);
 
     this._siteMenuComponent = new SiteMenu();
@@ -56,14 +56,6 @@ export default class PageController {
     this._filmsListsControllers = [];
   }
 
-/*
- *
- *
- */
-  /* _onFilmsChange(oldData, newData) {
-    this._films = arrayDataChange(this._films, oldData, newData).array;
-  } */
-
 
   _onSortTypeChange() {
     this._sortedFilms = this._sortComponent.getSortedFilms(this._films);
@@ -71,7 +63,7 @@ export default class PageController {
   }
 
 
-  _onFilmsListDataChange(oldData, newData) {
+  _onFilmsDataChange(oldData, newData) {
     const newArray = arrayDataChange(this._films, oldData, newData);
     this._films = newArray.array;
 
@@ -96,7 +88,7 @@ export default class PageController {
 
     this._filmsListsControllers = filmsLists.map((list) => {
       const {title, sortType, isExtra} = list;
-      const filmsListController = new FilmsListController(filmsBoardElement, title, sortType, isExtra, this._onFilmsListDataChange, this._onFilmsListViewChange);
+      const filmsListController = new FilmsListController(filmsBoardElement, title, sortType, isExtra, this._onFilmsDataChange, this._onFilmsListViewChange);
 
       filmsListController.render(this._films);
 
