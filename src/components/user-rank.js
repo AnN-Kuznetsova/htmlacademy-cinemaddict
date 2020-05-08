@@ -1,15 +1,15 @@
 import AbstractComponent from "./abstract-component.js";
 
 export default class UserRank extends AbstractComponent {
-  constructor(filters) {
+  constructor(filter) {
     super();
 
-    this._filters = filters;
+    this._filter = filter;
   }
 
   _getUserRank() {
     let userRank = ``;
-    const watchedFilmsCount = this._filters.history.filteredFilms.length;
+    const watchedFilmsCount = this._filter.getFilteredFilms.length;
     switch (true) {
       case ((watchedFilmsCount >= 1) && (watchedFilmsCount <= 10)):
         userRank = `Novice`;

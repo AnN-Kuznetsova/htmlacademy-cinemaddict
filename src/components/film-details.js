@@ -1,26 +1,89 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 import Genres from "./genres.js";
 import Comments from "./comments.js";
 import {formatDateToString} from "../utils/common.js";
+import {EMOJIS} from "../const.js";
 
-export default class FilmDetails extends AbstractComponent {
+
+export default class FilmDetails extends AbstractSmartComponent {
   constructor(film) {
     super();
 
     this._film = film;
+
+    this._filmSettings = {
+      isAddToWatchlist: film.isAddToWatchlist,
+      isMarkAsWatched: film.isMarkAsWatched,
+      isFavorite: film.isFavorite,
+    };
+
+    this._newComment = {
+      emojiTitle: null,
+      emojiUrl: null,
+      text: null,
+    };
+
+    this._closeButtonClickCallback = null;
+
+
+    this._subscribeOnEvents();
   }
 
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+
+    element.querySelector(`.film-details__emoji-list`)
+      .addEventListener(`change`, (evt) => {
+        this._newComment.emojiTitle = evt.target.value;
+        this._newComment.emojiUrl = EMOJIS[this._newComment.emojiTitle];
+
+        this.rerender();
+      });
+
+    element.querySelector(`.film-details__comment-input`)
+      .addEventListener(`input`, (evt) => {
+        this._newComment.text = evt.target.value;
+      });
+
+
+    element.querySelector(`#watchlist`)
+      .addEventListener(`click`, () => {
+        this._filmSettings.isAddToWatchlist = !this._filmSettings.isAddToWatchlist;
+      });
+
+    element.querySelector(`#watched`)
+      .addEventListener(`click`, () => {
+        this._filmSettings.isMarkAsWatched = !this._filmSettings.isMarkAsWatched;
+      });
+
+    element.querySelector(`#favorite`)
+      .addEventListener(`click`, () => {
+        this._filmSettings.isFavorite = !this._filmSettings.isFavorite;
+      });
+  }
+
+
+  _createButtonMarkup(name, value, isActive = true) {
+    return (
+      `<input type="checkbox" class="film-details__control-input visually-hidden" id="${name}" name="${name}" ${isActive ? `checked` : ``}>
+      <label for="${name}" class="film-details__control-label film-details__control-label--${name}">${value}</label>`
+    );
+  }
+
+
   getTemplate() {
-    const {title, originalTitle, rating, director, writers, actors, releaseDate, duration, country, genre, poster, description, age, isAddToWatchlist, isMarkAsWatched, isFavorite, comments} = this._film;
+    const {title, originalTitle, rating, director, writers, actors, releaseDate, duration, country, genre, poster, description, age, comments} = this._film;
+    const {isAddToWatchlist, isMarkAsWatched, isFavorite} = this._filmSettings;
 
     const releaseDateFormat = formatDateToString(releaseDate);
 
-    const addToWatchlistButtonIsActive = isAddToWatchlist ? `checked` : ``;
-    const markAsWatchedButtonIsActive = isMarkAsWatched ? `checked` : ``;
-    const favoriteButtonIsActive = isFavorite ? `checked` : ``;
+    const addToWatchlistButton = this._createButtonMarkup(`watchlist`, `Add to watchlist`, isAddToWatchlist);
+    const markAsWatchedButton = this._createButtonMarkup(`watched`, `Already watched`, isMarkAsWatched);
+    const favoriteButton = this._createButtonMarkup(`favorite`, `Add to favorites`, isFavorite);
 
     const genreMarkup = new Genres(genre).getTemplate();
-    const commentsMarkup = new Comments(comments).getTemplate();
+    const commentsMarkup = new Comments(comments, this._newComment).getTemplate();
 
     return (
       `<section class="film-details">
@@ -87,14 +150,9 @@ export default class FilmDetails extends AbstractComponent {
             </div>
 
             <section class="film-details__controls">
-              <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${addToWatchlistButtonIsActive}>
-              <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
-
-              <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${markAsWatchedButtonIsActive}>
-              <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-
-              <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${favoriteButtonIsActive}>
-              <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
+              ${addToWatchlistButton}
+              ${markAsWatchedButton}
+              ${favoriteButton}
             </section>
           </div>
 
@@ -106,8 +164,32 @@ export default class FilmDetails extends AbstractComponent {
     );
   }
 
+
+  reset() {
+    this._newComment = {
+      emojiTitle: null,
+      emojiUrl: null,
+      text: null,
+    };
+
+    this.rerender();
+  }
+
+  getFilmSettings() {
+    return this._filmSettings;
+  }
+
+
+  recoveryListeners() {
+    this.setOnFilmDetailsCloseButtonClick(this._closeButtonClickCallback);
+    this._subscribeOnEvents();
+  }
+
+
   setOnFilmDetailsCloseButtonClick(cb) {
     this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, cb);
+
+    this._closeButtonClickCallback = cb;
   }
 }

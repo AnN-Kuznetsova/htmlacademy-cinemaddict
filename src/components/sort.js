@@ -1,5 +1,5 @@
 import AbstractComponent from "./abstract-component.js";
-import {SortType, getSortFilms} from "../sorting.js";
+import {SortType} from "../utils/sorting.js";
 
 
 export default class Sort extends AbstractComponent {
@@ -48,9 +48,5 @@ export default class Sort extends AbstractComponent {
     };
 
     this.getElement().addEventListener(`click`, onSortTypeButtonClick);
-  }
-
-  getSortedFilms(films) {
-    return getSortFilms(films, this._currentSortType);
   }
 }

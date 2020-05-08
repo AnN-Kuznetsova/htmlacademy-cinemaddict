@@ -2,11 +2,21 @@ import AbstractComponent from "./abstract-component.js";
 import {formatDateWithSlash, formatTime} from "../utils/common.js";
 import {EMOJIS} from "../const.js";
 
+
 export default class Comments extends AbstractComponent {
-  constructor(comments) {
+  constructor(comments, newComment = null) {
     super();
 
     this._comments = comments;
+    this._newComment = newComment;
+  }
+
+  _createNewCommentEmojiMarkup(newComment) {
+    const {emojiTitle, emojiUrl} = newComment;
+
+    return (emojiTitle && emojiUrl) ?
+      `<img src="./images/emoji/${emojiUrl}" width="55" height="55" alt="emoji-${emojiTitle}">` :
+      ``;
   }
 
   _createEmojiListMarkup(emojis) {
@@ -57,6 +67,9 @@ export default class Comments extends AbstractComponent {
     const commentsMarkup = this._createCommentsMarkup(this._comments);
     const emojiListMarkup = this._createEmojiListMarkup(EMOJIS);
 
+    const newCommentEmojiMarkup = this._createNewCommentEmojiMarkup(this._newComment);
+    const newCommentText = this._newComment.text ? this._newComment.text : ``;
+
     return (
       `<section class="film-details__comments-wrap">
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
@@ -66,10 +79,12 @@ export default class Comments extends AbstractComponent {
         </ul>
 
         <div class="film-details__new-comment">
-          <div for="add-emoji" class="film-details__add-emoji-label"></div>
+          <div for="add-emoji" class="film-details__add-emoji-label">
+            ${newCommentEmojiMarkup}
+          </div>
 
           <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${newCommentText}</textarea>
           </label>
 
           ${emojiListMarkup}
