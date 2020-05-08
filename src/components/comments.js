@@ -39,7 +39,7 @@ export default class Comments extends AbstractComponent {
   _createCommentMarkup(comment) {
     const {text, emoji, author, dayAndTime} = comment;
     const [emojiTitle, emojiUrl] = emoji;
-    const dayAndTimeFormat = `${formatDateWithSlash(dayAndTime)} ${formatTime(dayAndTime)}`;
+    const dayAndTimeFormat = ``;// `${formatDateWithSlash(dayAndTime)} ${formatTime(dayAndTime)}`;
 
     return (
       `<li class="film-details__comment">

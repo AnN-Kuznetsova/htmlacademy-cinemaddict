@@ -1,8 +1,8 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import Genres from "./genres.js";
 import Comments from "./comments.js";
-import {formatDuration, formatDateToString} from "../utils/common.js";
-import {EMOJIS} from "../const.js";
+import {formatDurationTime, fromatDate} from "../utils/common.js";
+import {EMOJIS, DateTimeFormat} from "../const.js";
 
 
 export default class FilmDetails extends AbstractSmartComponent {
@@ -76,7 +76,8 @@ export default class FilmDetails extends AbstractSmartComponent {
     const {title, originalTitle, rating, director, writers, actors, releaseDate, duration, country, genre, poster, description, age, comments} = this._film;
     const {isAddToWatchlist, isMarkAsWatched, isFavorite} = this._filmSettings;
 
-    const releaseDateFormat = formatDateToString(releaseDate);
+    const releaseDateFormat = fromatDate(releaseDate, DateTimeFormat.RELEASE_DATE_FORMAT_FULL);
+    const durationFormat = formatDurationTime(duration);
 
     const addToWatchlistButton = this._createButtonMarkup(`watchlist`, `Add to watchlist`, isAddToWatchlist);
     const markAsWatchedButton = this._createButtonMarkup(`watched`, `Already watched`, isMarkAsWatched);
@@ -130,7 +131,7 @@ export default class FilmDetails extends AbstractSmartComponent {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Runtime</td>
-                    <td class="film-details__cell">${formatDuration(duration)}</td>
+                    <td class="film-details__cell">${durationFormat}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Country</td>

@@ -1,5 +1,5 @@
 import moment from "moment";
-import {DATE_TIME_FORMAT} from "../const.js";
+import {DateTimeFormat} from "../const.js";
 
 
 const MonthFormat = {
@@ -17,13 +17,17 @@ const MonthFormat = {
   11: `December`,
 };
 
-const formatDuration = (duration) => {
+const formatDurationTime = (duration) => {
   const momentDuration = moment.duration(duration, `minutes`);
   const date = moment().startOf(`day`);
-  return date.add(momentDuration).format(DATE_TIME_FORMAT.duration);
+  return date.add(momentDuration).format(DateTimeFormat.DURATION);
 };
 
-const castDateFormat = (value) => {
+const fromatDate = (date, dateFormat) => {
+  return moment(date).format(dateFormat);
+};
+
+/* const castDateFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
 
@@ -45,7 +49,7 @@ const formatDateWithSlash = (date) => {
   const month = castDateFormat(date.getMonth() + 1);
   const day = castDateFormat(date.getDate());
   return `${year}/${month}/${day}`;
-};
+}; */
 
 const onEscPress = (evt, action) => {
   const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
@@ -70,9 +74,10 @@ const arrayDataChange = (array, oldData, newData) => {
 
 export {
   onEscPress,
-  formatDateToString,
+  /* formatDateToString,
   formatDateWithSlash,
-  formatTime,
+  formatTime, */
   arrayDataChange,
-  formatDuration,
+  formatDurationTime,
+  fromatDate,
 };

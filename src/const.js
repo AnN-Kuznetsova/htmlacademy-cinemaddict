@@ -10,8 +10,10 @@ const EMOJIS = {
   angry: `angry.png`,
 };
 
-const DATE_TIME_FORMAT = {
-  duration: `H[h] mm[mm]`,
+const DateTimeFormat = {
+  DURATION: `H[h] mm[mm]`,
+  RELEASE_DATE_FORMAT_SHORT: `YYYY`,
+  RELEASE_DATE_FORMAT_FULL: `DD MMMM YYYY`,
 };
 
 export {
@@ -20,5 +22,5 @@ export {
   SHOWING_FILMS_COUNT_ON_START,
   SHOWING_FILMS_COUNT_BY_BUTTON,
   EMOJIS,
-  DATE_TIME_FORMAT,
+  DateTimeFormat,
 };
