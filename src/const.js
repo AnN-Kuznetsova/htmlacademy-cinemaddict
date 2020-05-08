@@ -12,8 +12,9 @@ const EMOJIS = {
 
 const DateTimeFormat = {
   DURATION: `H[h] mm[mm]`,
-  RELEASE_DATE_FORMAT_SHORT: `YYYY`,
-  RELEASE_DATE_FORMAT_FULL: `DD MMMM YYYY`,
+  DATE_SHORT: `YYYY`,
+  DATE_FULL: `DD MMMM YYYY`,
+  DATE_AND_TIME: `YYYY/MM/DD HH:mm`,
 };
 
 export {

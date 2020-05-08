@@ -1,6 +1,6 @@
 import AbstractComponent from "./abstract-component.js";
 import {MAX_DESCRIPTION_LENGTH, DateTimeFormat} from "../const.js";
-import {formatDurationTime, fromatDate} from "../utils/common.js";
+import {formatDurationTime, formatDate} from "../utils/common.js";
 
 
 export default class FilmCard extends AbstractComponent {
@@ -26,7 +26,7 @@ export default class FilmCard extends AbstractComponent {
   getTemplate() {
     const {title, rating, releaseDate, duration, genre, poster, description, isAddToWatchlist, isMarkAsWatched, isFavorite, commentsCount} = this._film;
 
-    const releaseDateFormat = fromatDate(releaseDate, DateTimeFormat.RELEASE_DATE_FORMAT_SHORT);
+    const releaseDateFormat = formatDate(releaseDate, DateTimeFormat.DATE_SHORT);
     const durationFormat = formatDurationTime(duration);
 
     const addToWatchlistButton = this._createButtonMarkup(`add-to-watchlist`, `Add to watchlist`, isAddToWatchlist);
