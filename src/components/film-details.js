@@ -1,7 +1,7 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import Genres from "./genres.js";
 import Comments from "./comments.js";
-import {formatDateToString} from "../utils/common.js";
+import {formatDuration, formatDateToString} from "../utils/common.js";
 import {EMOJIS} from "../const.js";
 
 
@@ -130,7 +130,7 @@ export default class FilmDetails extends AbstractSmartComponent {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Runtime</td>
-                    <td class="film-details__cell">${duration}</td>
+                    <td class="film-details__cell">${formatDuration(duration)}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Country</td>

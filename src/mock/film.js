@@ -81,7 +81,8 @@ const MIN_GENRE_COUNT = 1;
 const MAX_GENRE_COUNT = 3;
 const MIN_WRITER_COUNT = 1;
 const MIN_ACTOR_COUNT = 1;
-const MAX_DURATION = 3;
+const MIN_DURATION = 1;
+const MAX_DURATION = 180;
 const MAX_COMMENTS_COUNT = 5;
 
 const DESCRIPTION_PROTOTYPE = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
@@ -94,9 +95,7 @@ const generateRating = () => {
 };
 
 const generateDuration = () => {
-  const hours = getRandomIntegerNumber(MAX_DURATION);
-  const minutes = (hours === MAX_DURATION) ? 0 : getRandomIntegerNumber(60);
-  return `${hours}h ${minutes}m`;
+  return getRandomIntegerNumberInRange(MIN_DURATION, MAX_DURATION);
 };
 
 const generateReleaseDate = () => {

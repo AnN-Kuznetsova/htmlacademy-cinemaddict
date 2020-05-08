@@ -1,5 +1,6 @@
 import AbstractComponent from "./abstract-component.js";
 import {MAX_DESCRIPTION_LENGTH} from "../const.js";
+import {formatDuration} from "../utils/common.js";
 
 
 export default class FilmCard extends AbstractComponent {
@@ -42,7 +43,7 @@ export default class FilmCard extends AbstractComponent {
         <p class="film-card__rating">${rating}</p>
         <p class="film-card__info">
           <span class="film-card__year">${releaseYear}</span>
-          <span class="film-card__duration">${duration}</span>
+          <span class="film-card__duration">${formatDuration(duration)}</span>
           <span class="film-card__genre">${genre[0]}</span>
         </p>
         <img src="./images/posters/${poster}" alt="" class="film-card__poster">

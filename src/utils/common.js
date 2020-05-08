@@ -1,3 +1,7 @@
+import moment from "moment";
+import {DATE_TIME_FORMAT} from "../const.js";
+
+
 const MonthFormat = {
   0: `January`,
   1: `February`,
@@ -11,6 +15,12 @@ const MonthFormat = {
   9: `October`,
   10: `November`,
   11: `December`,
+};
+
+const formatDuration = (duration) => {
+  const momentDuration = moment.duration(duration, `minutes`);
+  const date = moment().startOf(`day`);
+  return date.add(momentDuration).format(DATE_TIME_FORMAT.duration);
 };
 
 const castDateFormat = (value) => {
@@ -64,4 +74,5 @@ export {
   formatDateWithSlash,
   formatTime,
   arrayDataChange,
+  formatDuration,
 };
