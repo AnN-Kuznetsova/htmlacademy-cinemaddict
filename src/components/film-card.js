@@ -1,5 +1,6 @@
 import AbstractComponent from "./abstract-component.js";
-import {MAX_DESCRIPTION_LENGTH} from "../const.js";
+import {MAX_DESCRIPTION_LENGTH, DateTimeFormat} from "../const.js";
+import {formatDurationTime, formatDate} from "../utils/common.js";
 
 
 export default class FilmCard extends AbstractComponent {
@@ -25,7 +26,8 @@ export default class FilmCard extends AbstractComponent {
   getTemplate() {
     const {title, rating, releaseDate, duration, genre, poster, description, isAddToWatchlist, isMarkAsWatched, isFavorite, commentsCount} = this._film;
 
-    const releaseYear = releaseDate.getFullYear();
+    const releaseDateFormat = formatDate(releaseDate, DateTimeFormat.DATE_SHORT);
+    const durationFormat = formatDurationTime(duration);
 
     const addToWatchlistButton = this._createButtonMarkup(`add-to-watchlist`, `Add to watchlist`, isAddToWatchlist);
     const markAsWatchedButton = this._createButtonMarkup(`mark-as-watched`, `Mark as watched`, isMarkAsWatched);
@@ -41,8 +43,8 @@ export default class FilmCard extends AbstractComponent {
         <h3 class="film-card__title">${title}</h3>
         <p class="film-card__rating">${rating}</p>
         <p class="film-card__info">
-          <span class="film-card__year">${releaseYear}</span>
-          <span class="film-card__duration">${duration}</span>
+          <span class="film-card__year">${releaseDateFormat}</span>
+          <span class="film-card__duration">${durationFormat}</span>
           <span class="film-card__genre">${genre[0]}</span>
         </p>
         <img src="./images/posters/${poster}" alt="" class="film-card__poster">

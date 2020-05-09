@@ -1,5 +1,5 @@
 import AbstractComponent from "./abstract-component.js";
-import {formatDateWithSlash, formatTime} from "../utils/common.js";
+import {formatDateFromNow} from "../utils/common.js";
 import {EMOJIS} from "../const.js";
 
 
@@ -39,7 +39,7 @@ export default class Comments extends AbstractComponent {
   _createCommentMarkup(comment) {
     const {text, emoji, author, dayAndTime} = comment;
     const [emojiTitle, emojiUrl] = emoji;
-    const dayAndTimeFormat = `${formatDateWithSlash(dayAndTime)} ${formatTime(dayAndTime)}`;
+    const dayAndTimeFormat = formatDateFromNow(dayAndTime);
 
     return (
       `<li class="film-details__comment">

@@ -10,10 +10,18 @@ const EMOJIS = {
   angry: `angry.png`,
 };
 
+const DateTimeFormat = {
+  DURATION: `H[h] mm[mm]`,
+  DATE_SHORT: `YYYY`,
+  DATE_FULL: `DD MMMM YYYY`,
+  DATE_AND_TIME: `YYYY/MM/DD HH:mm`,
+};
+
 export {
   MAX_DESCRIPTION_LENGTH,
   FILM_CARD_EXTRA_COUNT,
   SHOWING_FILMS_COUNT_ON_START,
   SHOWING_FILMS_COUNT_BY_BUTTON,
   EMOJIS,
+  DateTimeFormat,
 };
