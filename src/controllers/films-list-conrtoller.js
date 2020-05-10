@@ -39,8 +39,8 @@ export default class FilmsListController {
   }
 
 
-  _onDataChange(oldData, newData) {
-    this._onFilmsDataChange(oldData, newData);
+  _onDataChange(id, newData) {
+    this._onFilmsDataChange(id, newData);
   }
 
   _onViewChange() {
@@ -152,8 +152,8 @@ export default class FilmsListController {
   }
 
 
-  setDataChange(oldData, newData) {
-    const newArray = arrayDataChange(this._listFilms, oldData, newData);
+  setDataChange(id, newData) {
+    const newArray = arrayDataChange(this._listFilms, id, newData);
     const index = newArray.index;
     this._listFilms = newArray.array;
 
@@ -162,7 +162,7 @@ export default class FilmsListController {
     }
 
     for (const filmController of this._showingFilmControllers) {
-      if (filmController.film === oldData) {
+      if (filmController.film.id === id) {
         filmController.render(this._listFilms[index]);
         break;
       }

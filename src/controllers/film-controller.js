@@ -35,7 +35,7 @@ export default class FilmController {
     if ((this._film.isAddToWatchlist !== filmSettings.isAddToWatchlist) ||
       (this._film.isMarkAsWatched !== filmSettings.isMarkAsWatched) ||
       (this._film.isFavorite !== filmSettings.isFavorite)) {
-      this._onDataChange(this._film, Object.assign({}, this._film, {
+      this._onDataChange(this._film.id, Object.assign({}, this._film, {
         isAddToWatchlist: filmSettings.isAddToWatchlist,
         isMarkAsWatched: filmSettings.isMarkAsWatched,
         isFavorite: filmSettings.isFavorite,
@@ -70,15 +70,15 @@ export default class FilmController {
     };
 
     const onAddToWatchlistButtonClick = () => {
-      this._onDataChange(film, Object.assign({}, film, {isAddToWatchlist: !film.isAddToWatchlist}));
+      this._onDataChange(film.id, Object.assign({}, film, {isAddToWatchlist: !film.isAddToWatchlist}));
     };
 
     const onMarkAsWatchedButtonClick = () => {
-      this._onDataChange(film, Object.assign({}, film, {isMarkAsWatched: !film.isMarkAsWatched}));
+      this._onDataChange(film.id, Object.assign({}, film, {isMarkAsWatched: !film.isMarkAsWatched}));
     };
 
     const onFavoriteButtonClick = () => {
-      this._onDataChange(film, Object.assign({}, film, {isFavorite: !film.isFavorite}));
+      this._onDataChange(film.id, Object.assign({}, film, {isFavorite: !film.isFavorite}));
     };
 
     const onFilmDetailsCloseButtonClick = () => {
