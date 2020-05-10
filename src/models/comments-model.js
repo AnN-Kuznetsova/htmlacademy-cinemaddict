@@ -1,5 +1,3 @@
-import {arrayDataChange} from "../utils/common.js";
-
 export default class CommentsModel {
   constructor() {
     this._comments = [];
