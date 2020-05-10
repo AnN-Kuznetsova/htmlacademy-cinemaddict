@@ -19,6 +19,7 @@ const MAX_TEXT_SENTENSE_COUNT = 5;
 
 const generateComment = () => {
   return {
+    id: String(new Date() + Math.random()),
     text: generateRandomText(PROTOTYPE_TEXT, MIN_TEXT_SENTENSE_COUNT, MAX_TEXT_SENTENSE_COUNT),
     emoji: getRandomArrayElement(Object.entries(EMOJIS)),
     author: getRandomArrayElement(AUTORS),
