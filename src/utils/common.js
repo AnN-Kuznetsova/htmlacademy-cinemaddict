@@ -24,8 +24,8 @@ const onEscPress = (evt, action) => {
   }
 };
 
-const arrayDataChange = (array, oldData, newData) => {
-  const index = array.findIndex((it) => it === oldData);
+const arrayDataChange = (array, id, newData) => {
+  const index = array.findIndex((it) => it.id === id);
 
   if (index !== -1) {
     array = [].concat(array.slice(0, index), newData, array.slice(index + 1));

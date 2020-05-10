@@ -75,8 +75,8 @@ export default class PageController {
 
 
   _onFilmsDataChange(oldData, newData) {
-    const newArray = arrayDataChange(this._films, oldData, newData);
-    this._films = newArray.array;
+    /* const newArray = arrayDataChange(this._films, oldData, newData);
+    this._films = newArray.array; */
 
     this._filmsListsControllers.forEach((it) => it.setDataChange(oldData, newData));
   }

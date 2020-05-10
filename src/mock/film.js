@@ -110,6 +110,7 @@ const generateFilm = () => {
   const comments = generateComments(getRandomIntegerNumber(MAX_COMMENTS_COUNT));
 
   return {
+    id: String(new Date() + Math.random()),
     title,
     originalTitle: title,
     rating: generateRating(),
