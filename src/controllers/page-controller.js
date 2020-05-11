@@ -52,7 +52,7 @@ export default class PageController {
     //this._userRankComponent = new UserRank(this._filmsFilters.history);
     this._sortComponent = new Sort();
     this._filmsBoardComponent = new FilmsBoard();
-    this._footerStatisticsComponent = new FooterStatistics(this._filmsModel.getFilms().length);
+    this._footerStatisticsComponent = new FooterStatistics(this._filmsModel.getFilmsAll().length);
 
     this._filmsListsControllers = [];
     this._filterController = null;
@@ -99,7 +99,7 @@ export default class PageController {
     this._filmsListsControllers = lists.map((list) => {
       const [listName, {title, sortType, isExtra}] = list;
       const filmsListController = new FilmsListController(filmsBoardElement, listName, title, sortType, isExtra, this._onFilmsDataChange, this._onFilmsListViewChange);
-      filmsListController.render(this._filmsModel.getFilms());
+      filmsListController.render(this._filmsModel.getFilmsAll());
       return filmsListController;
     });
   }
@@ -115,7 +115,7 @@ export default class PageController {
     render(siteMainElement, this._filmsBoardComponent, RenderPosition.BEFOREEND);
     render(footerStatisticsElement, this._footerStatisticsComponent, RenderPosition.BEFOREEND);
 
-    this._renderFilmsBoardController(this._filmsModel.getFilms());
+    this._renderFilmsBoardController(this._filmsModel.getFilmsAll());
 
     this._sortComponent.setOnSortTypeChange(this._onSortTypeChange.bind(this));
   }
