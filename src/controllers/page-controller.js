@@ -1,6 +1,5 @@
 import UserRank from "../components/user-rank.js";
 import SiteMenu from "../components/site-menu.js";
-import Filters from "../components/filters.js";
 import Sort from "../components/sort.js";
 import FilmsBoard from "../components/films-board.js";
 import FooterStatistics from "../components/footer-statistics.js";
@@ -10,6 +9,8 @@ import FilterController from "./filter-controller.js";
 import {render, RenderPosition, replace} from "../utils/render.js";
 import {arrayDataChange} from "../utils/common.js";
 import {SortType} from "../utils/sorting.js";
+import {getFilmsByFilter} from "../utils/filter.js";
+import {FilterType} from "../const.js";
 
 
 const ListName = {
@@ -37,7 +38,7 @@ export default class PageController {
     this._filmsLists = filmsLists;
 
     this._siteMenuComponent = new SiteMenu();
-    //this._userRankComponent = new UserRank(this._filmsFilters.history);
+    this._userRankComponent = new UserRank(getFilmsByFilter(this._filmsModel.getFilmsAll(), FilterType.HISTORY).length);
     this._sortComponent = new Sort();
     this._filmsBoardComponent = new FilmsBoard();
     this._footerStatisticsComponent = new FooterStatistics(this._filmsModel.getFilmsAll().length);
@@ -109,7 +110,7 @@ export default class PageController {
 
 
   render() {
-    //render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
+    render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
     render(siteMainElement, this._siteMenuComponent, RenderPosition.BEFOREEND);
     this._filterController = new FilterController(this._siteMenuComponent.getElement(), this._filmsModel);
     this._filterController.render();
