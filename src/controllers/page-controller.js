@@ -45,9 +45,6 @@ export default class PageController {
     this._filmsModel = filmsModel;
     this._filmsLists = filmsLists;
 
-    this._onFilmsDataChange = this._onFilmsDataChange.bind(this);
-    this._onFilmsListViewChange = this._onFilmsListViewChange.bind(this);
-
     this._siteMenuComponent = new SiteMenu();
     //this._userRankComponent = new UserRank(this._filmsFilters.history);
     this._sortComponent = new Sort();
@@ -56,6 +53,14 @@ export default class PageController {
 
     this._filmsListsControllers = [];
     this._filterController = null;
+
+    this._onFilmsDataChange = this._onFilmsDataChange.bind(this);
+    this._onFilmsListViewChange = this._onFilmsListViewChange.bind(this);
+    this._onSortTypeChange = this._onSortTypeChange.bind(this);
+    this._onFilmsModelFilterChange = this._onFilmsModelFilterChange.bind(this);
+
+    this._sortComponent.setOnSortTypeChange(this._onSortTypeChange);
+    this._filmsModel.setFilterChangeHandler(this._onFilmsModelFilterChange);
   }
 
 
@@ -65,10 +70,17 @@ export default class PageController {
     for (const listController of this._filmsListsControllers) {
       if (listController.name === ListName.DEFAULT) {
         listController.sortType = newSortType;
-        listController.render(this._filmsModel.getFilms());
+        listController.render(this._filmsModel.getFilteredFilms());
         break;
       }
     }
+  }
+
+
+  _onFilmsModelFilterChange() {
+    //здесь поменять сортировку
+
+    this._onSortTypeChange();
   }
 
 
@@ -116,7 +128,5 @@ export default class PageController {
     render(footerStatisticsElement, this._footerStatisticsComponent, RenderPosition.BEFOREEND);
 
     this._renderFilmsBoardController(this._filmsModel.getFilmsAll());
-
-    this._sortComponent.setOnSortTypeChange(this._onSortTypeChange.bind(this));
   }
 }

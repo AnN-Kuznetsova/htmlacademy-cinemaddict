@@ -1,5 +1,6 @@
 import {arrayDataChange} from "../utils/common.js";
 import {FilterType} from "../const.js";
+import {getFilmsByFilter} from "../utils/filter";
 
 export default class FilmsModel {
   constructor() {
@@ -22,7 +23,7 @@ export default class FilmsModel {
 
 
   getFilteredFilms() {
-    //return getFilmsByFilter(this._films, this._activeFilterType);
+    return getFilmsByFilter(this._films, this._activeFilterType);
   }
 
 
