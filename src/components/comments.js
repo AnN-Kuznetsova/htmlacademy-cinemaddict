@@ -4,7 +4,7 @@ import {EMOJIS} from "../const.js";
 
 
 export default class Comments extends AbstractSmartComponent {
-  constructor(comments, newComment = null) {
+  constructor(comments) {
     super();
 
     this._comments = comments;

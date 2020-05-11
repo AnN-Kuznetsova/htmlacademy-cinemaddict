@@ -13,14 +13,6 @@ export default class CommentsController {
   render() {
     this._commentsComponent = new Comments(this._commentsModel.getComments());
     render(this._container, this._commentsComponent, RenderPosition.AFTERBEGIN);
-
-
-    /* if (oldFilmCardComponent && oldFilmDetailsComponent) {
-      replace(this._filmCardComponent, oldFilmCardComponent);
-      replace(this._filmDetailsComponent, oldFilmDetailsComponent);
-    } else {
-      render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
-    } */
   }
 
 

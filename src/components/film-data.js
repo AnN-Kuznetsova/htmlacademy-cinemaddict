@@ -1,10 +1,10 @@
-import abstractComponent from "./abstract-component.js";
+import AbstractComponent from "./abstract-component.js";
 import Genres from "./genres.js";
 import {formatDurationTime, formatDate} from "../utils/common.js";
 import {DateTimeFormat} from "../const.js";
 
 
-export default class FilmData extends abstractComponent {
+export default class FilmData extends AbstractComponent {
   constructor(film) {
     super();
 
@@ -15,8 +15,6 @@ export default class FilmData extends abstractComponent {
       isMarkAsWatched: film.isMarkAsWatched,
       isFavorite: film.isFavorite,
     };
-
-    //this._closeButtonClickCallback = null;
 
     this._subscribeOnEvents();
   }
@@ -137,7 +135,5 @@ export default class FilmData extends abstractComponent {
   setOnFilmDetailsCloseButtonClick(cb) {
     this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, cb);
-
-    //this._closeButtonClickCallback = cb;
   }
 }
