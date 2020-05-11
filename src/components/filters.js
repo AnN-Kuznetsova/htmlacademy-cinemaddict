@@ -49,6 +49,11 @@ export default class Filters extends AbstractComponent {
   setOnFilterClick(cb) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
+
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+
       const filterName = this._getFilterNameById(evt.target.id);
       cb(filterName);
     });
