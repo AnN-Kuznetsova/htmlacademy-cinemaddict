@@ -1,13 +1,14 @@
 import Filters from "../components/filters.js";
 import {FilterType} from "../const.js";
 import {render, replace, RenderPosition} from "../utils/render.js";
+import {getFilmsByFilter} from "../utils/filter.js";
 
 export default class FilterController {
   constructor(container, filmsModel) {
     this._container = container;
     this._filmsModel = filmsModel;
 
-    this._activeFilterType = `ALL`;
+    this._activeFilterType = FilterType.ALL;
     this._filterComponent = null;
 
     // this._onDataChange = this._onDataChange.bind(this);
@@ -21,14 +22,14 @@ export default class FilterController {
 
   _getFilters(filterTypes) {
     return Object.entries(filterTypes).map((filterType) => {
-      const [name, value] = filterType;
+      const [filterName, filterValue] = filterType;
 
       return {
-        name,
-        value,
-        count: 0,//getFilmsByFilter(allFilms, filterType).length,
-        isChecked: name === this._activeFilterType,
-        isNotShowQuantity: value === FilterType.ALL,
+        filterName,
+        filterValue,
+        count: getFilmsByFilter(this._filmsModel.getFilmsAll(), filterValue).length,
+        isChecked: filterValue === this._activeFilterType,
+        isNotShowQuantity: filterValue === FilterType.ALL,
       };
     });
   }
@@ -41,7 +42,8 @@ export default class FilterController {
 
   _onFilmsModelFilterChange() {
     this._activeFilterType = this._filmsModel.getFilter();
-    window.console.log(`Model change filter: ${this._activeFilterType}`);
+    //window.console.log(`Model change filter: ${this._activeFilterType}`);
+    this.render();
   }
 
 

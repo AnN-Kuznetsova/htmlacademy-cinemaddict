@@ -1,4 +1,5 @@
 import AbstractComponent from "./abstract-component.js";
+import {FilterType} from "../const.js";
 
 const FILTER_ID_PREFIX = `js-filter--`;
 
@@ -12,19 +13,20 @@ export default class Filters extends AbstractComponent {
 
 
   _getFilterNameById(id) {
-    return id.substring(FILTER_ID_PREFIX.length)
-      .toUpperCase();
+    return FilterType[id
+      .substring(FILTER_ID_PREFIX.length)
+      .toUpperCase()];
   }
 
 
   _createFilterMarkup(filter) {
-    const {name, value, count, isChecked, isNotShowQuantity} = filter;
+    const {filterName, filterValue, count, isChecked, isNotShowQuantity} = filter;
 
     return (
-      `<a href="#${name.toLowerCase()}"
-        id="${FILTER_ID_PREFIX + name.toLowerCase()}"
+      `<a href="#${filterName.toLowerCase()}"
+        id="${FILTER_ID_PREFIX + filterName.toLowerCase()}"
         class="main-navigation__item ${isChecked ? `main-navigation__item--active` : ``}"
-        >${value}
+        >${filterValue}
         ${isNotShowQuantity ? `` : `<span class="main-navigation__item-count">${count}</span>`}
       </a>`
     );
