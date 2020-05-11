@@ -1,8 +1,7 @@
 import abstractComponent from "./abstract-component.js";
 import Genres from "./genres.js";
-import Comments from "./comments.js";
 import {formatDurationTime, formatDate} from "../utils/common.js";
-import {EMOJIS, DateTimeFormat} from "../const.js";
+import {DateTimeFormat} from "../const.js";
 
 
 export default class FilmData extends abstractComponent {
@@ -25,20 +24,6 @@ export default class FilmData extends abstractComponent {
 
   _subscribeOnEvents() {
     const element = this.getElement();
-
-   /*  element.querySelector(`.film-details__emoji-list`)
-      .addEventListener(`change`, (evt) => {
-        this._newComment.emojiTitle = evt.target.value;
-        this._newComment.emojiUrl = EMOJIS[this._newComment.emojiTitle];
-
-        this.rerender();
-      });
-
-    element.querySelector(`.film-details__comment-input`)
-      .addEventListener(`input`, (evt) => {
-        this._newComment.text = evt.target.value;
-      }); */
-
 
     element.querySelector(`#watchlist`)
       .addEventListener(`click`, () => {
@@ -144,25 +129,9 @@ export default class FilmData extends abstractComponent {
   }
 
 
-  /* reset() {
-    this._newComment = {
-      emojiTitle: null,
-      emojiUrl: null,
-      text: null,
-    };
-
-    this.rerender();
-  } */
-
   getFilmSettings() {
     return this._filmSettings;
   }
-
-
-  /* recoveryListeners() {
-    this.setOnFilmDetailsCloseButtonClick(this._closeButtonClickCallback);
-    this._subscribeOnEvents();
-  } */
 
 
   setOnFilmDetailsCloseButtonClick(cb) {

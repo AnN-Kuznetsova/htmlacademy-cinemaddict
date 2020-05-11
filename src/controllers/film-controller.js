@@ -1,6 +1,7 @@
 import FilmCard from "../components/film-card.js";
 import FilmDetails from "../components/film-details.js";
 import FilmDataController from "./film-data-controller.js";
+import CommentsController from "./comments-controller.js";
 import {onEscPress} from "../utils/common.js";
 import {render, RenderPosition, replace, removeElement} from "../utils/render.js";
 
@@ -45,8 +46,12 @@ export default class FilmController {
       }));
     }
 
-    //this._filmDetailsComponent.reset();
     removeElement(this._filmDataController.getFilmDataComponent());
+
+    const commentsComponent = this._commentsController.getCommentsComponent();
+    commentsComponent.reset();
+    removeElement(commentsComponent);
+
     removeElement(this._filmDetailsComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
     this._mode = Mode.CARD;
@@ -61,6 +66,10 @@ export default class FilmController {
     const filmDataContainer = filmDetailsComponent.getElement().querySelector(`.form-details__top-container`);
     this._filmDataController = new FilmDataController(filmDataContainer, this._closeFilmDetailsPopup);
     this._filmDataController.render(this._film);
+
+    const commentsContainer = filmDetailsComponent.getElement().querySelector(`.form-details__bottom-container`);
+    this._commentsController = new CommentsController(commentsContainer, this._film.comments);
+    this._commentsController.render();
   }
 
 
@@ -89,9 +98,6 @@ export default class FilmController {
       this._onDataChange(film.id, Object.assign({}, film, {isFavorite: !film.isFavorite}));
     };
 
-    /* const onFilmDetailsCloseButtonClick = () => {
-      this._closeFilmDetailsPopup();
-    }; */
 
     this._film = film;
 
@@ -108,7 +114,6 @@ export default class FilmController {
 
     this._filmDetailsComponent = new FilmDetails();
     const openPopup = this._openFilmDetailsPopup.bind(this, this._filmDetailsComponent);
-    //this._filmDetailsComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
 
     if (oldFilmCardComponent && oldFilmDetailsComponent) {
       replace(this._filmCardComponent, oldFilmCardComponent);

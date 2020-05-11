@@ -1,14 +1,13 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 import {formatDateFromNow} from "../utils/common.js";
 import {EMOJIS} from "../const.js";
 
 
-export default class Comments extends AbstractComponent {
+export default class Comments extends AbstractSmartComponent {
   constructor(comments, newComment = null) {
     super();
 
     this._comments = comments;
-    //this._newComment = newComment;
 
     this._newComment = {
       emojiTitle: null,
@@ -17,6 +16,23 @@ export default class Comments extends AbstractComponent {
     };
 
     this._subscribeOnEvents();
+  }
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+
+    element.querySelector(`.film-details__emoji-list`)
+      .addEventListener(`change`, (evt) => {
+        this._newComment.emojiTitle = evt.target.value;
+        this._newComment.emojiUrl = EMOJIS[this._newComment.emojiTitle];
+
+        this.rerender();
+      });
+
+    element.querySelector(`.film-details__comment-input`)
+      .addEventListener(`input`, (evt) => {
+        this._newComment.text = evt.target.value;
+      });
   }
 
   _createNewCommentEmojiMarkup(newComment) {
@@ -99,5 +115,21 @@ export default class Comments extends AbstractComponent {
         </div>
       </section>`
     );
+  }
+
+
+  reset() {
+    this._newComment = {
+      emojiTitle: null,
+      emojiUrl: null,
+      text: null,
+    };
+
+    this.rerender();
+  }
+
+
+  recoveryListeners() {
+    this._subscribeOnEvents();
   }
 }
