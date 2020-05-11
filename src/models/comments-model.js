@@ -33,6 +33,11 @@ export default class CommentsModel {
     return true;
   }
 
+  addComment(comment) {
+    this._comments = [].concat(comment, this._comments);
+    this._callHandlers(this._commentsChangeHandlers);
+  }
+
   setCommentsChangeHandler(handler) {
     this._commentsChangeHandlers.push(handler);
   }
