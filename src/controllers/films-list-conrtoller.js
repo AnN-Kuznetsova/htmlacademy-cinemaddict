@@ -16,7 +16,7 @@ export default class FilmsListController {
   constructor(container, listName, title, sortType, isExtra, onFilmsDataChange, onFilmsListViewChange) {
     this._container = container;
     this._listName = listName;
-    this._listTitle = isExtra ? title : `All movies. Upcoming`;
+    this._listTitle = title;
     this._isTitleVisually = isExtra;
     this._sortType = sortType;
     this._isExtra = isExtra;

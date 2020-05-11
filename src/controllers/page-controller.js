@@ -6,8 +6,7 @@ import FooterStatistics from "../components/footer-statistics.js";
 import FilmsList from "../data-structure/films-list.js";
 import FilmsListController from "./films-list-conrtoller.js";
 import FilterController from "./filter-controller.js";
-import {render, RenderPosition, replace} from "../utils/render.js";
-import {arrayDataChange} from "../utils/common.js";
+import {render, RenderPosition} from "../utils/render.js";
 import {SortType} from "../utils/sorting.js";
 import {getFilmsByFilter} from "../utils/filter.js";
 import {FilterType} from "../const.js";
@@ -20,7 +19,7 @@ const ListName = {
 };
 
 const filmsLists = {
-  [ListName.DEFAULT]: new FilmsList(`Default`, SortType.DEFAULT),
+  [ListName.DEFAULT]: new FilmsList(`All movies. Upcoming`, SortType.DEFAULT),
   [ListName.TOP_RATING]: new FilmsList(`Top rated`, SortType.BY_RATING, true),
   [ListName.MOST_COMMENTED]: new FilmsList(`Most commented`, SortType.BY_COMMENTS_COUNT, true),
 };
