@@ -17,6 +17,14 @@ const DateTimeFormat = {
   DATE_AND_TIME: `YYYY/MM/DD HH:mm`,
 };
 
+const FilterType = {
+  ALL: `All movies`,
+  WATCHLIST: `Watchlist`,
+  HISTORY: `History`,
+  FAVORITES: `Favorites`,
+};
+
+
 export {
   MAX_DESCRIPTION_LENGTH,
   FILM_CARD_EXTRA_COUNT,
@@ -24,4 +32,5 @@ export {
   SHOWING_FILMS_COUNT_BY_BUTTON,
   EMOJIS,
   DateTimeFormat,
+  FilterType,
 };

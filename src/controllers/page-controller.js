@@ -7,6 +7,7 @@ import FooterStatistics from "../components/footer-statistics.js";
 import FilmsList from "../data-structure/films-list.js";
 import Filter from "../data-structure/filter.js";
 import FilmsListController from "./films-list-conrtoller.js";
+import FilterController from "./filter-controller.js";
 import {render, RenderPosition} from "../utils/render.js";
 import {arrayDataChange} from "../utils/common.js";
 import {SortType} from "../utils/sorting.js";
@@ -25,12 +26,12 @@ const filmsLists = {
 };
 
 
-const filmsFilters = {
+/* const filmsFilters = {
   all: new Filter(`All movies`, `filterDefaultFun`, true, true),
   watchlist: new Filter(`Watchlist`, `filterAddToWatchlistFun`),
   history: new Filter(`History`, `filterHistoryFun`),
   favorites: new Filter(`Favorites`, `filterFavoritesFun`),
-};
+}; */
 
 
 const siteHeaderElement = document.body.querySelector(`.header`);
@@ -42,22 +43,19 @@ const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statis
 export default class PageController {
   constructor(filmsModel) {
     this._filmsModel = filmsModel;
-    this._filmsFilters = filmsFilters;
     this._filmsLists = filmsLists;
 
     this._onFilmsDataChange = this._onFilmsDataChange.bind(this);
     this._onFilmsListViewChange = this._onFilmsListViewChange.bind(this);
 
     this._siteMenuComponent = new SiteMenu();
-    this._userRankComponent = new UserRank(this._filmsFilters.history);
-    this._filtersComponent = new Filters(this._filmsFilters, this._filmsModel.getFilms());
+    //this._userRankComponent = new UserRank(this._filmsFilters.history);
     this._sortComponent = new Sort();
     this._filmsBoardComponent = new FilmsBoard();
     this._footerStatisticsComponent = new FooterStatistics(this._filmsModel.getFilms().length);
 
-    //this._sortedFilms = [];
-
     this._filmsListsControllers = [];
+    this._filterController = null;
   }
 
 
@@ -108,16 +106,15 @@ export default class PageController {
 
 
   render() {
-    //this._sortedFilms = this._films.slice();
-
-    render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
+    //render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
     render(siteMainElement, this._siteMenuComponent, RenderPosition.BEFOREEND);
-    render(this._siteMenuComponent.getElement(), this._filtersComponent, RenderPosition.AFTERBEGIN);
+    this._filterController = new FilterController(this._siteMenuComponent.getElement(), this._filmsModel);
+    this._filterController.render();
+
     render(siteMainElement, this._sortComponent, RenderPosition.BEFOREEND);
     render(siteMainElement, this._filmsBoardComponent, RenderPosition.BEFOREEND);
     render(footerStatisticsElement, this._footerStatisticsComponent, RenderPosition.BEFOREEND);
 
-    //this._renderFilmsBoardController(this._sortedFilms);
     this._renderFilmsBoardController(this._filmsModel.getFilms());
 
     this._sortComponent.setOnSortTypeChange(this._onSortTypeChange.bind(this));

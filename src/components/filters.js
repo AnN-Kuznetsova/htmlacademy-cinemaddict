@@ -1,27 +1,24 @@
 import AbstractComponent from "./abstract-component.js";
 
 export default class Filters extends AbstractComponent {
-  constructor(filters, films) {
+  constructor(filters) {
     super();
 
     this._filters = filters;
-    this._films = films;
   }
 
   _createFilterMarkup(filter) {
-    const [name, filterOptions] = filter;
-    const {value, isDefault, isNotDisplayCount} = filterOptions;
-    const filteredFilmsLength = filterOptions.getFilteredFilms(this._films).length;
+    const {name, value, count, isChecked, isNotShowQuantity} = filter;
 
     return (
-      `<a href="#${name}" class="main-navigation__item ${isDefault ? `main-navigation__item--active` : ``}">${value}
-        ${isNotDisplayCount ? `` : `<span class="main-navigation__item-count">${filteredFilmsLength}</span>`}
+      `<a href="#${name.toLowerCase()}" class="main-navigation__item ${isChecked ? `main-navigation__item--active` : ``}">${value}
+        ${isNotShowQuantity ? `` : `<span class="main-navigation__item-count">${count}</span>`}
       </a>`
     );
   }
 
   _createFiltersMarkup() {
-    return Object.entries(this._filters)
+    return this._filters
       .map((filter) => this._createFilterMarkup(filter))
       .join(`\n`);
   }

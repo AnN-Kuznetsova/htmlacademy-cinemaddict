@@ -49,7 +49,7 @@ export default class FilmData extends AbstractComponent {
 
 
   getTemplate() {
-    const {title, originalTitle, rating, director, writers, actors, releaseDate, duration, country, genre, poster, description, age, comments} = this._film;
+    const {title, originalTitle, rating, director, writers, actors, releaseDate, duration, country, genre, poster, description, age} = this._film;
     const {isAddToWatchlist, isMarkAsWatched, isFavorite} = this._filmSettings;
 
     const releaseDateFormat = formatDate(releaseDate, DateTimeFormat.DATE_FULL);
