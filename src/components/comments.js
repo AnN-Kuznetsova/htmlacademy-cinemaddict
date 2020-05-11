@@ -1,13 +1,12 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
-import {formatDateFromNow} from "../utils/common.js";
 import {EMOJIS} from "../const.js";
 
 
 export default class Comments extends AbstractSmartComponent {
-  constructor(comments) {
+  constructor(commentsCount) {
     super();
 
-    this._comments = comments;
+    this._commentsCount = commentsCount;
 
     this._newComment = {
       emojiTitle: null,
@@ -60,35 +59,9 @@ export default class Comments extends AbstractSmartComponent {
     );
   }
 
-  _createCommentMarkup(comment) {
-    const {text, emoji, author, dayAndTime} = comment;
-    const [emojiTitle, emojiUrl] = emoji;
-    const dayAndTimeFormat = formatDateFromNow(dayAndTime);
-
-    return (
-      `<li class="film-details__comment">
-        <span class="film-details__comment-emoji">
-          <img src="./images/emoji/${emojiUrl}" width="55" height="55" alt="emoji-${emojiTitle}">
-        </span>
-        <div>
-          <p class="film-details__comment-text">${text}</p>
-          <p class="film-details__comment-info">
-            <span class="film-details__comment-author">${author}</span>
-            <span class="film-details__comment-day">${dayAndTimeFormat}</span>
-            <button class="film-details__comment-delete">Delete</button>
-          </p>
-        </div>
-      </li>`
-    );
-  }
-
-  _createCommentsMarkup(comments) {
-    return comments.slice().map((it) => this._createCommentMarkup(it)).join(`\n`);
-  }
 
   getTemplate() {
-    const commentsCount = this._comments.length;
-    const commentsMarkup = this._createCommentsMarkup(this._comments);
+    const commentsCount = this._commentsCount;
     const emojiListMarkup = this._createEmojiListMarkup(EMOJIS);
 
     const newCommentEmojiMarkup = this._createNewCommentEmojiMarkup(this._newComment);
@@ -99,7 +72,7 @@ export default class Comments extends AbstractSmartComponent {
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
 
         <ul class="film-details__comments-list">
-          ${commentsMarkup}
+
         </ul>
 
         <div class="film-details__new-comment">

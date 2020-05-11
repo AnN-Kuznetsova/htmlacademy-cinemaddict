@@ -35,7 +35,7 @@ export default class FilmController {
   }
 
   _closeFilmDetailsPopup() {
-    const filmSettings = this._filmDataController.getFilmSettings(); // this._filmDetailsComponent.getFilmSettings();
+    const filmSettings = this._filmDataController.getFilmSettings();
     if ((this._film.isAddToWatchlist !== filmSettings.isAddToWatchlist) ||
       (this._film.isMarkAsWatched !== filmSettings.isMarkAsWatched) ||
       (this._film.isFavorite !== filmSettings.isFavorite)) {
