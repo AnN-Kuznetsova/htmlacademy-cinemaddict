@@ -139,10 +139,7 @@ export default class FilmsListController {
 
 
   render(films) {
-    if (films) {
-      this._listFilms = this._getFilms(films);
-    }
-
+    this._listFilms = this._getFilms(films);
     this._showingFilmsCount = SHOWING_FILMS_COUNT_ON_START;
 
     if (!(this._isExtra && !this._listFilms)) {

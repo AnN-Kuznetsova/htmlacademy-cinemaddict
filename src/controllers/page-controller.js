@@ -5,10 +5,9 @@ import Sort from "../components/sort.js";
 import FilmsBoard from "../components/films-board.js";
 import FooterStatistics from "../components/footer-statistics.js";
 import FilmsList from "../data-structure/films-list.js";
-import Filter from "../data-structure/filter.js";
 import FilmsListController from "./films-list-conrtoller.js";
 import FilterController from "./filter-controller.js";
-import {render, RenderPosition} from "../utils/render.js";
+import {render, RenderPosition, replace} from "../utils/render.js";
 import {arrayDataChange} from "../utils/common.js";
 import {SortType} from "../utils/sorting.js";
 
@@ -24,14 +23,6 @@ const filmsLists = {
   [ListName.TOP_RATING]: new FilmsList(`Top rated`, SortType.BY_RATING, true),
   [ListName.MOST_COMMENTED]: new FilmsList(`Most commented`, SortType.BY_COMMENTS_COUNT, true),
 };
-
-
-/* const filmsFilters = {
-  all: new Filter(`All movies`, `filterDefaultFun`, true, true),
-  watchlist: new Filter(`Watchlist`, `filterAddToWatchlistFun`),
-  history: new Filter(`History`, `filterHistoryFun`),
-  favorites: new Filter(`Favorites`, `filterFavoritesFun`),
-}; */
 
 
 const siteHeaderElement = document.body.querySelector(`.header`);
@@ -59,14 +50,12 @@ export default class PageController {
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._onFilmsModelFilterChange = this._onFilmsModelFilterChange.bind(this);
 
-    this._sortComponent.setOnSortTypeChange(this._onSortTypeChange);
+    this._sortComponent.setSortTypeChangeHendler(this._onSortTypeChange);
     this._filmsModel.setFilterChangeHandler(this._onFilmsModelFilterChange);
   }
 
 
-  _onSortTypeChange() {
-    const newSortType = this._sortComponent.getSortType();
-
+  _onSortTypeChange(newSortType) {
     for (const listController of this._filmsListsControllers) {
       if (listController.name === ListName.DEFAULT) {
         listController.sortType = newSortType;
@@ -78,9 +67,11 @@ export default class PageController {
 
 
   _onFilmsModelFilterChange() {
-    //здесь поменять сортировку
+    const newSortType = SortType.DEFAULT;
+    this._sortComponent.setSortType(newSortType);
+    this._sortComponent.rerender();
 
-    this._onSortTypeChange();
+    this._onSortTypeChange(newSortType);
   }
 
 
