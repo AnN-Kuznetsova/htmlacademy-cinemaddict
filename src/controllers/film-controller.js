@@ -1,5 +1,6 @@
 import FilmCard from "../components/film-card.js";
 import FilmDetails from "../components/film-details.js";
+import FilmDataController from "./film-data-controller.js";
 import {onEscPress} from "../utils/common.js";
 import {render, RenderPosition, replace, removeElement} from "../utils/render.js";
 
@@ -21,8 +22,10 @@ export default class FilmController {
     this._film = null;
     this._filmCardComponent = null;
     this._filmDetailsComponent = null;
+    this._filmDataController = null;
 
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
+    this._closeFilmDetailsPopup = this._closeFilmDetailsPopup.bind(this);
   }
 
 
@@ -31,7 +34,7 @@ export default class FilmController {
   }
 
   _closeFilmDetailsPopup() {
-    const filmSettings = this._filmDetailsComponent.getFilmSettings();
+    const filmSettings = this._filmDataController.getFilmSettings(); // this._filmDetailsComponent.getFilmSettings();
     if ((this._film.isAddToWatchlist !== filmSettings.isAddToWatchlist) ||
       (this._film.isMarkAsWatched !== filmSettings.isMarkAsWatched) ||
       (this._film.isFavorite !== filmSettings.isFavorite)) {
@@ -42,7 +45,8 @@ export default class FilmController {
       }));
     }
 
-    this._filmDetailsComponent.reset();
+    //this._filmDetailsComponent.reset();
+    removeElement(this._filmDataController.getFilmDataComponent());
     removeElement(this._filmDetailsComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
     this._mode = Mode.CARD;
@@ -53,6 +57,10 @@ export default class FilmController {
     render(document.body, filmDetailsComponent, RenderPosition.BEFOREEND);
     document.addEventListener(`keydown`, this._onEscKeyDown);
     this._mode = Mode.DETAILS;
+
+    const filmDataContainer = filmDetailsComponent.getElement().querySelector(`.form-details__top-container`);
+    this._filmDataController = new FilmDataController(filmDataContainer, this._closeFilmDetailsPopup);
+    this._filmDataController.render(this._film);
   }
 
 
@@ -81,9 +89,9 @@ export default class FilmController {
       this._onDataChange(film.id, Object.assign({}, film, {isFavorite: !film.isFavorite}));
     };
 
-    const onFilmDetailsCloseButtonClick = () => {
+    /* const onFilmDetailsCloseButtonClick = () => {
       this._closeFilmDetailsPopup();
-    };
+    }; */
 
     this._film = film;
 
@@ -98,9 +106,9 @@ export default class FilmController {
     this._filmCardComponent.setOnMarkAsWatchedButtonClick(onMarkAsWatchedButtonClick);
     this._filmCardComponent.setOnFavoriteButtonClick(onFavoriteButtonClick);
 
-    this._filmDetailsComponent = new FilmDetails(film);
+    this._filmDetailsComponent = new FilmDetails();
     const openPopup = this._openFilmDetailsPopup.bind(this, this._filmDetailsComponent);
-    this._filmDetailsComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
+    //this._filmDetailsComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
 
     if (oldFilmCardComponent && oldFilmDetailsComponent) {
       replace(this._filmCardComponent, oldFilmCardComponent);

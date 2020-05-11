@@ -8,7 +8,15 @@ export default class Comments extends AbstractComponent {
     super();
 
     this._comments = comments;
-    this._newComment = newComment;
+    //this._newComment = newComment;
+
+    this._newComment = {
+      emojiTitle: null,
+      emojiUrl: null,
+      text: null,
+    };
+
+    this._subscribeOnEvents();
   }
 
   _createNewCommentEmojiMarkup(newComment) {
