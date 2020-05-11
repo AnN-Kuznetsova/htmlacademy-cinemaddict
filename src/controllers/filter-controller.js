@@ -7,7 +7,7 @@ export default class FilterController {
     this._container = container;
     this._filmsModel = filmsModel;
 
-    this._activeFilterType = FilterType.ALL;
+    this._activeFilterType = `ALL`;
     this._filterComponent = null;
 
     // this._onDataChange = this._onDataChange.bind(this);
@@ -27,7 +27,7 @@ export default class FilterController {
         name,
         value,
         count: 0,//getFilmsByFilter(allFilms, filterType).length,
-        isChecked: value === this._activeFilterType,
+        isChecked: name === this._activeFilterType,
         isNotShowQuantity: value === FilterType.ALL,
       };
     });
