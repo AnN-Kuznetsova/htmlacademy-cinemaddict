@@ -24,8 +24,12 @@ const onEscPress = (evt, action) => {
   }
 };
 
+const getIndexById = (array, id) => {
+  return array.findIndex((it) => it.id === id);
+};
+
 const arrayDataChange = (array, id, newData) => {
-  const index = array.findIndex((it) => it.id === id);
+  const index = getIndexById(array, id); //array.findIndex((it) => it.id === id);
 
   if (index !== -1) {
     array = [].concat(array.slice(0, index), newData, array.slice(index + 1));
@@ -40,6 +44,7 @@ const arrayDataChange = (array, id, newData) => {
 
 export {
   onEscPress,
+  getIndexById,
   arrayDataChange,
   formatDurationTime,
   formatDate,
