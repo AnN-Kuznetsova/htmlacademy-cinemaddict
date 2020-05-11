@@ -11,11 +11,11 @@ export default class FilterController {
     this._activeFilterType = FilterType.ALL;
     this._filterComponent = null;
 
-    // this._onDataChange = this._onDataChange.bind(this);
+    this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
     this._onFilmsModelFilterChange = this._onFilmsModelFilterChange.bind(this);
 
-    // this._tasksModel.setOnDataChange(this._onDataChange);
+    this._filmsModel.setDataChangeHandler(this._onDataChange);
     this._filmsModel.setFilterChangeHandler(this._onFilmsModelFilterChange);
   }
 
@@ -46,9 +46,13 @@ export default class FilterController {
   }
 
 
+  _onDataChange() {
+    this.render();
+  }
+
+
   render() {
     const container = this._container;
-    //const allFilms = this._filmsModel.getFilmsAll();
 
     const oldComponent = this._filterComponent;
     this._filterComponent = new Filters(this._getFilters(FilterType));
