@@ -100,8 +100,7 @@ export default class PageController {
     }
 
     this._filmsListsControllers = lists.map((list) => {
-      const [listName, {title, sortType, isExtra}] = list;
-      const filmsListController = new FilmsListController(filmsBoardElement, listName, title, sortType, isExtra, this._onFilmsDataChange, this._onFilmsListViewChange);
+      const filmsListController = new FilmsListController(filmsBoardElement, /* listName, title, sortType, isExtra */list, this._onFilmsDataChange, this._onFilmsListViewChange);
       filmsListController.render(this._filmsModel.getFilmsAll());
       return filmsListController;
     });

@@ -13,13 +13,14 @@ import {arrayDataChange} from "../utils/common.js";
 
 
 export default class FilmsListController {
-  constructor(container, listName, title, sortType, isExtra, onFilmsDataChange, onFilmsListViewChange) {
+  constructor(container, list, onFilmsDataChange, onFilmsListViewChange) {
     this._container = container;
-    this._listName = listName;
-    this._listTitle = title;
-    this._isTitleVisually = isExtra;
-    this._sortType = sortType;
-    this._isExtra = isExtra;
+    this._listName = list[0];
+    this._listTitle = list[1].title;
+    this._isTitleVisually = list[1].isExtra;
+    this._sortType = list[1].sortType;
+    this._isExtra = list[1].isExtra;
+
     this._onFilmsDataChange = onFilmsDataChange;
     this._onFilmsListViewChange = onFilmsListViewChange;
 
