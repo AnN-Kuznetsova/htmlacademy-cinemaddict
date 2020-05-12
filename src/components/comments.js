@@ -1,5 +1,6 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import {EMOJIS} from "../const.js";
+import {encode} from "he";
 
 
 export default class Comments extends AbstractSmartComponent {
@@ -67,7 +68,7 @@ export default class Comments extends AbstractSmartComponent {
     const emojiListMarkup = this._createEmojiListMarkup(EMOJIS);
 
     const newCommentEmojiMarkup = this._createNewCommentEmojiMarkup(this._newComment);
-    const newCommentText = this._newComment.text ? this._newComment.text : ``;
+    const newCommentText = this._newComment.text ? encode(this._newComment.text) : ``;
 
     return (
       `<section class="film-details__comments-wrap">

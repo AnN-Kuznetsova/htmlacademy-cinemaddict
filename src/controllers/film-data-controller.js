@@ -3,10 +3,9 @@ import {render, RenderPosition} from "../utils/render.js";
 
 
 export default class FilmDataController {
-  constructor(container, onCloseButtonClick/*, onDataChange */) {
+  constructor(container, onCloseButtonClick) {
     this._container = container;
     this._onCloseButtonClick = onCloseButtonClick;
-    //this._onDataChange = onDataChange;
 
     this._film = null;
     this._filmDataComponent = null;
