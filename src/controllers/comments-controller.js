@@ -11,16 +11,9 @@ export default class CommentsController {
     this._commentControllers = [];
 
     this._commentChangeHandler = this._commentChangeHandler.bind(this);
-    this._submitHandler = this._submitHandler.bind(this);
     this._renderComments = this._renderComments.bind(this);
 
     this._commentsModel.setCommentsChangeHandler(commentsChangeHandler);
-  }
-
-
-  _submitHandler() {
-    const data = this._commentsComponent.getData();
-    this._commentChangeHandler(this, null, data);
   }
 
 
@@ -40,7 +33,7 @@ export default class CommentsController {
       this._updateComments();
     } else if (oldData === null) {
       //window.console.log(`add comment`);
-      //this._commentsModel.addComment(newData);
+      this._commentsModel.addComment(newData);
       this._updateComments();
     }
 
@@ -92,7 +85,6 @@ export default class CommentsController {
     const comments = this._commentsModel.getComments();
     const commentsCount = comments.length;
     this._commentsComponent = new Comments(commentsCount, this._renderComments);
-    //this._commentsComponent.setSubmitHandler(this._submitHandler);
     render(this._container, this._commentsComponent, RenderPosition.AFTERBEGIN);
 
     this._renderComments(comments);
@@ -106,5 +98,11 @@ export default class CommentsController {
 
   getCommentsModel() {
     return this._commentsModel;
+  }
+
+
+  addNewComment() {
+    const data = this._commentsComponent.getData();
+    this._commentChangeHandler(this, null, data);
   }
 }

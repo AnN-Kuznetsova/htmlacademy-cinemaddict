@@ -37,23 +37,6 @@ export default class Comments extends AbstractSmartComponent {
   }
 
 
-  _parseFormData(formData) {
-    return {
-      emojiTitle: ``,
-      emojiUrl: ``,
-      text: ``,
-
-      /* description: formData.get(`text`),
-      color: formData.get(`color`),
-      dueDate: date ? new Date(date) : null,
-      repeatingDays: formData.getAll(`repeat`).reduce((acc, it) => {
-        acc[it] = true;
-        return acc;
-      }, repeatingDays), */
-    };
-  }
-
-
   _createNewCommentEmojiMarkup(newComment) {
     const {emojiTitle, emojiUrl} = newComment;
 
@@ -136,13 +119,15 @@ export default class Comments extends AbstractSmartComponent {
 
 
   getData() {
-    const formData = new FormData();
-
-    return this._parseFormData(formData);
+    return {
+      id: String(new Date() + Math.random()),
+      text: this._newComment.text,
+      emoji: [
+        this._newComment.emojiTitle,
+        this._newComment.emojiUrl,
+      ], //getRandomArrayElement(Object.entries(EMOJIS)),
+      author: `John Doe`,
+      dayAndTime: new Date(),
+    };
   }
-
-
-  /* setSubmitHandler(handler) {
-    // добавить слушатель на добавление комментария
-  } */
 }

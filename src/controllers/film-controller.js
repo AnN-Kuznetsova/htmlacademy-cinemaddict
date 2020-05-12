@@ -28,8 +28,6 @@ export default class FilmController {
     this._commentsController = null;
     this._isCommentsModelChange = false;
 
-    /* this._onEscKeyDown = this._onEscKeyDown.bind(this);
-    this._onAddCommentsKeysDown = this._onAddCommentsKeysDown.bind(this); */
     this._documentKeyDownHendler = this._documentKeyDownHendler.bind(this);
     this._closeFilmDetailsPopup = this._closeFilmDetailsPopup.bind(this);
     this.__addCommentHandler = this._addCommentHandler.bind(this);
@@ -43,21 +41,11 @@ export default class FilmController {
 
 
   _addCommentHandler() {
-    window.console.log(`press add Comment keys`);
+    this._commentsController.addNewComment();
   }
 
 
-  /* _onEscKeyDown(evt) {
-    onEscPress(evt, this._closeFilmDetailsPopup());
-  }
-
-
-  _onAddCommentsKeysDown(evt) {
-    onAddCommentKeysPress(evt, this._addCommentHandler());
-  } */
   _documentKeyDownHendler(evt) {
-    //window.console.log(evt.key);
-
     escPressHandler(evt, () => {
       this._closeFilmDetailsPopup();
     });
