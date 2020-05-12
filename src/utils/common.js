@@ -17,13 +17,6 @@ const formatDateFromNow = (date) => {
 };
 
 
-const onEscPress = (evt, action) => {
-  const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-  if (isEscKey) {
-    action();
-  }
-};
-
 const getIndexById = (array, id) => {
   return array.findIndex((it) => it.id === id);
 };
@@ -35,6 +28,7 @@ const arrayDataChange = (array, id, newData) => {
     array = [].concat(array.slice(0, index), newData, array.slice(index + 1));
   }
 
+
   return {
     array,
     index,
@@ -43,7 +37,6 @@ const arrayDataChange = (array, id, newData) => {
 
 
 export {
-  onEscPress,
   getIndexById,
   arrayDataChange,
   formatDurationTime,

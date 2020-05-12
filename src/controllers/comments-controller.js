@@ -38,6 +38,10 @@ export default class CommentsController {
     if (newData === null) {
       this._commentsModel.removeComment(oldData.id);
       this._updateComments();
+    } else if (oldData === null) {
+      //window.console.log(`add comment`);
+      //this._commentsModel.addComment(newData);
+      this._updateComments();
     }
 
 /* if (oldData === EmptyTask) {
@@ -88,7 +92,7 @@ export default class CommentsController {
     const comments = this._commentsModel.getComments();
     const commentsCount = comments.length;
     this._commentsComponent = new Comments(commentsCount, this._renderComments);
-    this._commentsComponent.setSubmitHandler(this._submitHandler);
+    //this._commentsComponent.setSubmitHandler(this._submitHandler);
     render(this._container, this._commentsComponent, RenderPosition.AFTERBEGIN);
 
     this._renderComments(comments);

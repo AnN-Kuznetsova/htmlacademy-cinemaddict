@@ -142,7 +142,7 @@ export default class Comments extends AbstractSmartComponent {
   }
 
 
-  setSubmitHandler() {
+  /* setSubmitHandler(handler) {
     // добавить слушатель на добавление комментария
-  }
+  } */
 }

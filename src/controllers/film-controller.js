@@ -2,7 +2,7 @@ import FilmCard from "../components/film-card.js";
 import FilmDetails from "../components/film-details.js";
 import FilmDataController from "./film-data-controller.js";
 import CommentsController from "./comments-controller.js";
-import {onEscPress} from "../utils/common.js";
+import {escPressHandler, addCommentKeysPressHandler} from "../utils/key-events.js";
 import {render, RenderPosition, replace, removeElement} from "../utils/render.js";
 
 
@@ -28,8 +28,11 @@ export default class FilmController {
     this._commentsController = null;
     this._isCommentsModelChange = false;
 
-    this._onEscKeyDown = this._onEscKeyDown.bind(this);
+    /* this._onEscKeyDown = this._onEscKeyDown.bind(this);
+    this._onAddCommentsKeysDown = this._onAddCommentsKeysDown.bind(this); */
+    this._documentKeyDownHendler = this._documentKeyDownHendler.bind(this);
     this._closeFilmDetailsPopup = this._closeFilmDetailsPopup.bind(this);
+    this.__addCommentHandler = this._addCommentHandler.bind(this);
     this._commentsChangeHandler = this._commentsChangeHandler.bind(this);
   }
 
@@ -39,8 +42,29 @@ export default class FilmController {
   }
 
 
-  _onEscKeyDown(evt) {
-    onEscPress(evt, this._closeFilmDetailsPopup.bind(this));
+  _addCommentHandler() {
+    window.console.log(`press add Comment keys`);
+  }
+
+
+  /* _onEscKeyDown(evt) {
+    onEscPress(evt, this._closeFilmDetailsPopup());
+  }
+
+
+  _onAddCommentsKeysDown(evt) {
+    onAddCommentKeysPress(evt, this._addCommentHandler());
+  } */
+  _documentKeyDownHendler(evt) {
+    //window.console.log(evt.key);
+
+    escPressHandler(evt, () => {
+      this._closeFilmDetailsPopup();
+    });
+
+    addCommentKeysPressHandler(evt, () => {
+      this._addCommentHandler();
+    });
   }
 
 
@@ -66,7 +90,9 @@ export default class FilmController {
     removeElement(commentsComponent);
 
     removeElement(this._filmDetailsComponent);
-    document.removeEventListener(`keydown`, this._onEscKeyDown);
+    /* document.removeEventListener(`keydown`, this._onEscKeyDown);
+    document.removeEventListener(`keydown`, this._onAddCommentsKeysDown); */
+    document.removeEventListener(`keydown`, this._documentKeyDownHendler);
     this._mode = Mode.CARD;
   }
 
@@ -74,7 +100,9 @@ export default class FilmController {
   _openFilmDetailsPopup(filmDetailsComponent) {
     this._onViewChange();
     render(document.body, filmDetailsComponent, RenderPosition.BEFOREEND);
-    document.addEventListener(`keydown`, this._onEscKeyDown);
+    /* document.addEventListener(`keydown`, this._onEscKeyDown);
+    document.addEventListener(`keydown`, this._onAddCommentsKeysDown); */
+    document.addEventListener(`keydown`, this._documentKeyDownHendler);
     this._mode = Mode.DETAILS;
 
     const filmDataContainer = filmDetailsComponent.getElement().querySelector(`.form-details__top-container`);
