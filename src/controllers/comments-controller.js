@@ -1,6 +1,6 @@
 import Comments from "../components/comments.js";
 import CommentController from "./comment-controller.js";
-import {render, RenderPosition, replace, removeElement} from "../utils/render.js";
+import {render, RenderPosition} from "../utils/render.js";
 
 export default class CommentsController {
   constructor(container, commentsModel, commentsChangeHandler) {
@@ -35,28 +35,6 @@ export default class CommentsController {
       this._commentsModel.addComment(newData);
       this._updateComments();
     }
-
-/* if (oldData === EmptyTask) {
-
-      this._creatingTask = null;
-    if (isSuccess) {	      if (newData === null) {
-      taskController.render(newData);	        taskController.destroy();
-        this._updateTasks(this._showingTasksCount);
-      } else {
-        this._tasksModel.addTask(newData);
-        taskController.render(newData, TaskControllerMode.DEFAULT);
-
-        if (this._showingTasksCount % SHOWING_TASKS_COUNT_BY_BUTTON === 0) {
-          const destroyedTask = this._showedTaskControllers.pop();
-          destroyedTask.destroy();
-        }
-
-        this._showedTaskControllers = [].concat(taskController, this._showedTaskControllers);
-        this._showingTasksCount = this._showedTaskControllers.length;
-
-        this._renderLoadMoreButton();
-      }
-    } else */
   }
 
 
