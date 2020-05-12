@@ -31,7 +31,7 @@ export default class CommentsController {
 
   _updateComments() {
     this._removeComments();
-    this._commentsComponent.rerender();
+    this._commentsComponent.rerender(this._commentsModel.getComments().length);
   }
 
   _commentChangeHandler(commentController, oldData, newData) {

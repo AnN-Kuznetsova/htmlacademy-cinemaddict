@@ -110,7 +110,9 @@ export default class Comments extends AbstractSmartComponent {
   }
 
 
-  rerender() {
+  rerender(newCommentsCount) {
+    this._commentsCount = newCommentsCount;
+
     super.rerender();
 
     this._renderComments();

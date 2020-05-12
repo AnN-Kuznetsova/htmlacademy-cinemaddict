@@ -35,7 +35,6 @@ export default class FilmController {
 
 
   _commentsChangeHandler() {
-    //this._commentsModelChangeHandler();
     this._isCommentsModelChange = true;
   }
 
