@@ -73,7 +73,10 @@ export default class CommentsController {
 
   addNewComment() {
     const data = this._commentsComponent.getData();
-    this._commentsComponent.reset();
-    this._commentChangeHandler(this, null, data);
+
+    if (data) {
+      this._commentsComponent.reset();
+      this._commentChangeHandler(this, null, data);
+    }
   }
 }

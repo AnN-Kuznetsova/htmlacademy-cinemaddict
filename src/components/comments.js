@@ -122,7 +122,12 @@ export default class Comments extends AbstractSmartComponent {
 
 
   getData() {
-    return {
+    let isSuccess = true;
+    if (!this._newComment.emojiUrl || !this._newComment.emojiTitle) {
+      isSuccess = false;
+    }
+
+    const data = isSuccess ? {
       id: String(new Date() + Math.random()),
       text: this._newComment.text,
       emoji: [
@@ -131,6 +136,8 @@ export default class Comments extends AbstractSmartComponent {
       ],
       author: `John Doe`,
       dayAndTime: new Date(),
-    };
+    } : false;
+
+    return data;
   }
 }
