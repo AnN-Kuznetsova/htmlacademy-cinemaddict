@@ -19,11 +19,10 @@ const ListName = {
 };
 
 const filmsLists = {
-  [ListName.DEFAULT]: new FilmsList(`All movies. Upcoming`, SortType.DEFAULT),
-  [ListName.TOP_RATING]: new FilmsList(`Top rated`, SortType.BY_RATING, true),
-  [ListName.MOST_COMMENTED]: new FilmsList(`Most commented`, SortType.BY_COMMENTS_COUNT, true),
+  DEFAULT: new FilmsList(ListName.DEFAULT, `All movies. Upcoming`, SortType.DEFAULT),
+  TOP_RATING: new FilmsList(ListName.TOP_RATING, `Top rated`, SortType.BY_RATING, true),
+  MOST_COMMENTED: new FilmsList(ListName.MOST_COMMENTED, `Most commented`, SortType.BY_COMMENTS_COUNT, true),
 };
-
 
 const siteHeaderElement = document.body.querySelector(`.header`);
 const siteMainElement = document.body.querySelector(`.main`);
@@ -61,6 +60,7 @@ export default class PageController {
 
   _onSortTypeChange(newSortType) {
     for (const listController of this._filmsListsControllers) {
+      //window.console.log(listController.name);
       if (listController.name === ListName.DEFAULT) {
         listController.sortType = newSortType;
         listController.render(this._filmsModel.getFilteredFilms());
@@ -104,7 +104,7 @@ export default class PageController {
     }
 
     this._filmsListsControllers = lists.map((list) => {
-      const filmsListController = new FilmsListController(filmsBoardElement, list, this._onFilmsDataChange, this._onFilmsListViewChange, this._commentsModelChangePageHandler);
+      const filmsListController = new FilmsListController(filmsBoardElement, list[1], this._onFilmsDataChange, this._onFilmsListViewChange, this._commentsModelChangePageHandler);
       filmsListController.render(this._filmsModel.getFilmsAll());
       return filmsListController;
     });

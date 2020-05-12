@@ -15,11 +15,11 @@ import {arrayDataChange} from "../utils/common.js";
 export default class FilmsListController {
   constructor(container, list, onFilmsDataChange, onFilmsListViewChange, commentsModelChangePageHandler) {
     this._container = container;
-    this._listName = list[0];
-    this._listTitle = list[1].title;
-    this._isTitleVisually = list[1].isExtra;
-    this._sortType = list[1].sortType;
-    this._isExtra = list[1].isExtra;
+    this._listName = list.name;
+    this._listTitle = list.title;
+    this._isTitleVisually = list.isExtra;
+    this._sortType = list.sortType;
+    this._isExtra = list.isExtra;
 
     this._onFilmsDataChange = onFilmsDataChange;
     this._onFilmsListViewChange = onFilmsListViewChange;
