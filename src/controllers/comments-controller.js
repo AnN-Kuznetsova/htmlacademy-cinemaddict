@@ -32,7 +32,6 @@ export default class CommentsController {
       this._commentsModel.removeComment(oldData.id);
       this._updateComments();
     } else if (oldData === null) {
-      //window.console.log(`add comment`);
       this._commentsModel.addComment(newData);
       this._updateComments();
     }
@@ -58,13 +57,6 @@ export default class CommentsController {
         this._renderLoadMoreButton();
       }
     } else */
-    /* else {
-      const isSuccess = this._tasksModel.updateTask(oldData.id, newData);
-
-      if (isSuccess) {
-        taskController.render(newData, TaskControllerMode.DEFAULT);
-      }
-    } */
   }
 
 
@@ -103,6 +95,7 @@ export default class CommentsController {
 
   addNewComment() {
     const data = this._commentsComponent.getData();
+    this._commentsComponent.reset();
     this._commentChangeHandler(this, null, data);
   }
 }

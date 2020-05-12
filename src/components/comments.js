@@ -125,7 +125,7 @@ export default class Comments extends AbstractSmartComponent {
       emoji: [
         this._newComment.emojiTitle,
         this._newComment.emojiUrl,
-      ], //getRandomArrayElement(Object.entries(EMOJIS)),
+      ],
       author: `John Doe`,
       dayAndTime: new Date(),
     };
