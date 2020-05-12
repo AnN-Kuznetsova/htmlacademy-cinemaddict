@@ -13,10 +13,11 @@ const Mode = {
 
 
 export default class FilmController {
-  constructor(container, onDataChange, onViewChange) {
+  constructor(container, onDataChange, onViewChange, commentsModelChangeHandler) {
     this._container = container;
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
+    this._commentsModelChangeHandler = commentsModelChangeHandler;
 
     this._mode = Mode.CARD;
 
@@ -24,9 +25,18 @@ export default class FilmController {
     this._filmCardComponent = null;
     this._filmDetailsComponent = null;
     this._filmDataController = null;
+    this._commentsController = null;
+    this._isCommentsModelChange = false;
 
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
     this._closeFilmDetailsPopup = this._closeFilmDetailsPopup.bind(this);
+    this._commentsChangeHandler = this._commentsChangeHandler.bind(this);
+  }
+
+
+  _commentsChangeHandler() {
+    //this._commentsModelChangeHandler();
+    this._isCommentsModelChange = true;
   }
 
 
@@ -34,16 +44,20 @@ export default class FilmController {
     onEscPress(evt, this._closeFilmDetailsPopup.bind(this));
   }
 
+
   _closeFilmDetailsPopup() {
     const filmSettings = this._filmDataController.getFilmSettings();
-    if ((this._film.isAddToWatchlist !== filmSettings.isAddToWatchlist) ||
-      (this._film.isMarkAsWatched !== filmSettings.isMarkAsWatched) ||
-      (this._film.isFavorite !== filmSettings.isFavorite)) {
-      this._onDataChange(this._film.id, Object.assign({}, this._film, {
-        isAddToWatchlist: filmSettings.isAddToWatchlist,
-        isMarkAsWatched: filmSettings.isMarkAsWatched,
-        isFavorite: filmSettings.isFavorite,
-      }));
+
+    this._onDataChange(this._film.id, Object.assign({}, this._film, {
+      isAddToWatchlist: filmSettings.isAddToWatchlist,
+      isMarkAsWatched: filmSettings.isMarkAsWatched,
+      isFavorite: filmSettings.isFavorite,
+      comments: this._commentsController.getCommentsModel(),
+      commentsCount: this._commentsController.getCommentsModel().getComments().length,
+    }));
+
+    if (this._isCommentsModelChange) {
+      this._commentsModelChangeHandler();
     }
 
     removeElement(this._filmDataController.getFilmDataComponent());
@@ -57,6 +71,7 @@ export default class FilmController {
     this._mode = Mode.CARD;
   }
 
+
   _openFilmDetailsPopup(filmDetailsComponent) {
     this._onViewChange();
     render(document.body, filmDetailsComponent, RenderPosition.BEFOREEND);
@@ -68,7 +83,7 @@ export default class FilmController {
     this._filmDataController.render(this._film);
 
     const commentsContainer = filmDetailsComponent.getElement().querySelector(`.form-details__bottom-container`);
-    this._commentsController = new CommentsController(commentsContainer, this._film.comments);
+    this._commentsController = new CommentsController(commentsContainer, this._film.comments, this._commentsChangeHandler);
     this._commentsController.render();
   }
 

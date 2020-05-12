@@ -3,7 +3,7 @@ import CommentController from "./comment-controller.js";
 import {render, RenderPosition, replace, removeElement} from "../utils/render.js";
 
 export default class CommentsController {
-  constructor(container, commentsModel) {
+  constructor(container, commentsModel, commentsChangeHandler) {
     this._container = container;
     this._commentsModel = commentsModel;
 
@@ -11,11 +11,35 @@ export default class CommentsController {
     this._commentControllers = [];
 
     this._commentChangeHandler = this._commentChangeHandler.bind(this);
+    this._submitHandler = this._submitHandler.bind(this);
+    this._renderComments = this._renderComments.bind(this);
+
+    this._commentsModel.setCommentsChangeHandler(commentsChangeHandler);
   }
 
 
-  _commentChangeHandler() {
-    window.console.log(`deleteButton click`);
+  _submitHandler() {
+    const data = this._commentsComponent.getData();
+    this._commentChangeHandler(this, null, data);
+  }
+
+
+  _removeComments() {
+    this._commentControllers.forEach((commentController) => commentController.destroy());
+    this._commentControllers = [];
+  }
+
+  _updateComments() {
+    this._removeComments();
+    this._commentsComponent.rerender();
+  }
+
+  _commentChangeHandler(commentController, oldData, newData) {
+    if (newData === null) {
+      this._commentsModel.removeComment(oldData.id);
+      this._updateComments();
+    }
+
 /* if (oldData === EmptyTask) {
 
       this._creatingTask = null;
@@ -36,10 +60,8 @@ export default class CommentsController {
 
         this._renderLoadMoreButton();
       }
-    } else if (newData === null) {
-      this._tasksModel.removeTask(oldData.id);
-      this._updateTasks(this._showingTasksCount);
-    } else {
+    } else */
+    /* else {
       const isSuccess = this._tasksModel.updateTask(oldData.id, newData);
 
       if (isSuccess) {
@@ -49,13 +71,7 @@ export default class CommentsController {
   }
 
 
-  render() {
-    const comments = this._commentsModel.getComments();
-    const commentsCount = comments.length;
-    this._commentsComponent = new Comments(commentsCount);
-    //this._commentsComponent.setDeleteButtonClickHandler(this._commentsChangeHandler);
-    render(this._container, this._commentsComponent, RenderPosition.AFTERBEGIN);
-
+  _renderComments(comments = this._commentsModel.getComments()) {
     const commentsListElement = this._commentsComponent.getElement()
       .querySelector(`.film-details__comments-list`);
     this._commentControllers = comments.map((comment) => {
@@ -65,11 +81,26 @@ export default class CommentsController {
 
       return commentController;
     });
-    //this._renderComments(this._commentsModel.getComments());
+  }
+
+
+  render() {
+    const comments = this._commentsModel.getComments();
+    const commentsCount = comments.length;
+    this._commentsComponent = new Comments(commentsCount, this._renderComments);
+    this._commentsComponent.setSubmitHandler(this._submitHandler);
+    render(this._container, this._commentsComponent, RenderPosition.AFTERBEGIN);
+
+    this._renderComments(comments);
   }
 
 
   getCommentsComponent() {
     return this._commentsComponent;
+  }
+
+
+  getCommentsModel() {
+    return this._commentsModel;
   }
 }

@@ -49,11 +49,15 @@ export default class PageController {
     this._onFilmsListViewChange = this._onFilmsListViewChange.bind(this);
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._onFilmsModelFilterChange = this._onFilmsModelFilterChange.bind(this);
+    this._commentsModelChangePageHandler = this._commentsModelChangePageHandler.bind(this);
 
     this._sortComponent.setSortTypeChangeHendler(this._onSortTypeChange);
     this._filmsModel.setFilterChangeHandler(this._onFilmsModelFilterChange);
   }
 
+  _commentsModelChangePageHandler() {
+    this._renderFilmsBoardController();
+  }
 
   _onSortTypeChange(newSortType) {
     for (const listController of this._filmsListsControllers) {
@@ -100,7 +104,7 @@ export default class PageController {
     }
 
     this._filmsListsControllers = lists.map((list) => {
-      const filmsListController = new FilmsListController(filmsBoardElement, /* listName, title, sortType, isExtra */list, this._onFilmsDataChange, this._onFilmsListViewChange);
+      const filmsListController = new FilmsListController(filmsBoardElement, list, this._onFilmsDataChange, this._onFilmsListViewChange, this._commentsModelChangePageHandler);
       filmsListController.render(this._filmsModel.getFilmsAll());
       return filmsListController;
     });

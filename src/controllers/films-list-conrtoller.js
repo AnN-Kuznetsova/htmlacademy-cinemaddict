@@ -13,7 +13,7 @@ import {arrayDataChange} from "../utils/common.js";
 
 
 export default class FilmsListController {
-  constructor(container, list, onFilmsDataChange, onFilmsListViewChange) {
+  constructor(container, list, onFilmsDataChange, onFilmsListViewChange, commentsModelChangePageHandler) {
     this._container = container;
     this._listName = list[0];
     this._listTitle = list[1].title;
@@ -23,6 +23,7 @@ export default class FilmsListController {
 
     this._onFilmsDataChange = onFilmsDataChange;
     this._onFilmsListViewChange = onFilmsListViewChange;
+    this._commentsModelChangePageHandler = commentsModelChangePageHandler;
 
     this._listFilms = [];
     this._showingFilmControllers = [];
@@ -37,6 +38,7 @@ export default class FilmsListController {
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
+    this._commentsModelChangeHandler = this._commentsModelChangeHandler.bind(this);
   }
 
 
@@ -46,6 +48,10 @@ export default class FilmsListController {
 
   _onViewChange() {
     this._onFilmsListViewChange();
+  }
+
+  _commentsModelChangeHandler() {
+    this._commentsModelChangePageHandler();
   }
 
 
@@ -84,9 +90,9 @@ export default class FilmsListController {
   }
 
 
-  _renderFilms(films, onDataChange, onViewChange) {
+  _renderFilms(films, onDataChange, onViewChange, commentsModelChangeHandler) {
     const newFilmControllers = films.map((film) => {
-      const filmController = new FilmController(this._filmsListContainerComponent.getElement(), onDataChange, onViewChange);
+      const filmController = new FilmController(this._filmsListContainerComponent.getElement(), onDataChange, onViewChange, commentsModelChangeHandler);
 
       filmController.render(film);
 
@@ -104,7 +110,7 @@ export default class FilmsListController {
     const onShowMoreButtonClick = () => {
       const prevFilmsCount = this._showingFilmsCount;
       this._showingFilmsCount += this._showingFilmsCountByButton;
-      this._renderFilms(this._listFilms.slice(prevFilmsCount, this._showingFilmsCount), this._onDataChange, this._onViewChange); // sort here
+      this._renderFilms(this._listFilms.slice(prevFilmsCount, this._showingFilmsCount), this._onDataChange, this._onViewChange, this._commentsModelChangeHandler);
 
       if (this._showingFilmsCount >= this._listFilms.length) {
         remove(this._showMoreButtonComponent);
@@ -131,7 +137,7 @@ export default class FilmsListController {
     this._filmsListContainerComponent = new FilmsListContainer();
     render(filmsListElement, this._filmsListContainerComponent, RenderPosition.BEFOREEND);
 
-    this._renderFilms(this._listFilms.slice(0, this._showingFilmsCount), this._onDataChange, this._onViewChange);
+    this._renderFilms(this._listFilms.slice(0, this._showingFilmsCount), this._onDataChange, this._onViewChange, this._commentsModelChangeHandler);
 
     if (this._listFilms.length > SHOWING_FILMS_COUNT_ON_START) {
       this._renderShowMoreButton();

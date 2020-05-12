@@ -29,7 +29,7 @@ const getIndexById = (array, id) => {
 };
 
 const arrayDataChange = (array, id, newData) => {
-  const index = getIndexById(array, id); //array.findIndex((it) => it.id === id);
+  const index = getIndexById(array, id);
 
   if (index !== -1) {
     array = [].concat(array.slice(0, index), newData, array.slice(index + 1));

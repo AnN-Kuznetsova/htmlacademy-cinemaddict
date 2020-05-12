@@ -1,6 +1,5 @@
 import AbstractComponent from "./abstract-component.js";
 import {formatDateFromNow} from "../utils/common.js";
-import {EMOJIS} from "../const.js";
 
 
 export default class Comment extends AbstractComponent {
@@ -8,8 +7,6 @@ export default class Comment extends AbstractComponent {
     super();
 
     this._comment = comment;
-
-    this._deleteButtonClickHandler = null;
   }
 
 
@@ -40,7 +37,5 @@ export default class Comment extends AbstractComponent {
   setDeleteButtonClickHandler(handler) {
     this.getElement().querySelector(`.film-details__comment-delete`)
       .addEventListener(`click`, handler);
-
-    this._deleteButtonClickHandler = handler;
   }
 }

@@ -3,10 +3,11 @@ import {EMOJIS} from "../const.js";
 
 
 export default class Comments extends AbstractSmartComponent {
-  constructor(commentsCount) {
+  constructor(commentsCount, renderComments) {
     super();
 
     this._commentsCount = commentsCount;
+    this._renderComments = renderComments;
 
     this._newComment = {
       emojiTitle: null,
@@ -16,6 +17,7 @@ export default class Comments extends AbstractSmartComponent {
 
     this._subscribeOnEvents();
   }
+
 
   _subscribeOnEvents() {
     const element = this.getElement();
@@ -33,6 +35,24 @@ export default class Comments extends AbstractSmartComponent {
         this._newComment.text = evt.target.value;
       });
   }
+
+
+  _parseFormData(formData) {
+    return {
+      emojiTitle: ``,
+      emojiUrl: ``,
+      text: ``,
+
+      /* description: formData.get(`text`),
+      color: formData.get(`color`),
+      dueDate: date ? new Date(date) : null,
+      repeatingDays: formData.getAll(`repeat`).reduce((acc, it) => {
+        acc[it] = true;
+        return acc;
+      }, repeatingDays), */
+    };
+  }
+
 
   _createNewCommentEmojiMarkup(newComment) {
     const {emojiTitle, emojiUrl} = newComment;
@@ -58,7 +78,6 @@ export default class Comments extends AbstractSmartComponent {
       </div>`
     );
   }
-
 
   getTemplate() {
     const commentsCount = this._commentsCount;
@@ -91,6 +110,13 @@ export default class Comments extends AbstractSmartComponent {
   }
 
 
+  rerender() {
+    super.rerender();
+
+    this._renderComments();
+  }
+
+
   reset() {
     this._newComment = {
       emojiTitle: null,
@@ -104,5 +130,17 @@ export default class Comments extends AbstractSmartComponent {
 
   recoveryListeners() {
     this._subscribeOnEvents();
+  }
+
+
+  getData() {
+    const formData = new FormData();
+
+    return this._parseFormData(formData);
+  }
+
+
+  setSubmitHandler() {
+    // добавить слушатель на добавление комментария
   }
 }
