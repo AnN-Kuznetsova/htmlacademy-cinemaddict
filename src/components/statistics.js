@@ -3,6 +3,16 @@ import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import moment from "moment";
 
+
+const StatisticFilter = {
+  ALL_TIME: `all-time`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`,
+};
+
+
 export default class Statistics extends AbstractSmartComponent {
   constructor(filmsModel) {
     super();
@@ -11,7 +21,25 @@ export default class Statistics extends AbstractSmartComponent {
   }
 
 
+  _getStatisticFiltersMarkup() {
+    return Object.values(StatisticFilter)
+      .map((filter) => {
+        const isChecked = (filter === StatisticFilter.ALL_TIME) ? `checked` : ``;
+        const description = ``.concat(filter[0].toUpperCase(),
+            filter.substring(1).split(`-`).join(` `));
+
+        return (
+          `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${filter}" value="${filter}" ${isChecked}>
+          <label for="statistic-${filter}" class="statistic__filters-label">${description}</label>`
+        );
+      })
+      .join(`\n`);
+  }
+
+
   getTemplate() {
+    const statisticFiltersMarkup = this._getStatisticFiltersMarkup();
+
     return (
       `<section class="statistic">
       <p class="statistic__rank">
@@ -22,21 +50,7 @@ export default class Statistics extends AbstractSmartComponent {
 
       <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
         <p class="statistic__filters-description">Show stats:</p>
-
-        <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-all-time" value="all-time" checked>
-        <label for="statistic-all-time" class="statistic__filters-label">All time</label>
-
-        <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-today" value="today">
-        <label for="statistic-today" class="statistic__filters-label">Today</label>
-
-        <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-week" value="week">
-        <label for="statistic-week" class="statistic__filters-label">Week</label>
-
-        <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-month" value="month">
-        <label for="statistic-month" class="statistic__filters-label">Month</label>
-
-        <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-year" value="year">
-        <label for="statistic-year" class="statistic__filters-label">Year</label>
+        ${statisticFiltersMarkup}
       </form>
 
       <ul class="statistic__text-list">
