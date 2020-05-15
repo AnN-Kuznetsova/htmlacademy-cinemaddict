@@ -11,10 +11,10 @@ export default class UserRank extends AbstractComponent {
     let userRank = ``;
 
     switch (true) {
-      case ((this._filmsQuantity >= 1) && (this._filmsQuantity <= 10)):
+      case (this._filmsQuantity >= 1 && this._filmsQuantity <= 10):
         userRank = `Novice`;
         break;
-      case ((this._filmsQuantity >= 11) && (this._filmsQuantity <= 20)):
+      case (this._filmsQuantity >= 11 && this._filmsQuantity <= 20):
         userRank = `Fan`;
         break;
       case (this._filmsQuantity >= 21):
