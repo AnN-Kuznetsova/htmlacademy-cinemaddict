@@ -1,15 +1,42 @@
-import AbstractComponent from "./abstract-component.js";
-import {formatDateFromNow} from "../utils/common.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 import {EMOJIS} from "../const.js";
+import {encode} from "he";
 
 
-export default class Comments extends AbstractComponent {
-  constructor(comments, newComment = null) {
+export default class Comments extends AbstractSmartComponent {
+  constructor(commentsCount, renderComments) {
     super();
 
-    this._comments = comments;
-    this._newComment = newComment;
+    this._commentsCount = commentsCount;
+    this._renderComments = renderComments;
+
+    this._newComment = {
+      emojiTitle: null,
+      emojiUrl: null,
+      text: null,
+    };
+
+    this._subscribeOnEvents();
   }
+
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+
+    element.querySelector(`.film-details__emoji-list`)
+      .addEventListener(`change`, (evt) => {
+        this._newComment.emojiTitle = evt.target.value;
+        this._newComment.emojiUrl = EMOJIS[this._newComment.emojiTitle];
+
+        this.rerender();
+      });
+
+    element.querySelector(`.film-details__comment-input`)
+      .addEventListener(`input`, (evt) => {
+        this._newComment.text = evt.target.value;
+      });
+  }
+
 
   _createNewCommentEmojiMarkup(newComment) {
     const {emojiTitle, emojiUrl} = newComment;
@@ -36,46 +63,19 @@ export default class Comments extends AbstractComponent {
     );
   }
 
-  _createCommentMarkup(comment) {
-    const {text, emoji, author, dayAndTime} = comment;
-    const [emojiTitle, emojiUrl] = emoji;
-    const dayAndTimeFormat = formatDateFromNow(dayAndTime);
-
-    return (
-      `<li class="film-details__comment">
-        <span class="film-details__comment-emoji">
-          <img src="./images/emoji/${emojiUrl}" width="55" height="55" alt="emoji-${emojiTitle}">
-        </span>
-        <div>
-          <p class="film-details__comment-text">${text}</p>
-          <p class="film-details__comment-info">
-            <span class="film-details__comment-author">${author}</span>
-            <span class="film-details__comment-day">${dayAndTimeFormat}</span>
-            <button class="film-details__comment-delete">Delete</button>
-          </p>
-        </div>
-      </li>`
-    );
-  }
-
-  _createCommentsMarkup(comments) {
-    return comments.slice().map((it) => this._createCommentMarkup(it)).join(`\n`);
-  }
-
   getTemplate() {
-    const commentsCount = this._comments.length;
-    const commentsMarkup = this._createCommentsMarkup(this._comments);
+    const commentsCount = this._commentsCount;
     const emojiListMarkup = this._createEmojiListMarkup(EMOJIS);
 
     const newCommentEmojiMarkup = this._createNewCommentEmojiMarkup(this._newComment);
-    const newCommentText = this._newComment.text ? this._newComment.text : ``;
+    const newCommentText = this._newComment.text ? encode(this._newComment.text) : ``;
 
     return (
       `<section class="film-details__comments-wrap">
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
 
         <ul class="film-details__comments-list">
-          ${commentsMarkup}
+
         </ul>
 
         <div class="film-details__new-comment">
@@ -91,5 +91,52 @@ export default class Comments extends AbstractComponent {
         </div>
       </section>`
     );
+  }
+
+
+  rerender(newCommentsCount = null) {
+    if (newCommentsCount !== null) {
+      this._commentsCount = newCommentsCount;
+    }
+
+    super.rerender();
+
+    this._renderComments();
+  }
+
+
+  reset() {
+    this._newComment = {
+      emojiTitle: null,
+      emojiUrl: null,
+      text: null,
+    };
+
+    this.rerender();
+  }
+
+
+  recoveryListeners() {
+    this._subscribeOnEvents();
+  }
+
+
+  getData() {
+    let data = false;
+
+    if (this._newComment.emojiUrl && this._newComment.emojiTitle) {
+      data = {
+        id: String(new Date() + Math.random()),
+        text: this._newComment.text,
+        emoji: [
+          this._newComment.emojiTitle,
+          this._newComment.emojiUrl,
+        ],
+        author: `John Doe`,
+        dayAndTime: new Date(),
+      };
+    }
+
+    return data;
   }
 }

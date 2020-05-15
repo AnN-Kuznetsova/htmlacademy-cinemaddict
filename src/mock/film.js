@@ -1,5 +1,6 @@
 import {getRandomIntegerNumber, getRandomIntegerNumberInRange, getRandomArrayElement, getRandomArrayElements, generateBoolean, generateRandomText} from "../utils/random.js";
 import {generateComments} from "./comment.js";
+import CommentsModel from "../models/comments-model.js";
 
 const AGE = [`0`, `6`, `12`, `16`, `18`];
 const COUNTRY = [`BRA`, `IND`, `CAN`, `CHN`, `RUS`, `USA`, `TUR`, `FRA`, `JPN`];
@@ -108,8 +109,11 @@ const generateReleaseDate = () => {
 const generateFilm = () => {
   const title = getRandomArrayElement(TITLE_ITEMS);
   const comments = generateComments(getRandomIntegerNumber(MAX_COMMENTS_COUNT));
+  const commentsModel = new CommentsModel();
+  commentsModel.setComments(comments);
 
   return {
+    id: String(new Date() + Math.random()),
     title,
     originalTitle: title,
     rating: generateRating(),
@@ -126,8 +130,8 @@ const generateFilm = () => {
     isAddToWatchlist: generateBoolean(),
     isMarkAsWatched: generateBoolean(),
     isFavorite: generateBoolean(),
-    comments,
-    commentsCount: comments.length,
+    comments: commentsModel,
+    commentsCount: commentsModel.getComments().length,
   };
 };
 
