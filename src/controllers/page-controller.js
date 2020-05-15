@@ -8,9 +8,7 @@ import SiteMenu, {MenuItem} from "../components/site-menu.js";
 import Statistics from "../components/statistics.js";
 import Sort from "../components/sort.js";
 import UserRank from "../components/user-rank.js";
-import {FilterType} from "../const.js";
 import {SortType} from "../utils/sorting.js";
-import {getFilmsByFilter} from "../utils/filter.js";
 import {render, remove, RenderPosition} from "../utils/render.js";
 
 
@@ -75,7 +73,7 @@ export default class PageController {
   rerender() {
     remove(this._loadingComponent);
 
-    this._userRankComponent = new UserRank(getFilmsByFilter(this._filmsModel.getFilmsAll(), FilterType.HISTORY).length);
+    this._userRankComponent = new UserRank(this._filmsModel);
     this._statisticsComponent = new Statistics(this._filmsModel);
     this._footerStatisticsComponent = new FooterStatistics(this._filmsModel.getFilmsAll().length);
 
