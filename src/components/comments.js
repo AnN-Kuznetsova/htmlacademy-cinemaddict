@@ -122,10 +122,8 @@ export default class Comments extends AbstractSmartComponent {
 
 
   getData() {
-    let data = false;
-
     if (this._newComment.emojiUrl && this._newComment.emojiTitle) {
-      data = {
+      return {
         id: String(new Date() + Math.random()),
         text: this._newComment.text,
         emoji: [
@@ -137,6 +135,6 @@ export default class Comments extends AbstractSmartComponent {
       };
     }
 
-    return data;
+    return false;
   }
 }
