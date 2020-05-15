@@ -9,6 +9,7 @@ export default class UserRank extends AbstractSmartComponent {
     this._filmsModel = filmsModel;
 
     this._filmsQuantity = null;
+    this._userRank = null;
 
     this._setFilmsQuantity = this._setFilmsQuantity.bind(this);
 
@@ -19,22 +20,28 @@ export default class UserRank extends AbstractSmartComponent {
 
   _setFilmsQuantity() {
     const filmsQuantity = getHistoryFilms(this._filmsModel.getFilmsAll()).length;
-    window.console.log(filmsQuantity);
-    window.console.log(this._filmsQuantity !== filmsQuantity);
 
     if (this._filmsQuantity !== filmsQuantity) {
       this._filmsQuantity = filmsQuantity;
 
-      this.rerender();
+      this._setUserRank();
     }
   }
 
-  getTemplate() {
+  _setUserRank() {
     const userRank = getUserRank(this._filmsQuantity);
 
+    if (this._userRank !== userRank) {
+      this._userRank = userRank;
+
+      this.rerender();
+    }
+  };
+
+  getTemplate() {
     return (
       `<section class="header__profile profile">
-        <p class="profile__rating">${userRank}</p>
+        <p class="profile__rating">${this._userRank}</p>
         <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
       </section>`
     );
