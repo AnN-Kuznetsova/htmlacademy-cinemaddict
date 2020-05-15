@@ -19,9 +19,9 @@ const ListName = {
 };
 
 const filmsLists = {
-  DEFAULT: new FilmsList(ListName.DEFAULT, `All movies. Upcoming`, SortType.DEFAULT),
-  TOP_RATING: new FilmsList(ListName.TOP_RATING, `Top rated`, SortType.BY_RATING, true),
-  MOST_COMMENTED: new FilmsList(ListName.MOST_COMMENTED, `Most commented`, SortType.BY_COMMENTS_COUNT, true),
+  default: new FilmsList(ListName.DEFAULT, `All movies. Upcoming`, SortType.DEFAULT),
+  topRating: new FilmsList(ListName.TOP_RATING, `Top rated`, SortType.BY_RATING, true),
+  mostCommented: new FilmsList(ListName.MOST_COMMENTED, `Most commented`, SortType.BY_COMMENTS_COUNT, true),
 };
 
 const siteHeaderElement = document.body.querySelector(`.header`);
