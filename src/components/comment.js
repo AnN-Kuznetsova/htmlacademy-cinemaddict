@@ -12,7 +12,8 @@ export default class Comment extends AbstractComponent {
 
   getTemplate() {
     const comment = this._comment;
-    const {text, emoji, author, dayAndTime} = comment;
+    const {emoji, author, dayAndTime} = comment;
+    const text = comment.text ? comment.text : ``;
     const [emojiTitle, emojiUrl] = emoji;
     const dayAndTimeFormat = formatDateFromNow(dayAndTime);
 

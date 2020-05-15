@@ -122,21 +122,20 @@ export default class Comments extends AbstractSmartComponent {
 
 
   getData() {
-    let isSuccess = true;
-    if (!this._newComment.emojiUrl || !this._newComment.emojiTitle) {
-      isSuccess = false;
-    }
+    let data = false;
 
-    const data = isSuccess ? {
-      id: String(new Date() + Math.random()),
-      text: this._newComment.text,
-      emoji: [
-        this._newComment.emojiTitle,
-        this._newComment.emojiUrl,
-      ],
-      author: `John Doe`,
-      dayAndTime: new Date(),
-    } : false;
+    if (this._newComment.emojiUrl && this._newComment.emojiTitle) {
+      data = {
+        id: String(new Date() + Math.random()),
+        text: this._newComment.text,
+        emoji: [
+          this._newComment.emojiTitle,
+          this._newComment.emojiUrl,
+        ],
+        author: `John Doe`,
+        dayAndTime: new Date(),
+      };
+    }
 
     return data;
   }
