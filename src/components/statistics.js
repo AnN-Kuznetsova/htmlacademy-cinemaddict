@@ -67,8 +67,8 @@ export default class Statistics extends AbstractSmartComponent {
 
   getTemplate() {
     const statisticFiltersMarkup = this._getStatisticFiltersMarkup();
-    const watchedFilmsAmount = this._watchedFilms.length;
-    const userRank = getUserRank(watchedFilmsAmount);
+    const watchedFilmsCount = this._watchedFilms.length;
+    const userRank = getUserRank(watchedFilmsCount);
 
     const totalDuration = this._watchedFilms.reduce((duration, film) => {
       return duration + film.duration;
@@ -77,7 +77,7 @@ export default class Statistics extends AbstractSmartComponent {
 
     this._getGenreStatistics(this._watchedFilms);
     const topGenreValue = Math.max(...Object.values(this._genreStatistics));
-    const topGenre = getEnumPropertyKey(this._genreStatistics, topGenreValue);
+    const topGenre = watchedFilmsCount ? getEnumPropertyKey(this._genreStatistics, topGenreValue) : ``;
 
     return (
       `<section class="statistic">
@@ -95,7 +95,7 @@ export default class Statistics extends AbstractSmartComponent {
       <ul class="statistic__text-list">
         <li class="statistic__text-item">
           <h4 class="statistic__item-title">You watched</h4>
-          <p class="statistic__item-text">${watchedFilmsAmount} <span class="statistic__item-description">movies</span></p>
+          <p class="statistic__item-text">${watchedFilmsCount} <span class="statistic__item-description">movies</span></p>
         </li>
         <li class="statistic__text-item">
           <h4 class="statistic__item-title">Total duration</h4>
@@ -123,8 +123,6 @@ export default class Statistics extends AbstractSmartComponent {
     super.show();
 
     this.rerender();
-
-    //this._setStatisticFiltersChangeHandler();
   }
 
 
