@@ -3,9 +3,13 @@ import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import moment from "moment";
 import {getEnumPropertyKey} from "../utils/common.js";
+import {getHistoryFilms} from "../utils/filter.js";
+import {getUserRank} from "../utils/user-rank.js";
 
 
 const BAR_HEIGHT = 50;
+
+const STATISTIC_FILTER_ID_PREFIX = `statistic-`;
 
 const StatisticFilter = {
   ALL_TIME: `all-time`,
@@ -17,25 +21,28 @@ const StatisticFilter = {
 
 
 export default class Statistics extends AbstractSmartComponent {
-  constructor(filmsModel, userRank) {
+  constructor(filmsModel) {
     super();
 
     this._filmsModel = filmsModel;
-    this._userRank = userRank;
 
+    this._watchedFilms = [];
     this._genreStatistics = {};
+    this._currentFilter = StatisticFilter.ALL_TIME;
+
+    this._statisticFiltersChangeHandler = this._statisticFiltersChangeHandler.bind(this);
   }
 
 
   _getStatisticFiltersMarkup() {
     return Object.values(StatisticFilter)
       .map((filter) => {
-        const isChecked = (filter === StatisticFilter.ALL_TIME) ? `checked` : ``;
+        const isChecked = (filter === this._currentFilter) ? `checked` : ``;
         const description = ``.concat(filter[0].toUpperCase(),
             filter.substring(1).split(`-`).join(` `));
 
         return (
-          `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-${filter}" value="${filter}" ${isChecked}>
+          `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="${STATISTIC_FILTER_ID_PREFIX}${filter}" value="${filter}" ${isChecked}>
           <label for="statistic-${filter}" class="statistic__filters-label">${description}</label>`
         );
       })
@@ -59,18 +66,16 @@ export default class Statistics extends AbstractSmartComponent {
 
 
   getTemplate() {
-    const userRank = this._userRank;
     const statisticFiltersMarkup = this._getStatisticFiltersMarkup();
-    const watchedFilms = this._filmsModel.getFilmsAll()
-      .filter((film) => film.isMarkAsWatched);
-    const watchedFilmsAmount = watchedFilms.length;
+    const watchedFilmsAmount = this._watchedFilms.length;
+    const userRank = getUserRank(watchedFilmsAmount);
 
-    const totalDuration = watchedFilms.reduce((duration, film) => {
+    const totalDuration = this._watchedFilms.reduce((duration, film) => {
       return duration + film.duration;
     }, 0);
     const momentDuration = moment.duration(totalDuration, `minutes`);
 
-    this._getGenreStatistics(watchedFilms);
+    this._getGenreStatistics(this._watchedFilms);
     const topGenreValue = Math.max(...Object.values(this._genreStatistics));
     const topGenre = getEnumPropertyKey(this._genreStatistics, topGenreValue);
 
@@ -111,16 +116,19 @@ export default class Statistics extends AbstractSmartComponent {
   }
 
 
-  show() {
+  show(filmsModel) {
+    this._filmsModel = filmsModel;
+    this._watchedFilms = getHistoryFilms(this._filmsModel.getFilmsAll());
+
     super.show();
 
-    this.rerender(this._filmsModel);
+    this.rerender();
+
+    //this._setStatisticFiltersChangeHandler();
   }
 
 
-  rerender(filmsModel) {
-    this._filmsModel = filmsModel;
-
+  rerender() {
     super.rerender();
 
     this._renderChart();
@@ -194,6 +202,37 @@ export default class Statistics extends AbstractSmartComponent {
   }
 
 
-  recoveryListeners() {}
+  recoveryListeners() {
+    this._setStatisticFiltersChangeHandler();
+  }
 
+
+  _statisticFiltersChangeHandler(evt) {
+    const currentFilter = evt.target.id
+      .substring(STATISTIC_FILTER_ID_PREFIX.length);
+
+    this._currentFilter = currentFilter;
+
+    switch (currentFilter) {
+      case StatisticFilter.TODAY:
+        break;
+      case StatisticFilter.WEEK:
+        break;
+      case StatisticFilter.MONTH:
+        break;
+      case StatisticFilter.YEAR:
+        break;
+      case StatisticFilter.ALL_TIME:
+      default:
+        this._watchedFilms = getHistoryFilms(this._filmsModel.getFilmsAll());
+    }
+
+    this.rerender();
+  }
+
+
+  _setStatisticFiltersChangeHandler() {
+    this.getElement().querySelector(`.statistic__filters`)
+      .addEventListener(`change`, this._statisticFiltersChangeHandler);
+  }
 }

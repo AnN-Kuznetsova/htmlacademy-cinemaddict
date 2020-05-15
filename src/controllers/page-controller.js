@@ -76,7 +76,7 @@ export default class PageController {
     remove(this._loadingComponent);
 
     this._userRankComponent = new UserRank(getFilmsByFilter(this._filmsModel.getFilmsAll(), FilterType.HISTORY).length);
-    this._statisticsComponent = new Statistics(this._filmsModel, this._userRankComponent.userRank);
+    this._statisticsComponent = new Statistics(this._filmsModel);
     this._footerStatisticsComponent = new FooterStatistics(this._filmsModel.getFilmsAll().length);
 
     render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
@@ -165,7 +165,7 @@ export default class PageController {
       case MenuItem.STATS:
         this._sortComponent.hide();
         this._filmsBoardComponent.hide();
-        this._statisticsComponent.show();
+        this._statisticsComponent.show(this._filmsModel);
         break;
       default:
         this._sortComponent.show();
