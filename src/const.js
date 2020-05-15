@@ -11,7 +11,7 @@ const EMOJIS = {
 };
 
 const DateTimeFormat = {
-  DURATION: `H[h] mm[mm]`,
+  DURATION: `H[h] mm[m]`,
   DATE_SHORT: `YYYY`,
   DATE_FULL: `DD MMMM YYYY`,
   DATE_AND_TIME: `YYYY/MM/DD HH:mm`,
