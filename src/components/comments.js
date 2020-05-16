@@ -1,5 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
-import {EMOJIS} from "../const.js";
+import {Emoji} from "../const.js";
 import {encode} from "he";
 
 
@@ -26,7 +26,7 @@ export default class Comments extends AbstractSmartComponent {
     element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, (evt) => {
         this._newComment.emojiTitle = evt.target.value;
-        this._newComment.emojiUrl = EMOJIS[this._newComment.emojiTitle];
+        this._newComment.emojiUrl = Emoji[this._newComment.emojiTitle];
 
         this.rerender();
       });
@@ -65,7 +65,7 @@ export default class Comments extends AbstractSmartComponent {
 
   getTemplate() {
     const commentsCount = this._commentsCount;
-    const emojiListMarkup = this._createEmojiListMarkup(EMOJIS);
+    const emojiListMarkup = this._createEmojiListMarkup(Emoji);
 
     const newCommentEmojiMarkup = this._createNewCommentEmojiMarkup(this._newComment);
     const newCommentText = this._newComment.text ? encode(this._newComment.text) : ``;
