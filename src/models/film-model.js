@@ -1,3 +1,4 @@
+import CommentsModel from "./comments-model";
 
 export default class FilmModel {
   constructor(data) {
@@ -30,7 +31,7 @@ export default class FilmModel {
     this.isFavorite = Boolean(data[`user_details`][`favorite`]);
     this.watchingDate = data[`user_details`][`watching_date`] ? new Date(data[`user_details`][`watching_date`]) : null;
 
-    this.comments = data[`comments`];
+    this.commentsModel = new CommentsModel();
     this.commentsCount = data[`comments`].length;
   }
 

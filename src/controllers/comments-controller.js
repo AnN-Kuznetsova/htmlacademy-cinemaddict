@@ -1,14 +1,17 @@
+import API from "../api.js";
 import Comments from "../components/comments.js";
 import CommentController from "./comment-controller.js";
 import {render, RenderPosition} from "../utils/render.js";
 
 export default class CommentsController {
-  constructor(container, commentsModel, commentsChangeHandler) {
+  constructor(container, filmID, commentsModel, commentsChangeHandler) {
     this._container = container;
+    this._filmID = filmID;
     this._commentsModel = commentsModel;
 
     this._commentsComponent = null;
     this._commentControllers = [];
+    this._api = new API();
 
     this._commentChangeHandler = this._commentChangeHandler.bind(this);
     this._renderComments = this._renderComments.bind(this);
@@ -52,6 +55,12 @@ export default class CommentsController {
 
 
   render() {
+    this._api.getComments(this._filmID)
+      .then((comments) => {
+        window.console.log(comments[0]);
+        this._commentsModel.setComments(comments);
+      });
+
     const comments = this._commentsModel.getComments();
     const commentsCount = comments.length;
     this._commentsComponent = new Comments(commentsCount, this._renderComments);

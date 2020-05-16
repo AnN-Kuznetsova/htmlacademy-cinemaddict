@@ -104,7 +104,7 @@ export default class FilmController {
     this._filmDataController.render(this._film);
 
     const commentsContainer = filmDetailsComponent.getElement().querySelector(`.form-details__bottom-container`);
-    this._commentsController = new CommentsController(commentsContainer, this._film.comments, this._commentsChangeHandler);
+    this._commentsController = new CommentsController(commentsContainer, this._film.id, this._film.commentsModel, this._commentsChangeHandler);
     this._commentsController.render();
   }
 
