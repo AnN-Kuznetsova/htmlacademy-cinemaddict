@@ -31,8 +31,9 @@ const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statis
 
 
 export default class PageController {
-  constructor(filmsModel) {
+  constructor(filmsModel, filmsApi) {
     this._filmsModel = filmsModel;
+    this._filmsApi = filmsApi;
     this._filmsLists = filmsLists;
 
     this._siteMenuComponent = new SiteMenu();
@@ -84,16 +85,24 @@ export default class PageController {
 
 
   _onFilmsDataChange(id, newData) {
-    const isSuccess = this._filmsModel.updateFilm(id, newData);
+    this._filmsApi.updateFilm(id, newData)
+      .then((filmModel) => {
+        const isSuccess = this._filmsModel.updateFilm(id, filmModel);
+
+        if (isSuccess) {
+          this._filmsListsControllers.forEach((filmsListsController) => filmsListsController.setDataChange(id, filmModel));
+        }
+      });
+    /* const isSuccess = this._filmsModel.updateFilm(id, newData);
 
     if (isSuccess) {
       this._filmsListsControllers.forEach((it) => it.setDataChange(id, newData));
-    }
+    } */
   }
 
 
   _onFilmsListViewChange() {
-    this._filmsListsControllers.forEach((it) => it.setDefaultView());
+    this._filmsListsControllers.forEach((filmsListsController) => filmsListsController.setDefaultView());
   }
 
 

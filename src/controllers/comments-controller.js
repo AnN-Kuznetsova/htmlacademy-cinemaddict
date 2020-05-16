@@ -30,7 +30,7 @@ export default class CommentsController {
     this._commentsComponent.rerender(this._commentsModel.getComments().length);
   }
 
-  _commentChangeHandler(commentController, oldData, newData) {
+  _commentChangeHandler(oldData, newData) {
     if (newData === null) {
       this._commentsModel.removeComment(oldData.id);
       this._updateComments();
@@ -84,7 +84,7 @@ export default class CommentsController {
 
     if (data) {
       this._commentsComponent.reset();
-      this._commentChangeHandler(this, null, data);
+      this._commentChangeHandler(null, data);
     }
   }
 }
