@@ -1,4 +1,5 @@
-import FilmModel from "./models/film-model";
+import FilmModel from "./models/film-model.js";
+import CommentModel from "./models/comment-model.js";
 
 
 const AUTHORIZATION = `Basic dBK351hdk=dfMNf0fjk6`;
@@ -25,11 +26,7 @@ export default class API {
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`https://11.ecmascript.pages.academy/cinemaddict/comments/${filmId}`, {headers})
-      .then((responce) => {
-        const comments = responce.json();
-        window.console.log(comments[0]);
-        return comments;
-      });
-      //.then(FilmModel.parseFilms);
+      .then((responce) => responce.json())
+      .then(CommentModel.parseComments);
   }
 }

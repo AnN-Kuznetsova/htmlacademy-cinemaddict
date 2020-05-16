@@ -56,17 +56,16 @@ export default class CommentsController {
 
   render() {
     this._api.getComments(this._filmID)
-      .then((comments) => {
-        window.console.log(comments[0]);
-        this._commentsModel.setComments(comments);
+      .then((commentsResponse) => {
+        this._commentsModel.setComments(commentsResponse);
+
+        const comments = this._commentsModel.getComments();
+        const commentsCount = comments.length;
+        this._commentsComponent = new Comments(commentsCount, this._renderComments);
+        render(this._container, this._commentsComponent, RenderPosition.AFTERBEGIN);
+
+        this._renderComments(comments);
       });
-
-    const comments = this._commentsModel.getComments();
-    const commentsCount = comments.length;
-    this._commentsComponent = new Comments(commentsCount, this._renderComments);
-    render(this._container, this._commentsComponent, RenderPosition.AFTERBEGIN);
-
-    this._renderComments(comments);
   }
 
 
