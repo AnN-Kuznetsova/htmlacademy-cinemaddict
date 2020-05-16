@@ -11,11 +11,21 @@ export default class API {
   }
 
 
+  _checkStatus(response) {
+    if (response.status >= 200 && response.status < 300) {
+      return response;
+    } else {
+      throw new Error(`${response.status}: ${response.statusText}`);
+    }
+  }
+
+
   getFilms() {
     const headers = new Headers();
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`https://11.ecmascript.pages.academy/cinemaddict/movies`, {headers})
+      .then(this._checkStatus)
       .then((responce) => responce.json())
       .then(FilmModel.parseFilms);
   }
@@ -29,6 +39,7 @@ export default class API {
       body: JSON.stringify(data),
       headers,
     })
+      .then(this._checkStatus)
       .then((response) => response.json())
       .then(FilmModel.parseFilm);
   }
@@ -39,6 +50,7 @@ export default class API {
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`https://11.ecmascript.pages.academy/cinemaddict/comments/${filmId}`, {headers})
+      .then(this._checkStatus)
       .then((responce) => responce.json())
       .then(CommentModel.parseComments);
   }
