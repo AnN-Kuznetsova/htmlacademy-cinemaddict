@@ -130,6 +130,7 @@ const generateFilm = () => {
     isAddToWatchlist: generateBoolean(),
     isMarkAsWatched: generateBoolean(),
     isFavorite: generateBoolean(),
+    //watchingDate:
     comments: commentsModel,
     commentsCount: commentsModel.getComments().length,
   };

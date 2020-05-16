@@ -15,6 +15,7 @@ const pageController = new PageController(filmsModel);
 
 api.getFilms()
   .then((films) => {
+    window.console.log(films[0]);
     filmsModel.setFilms(films);
     pageController.render();
   });

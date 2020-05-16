@@ -59,13 +59,23 @@ export default class FilmController {
   _closeFilmDetailsPopup() {
     const filmSettings = this._filmDataController.getFilmSettings();
 
-    this._onDataChange(this._film.id, Object.assign({}, this._film, {
+    if ((this._film.isAddToWatchlist !== filmSettings.isAddToWatchlist) ||
+      (this._film.isMarkAsWatched !== filmSettings.isMarkAsWatched) ||
+      (this._film.isFavorite !== filmSettings.isFavorite)) {
+      this._onDataChange(this._film.id, Object.assign({}, this._film, {
+        isAddToWatchlist: filmSettings.isAddToWatchlist,
+        isMarkAsWatched: filmSettings.isMarkAsWatched,
+        isFavorite: filmSettings.isFavorite,
+      }));
+    }
+
+    /* this._onDataChange(this._film.id, Object.assign({}, this._film, {
       isAddToWatchlist: filmSettings.isAddToWatchlist,
       isMarkAsWatched: filmSettings.isMarkAsWatched,
       isFavorite: filmSettings.isFavorite,
       comments: this._commentsController.getCommentsModel(),
       commentsCount: this._commentsController.getCommentsModel().getComments().length,
-    }));
+    })); */
 
     if (this._isCommentsModelChange) {
       this._commentsModelChangeHandler();
@@ -78,8 +88,6 @@ export default class FilmController {
     removeElement(commentsComponent);
 
     removeElement(this._filmDetailsComponent);
-    /* document.removeEventListener(`keydown`, this._onEscKeyDown);
-    document.removeEventListener(`keydown`, this._onAddCommentsKeysDown); */
     document.removeEventListener(`keydown`, this._documentKeyDownHendler);
     this._mode = Mode.CARD;
   }
@@ -88,8 +96,6 @@ export default class FilmController {
   _openFilmDetailsPopup(filmDetailsComponent) {
     this._onViewChange();
     render(document.body, filmDetailsComponent, RenderPosition.BEFOREEND);
-    /* document.addEventListener(`keydown`, this._onEscKeyDown);
-    document.addEventListener(`keydown`, this._onAddCommentsKeysDown); */
     document.addEventListener(`keydown`, this._documentKeyDownHendler);
     this._mode = Mode.DETAILS;
 

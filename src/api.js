@@ -1,3 +1,5 @@
+import FilmModel from "./models/film-model";
+
 export default class API {
   constructor(authorization) {
     this._authorization = authorization;
@@ -9,6 +11,11 @@ export default class API {
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`https://11.ecmascript.pages.academy/cinemaddict/movies`, {headers})
-      .then((responce) => responce.json());
+      .then((responce) => {
+        const films = responce.json();
+        window.console.log(films[0]);
+        return films;
+      })
+      .then(FilmModel.parseFilms);
   }
 }

@@ -47,7 +47,7 @@ export default class FilmCard extends AbstractComponent {
           <span class="film-card__duration">${durationFormat}</span>
           <span class="film-card__genre">${genre[0]}</span>
         </p>
-        <img src="./images/posters/${poster}" alt="" class="film-card__poster">
+        <img src="./${poster}" alt="" class="film-card__poster">
         <p class="film-card__description">${descriptionText}</p>
         <a class="film-card__comments">${commentsCount} comments</a>
         <form class="film-card__controls">
