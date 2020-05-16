@@ -3,7 +3,10 @@ import PageController from "./controllers/page-controller.js";
 import FilmsModel from "./models/films-model.js";
 
 
-const api = new API();
+const AUTHORIZATION = `Basic dBK351hdk=dfMNf0fjk6`;
+
+
+const api = new API(AUTHORIZATION);
 const filmsModel = new FilmsModel();
 
 
