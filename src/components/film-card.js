@@ -68,33 +68,26 @@ export default class FilmCard extends AbstractComponent {
   }
 
 
-  setOnFilmCardPosterElementClick(cb) {
+  setPopupOpenButtonsClickHandler(handler) {
     this.getElement().querySelector(`.film-card__poster`)
-      .addEventListener(`click`, cb);
-  }
+    .addEventListener(`click`, handler);
 
-  setOnFilmCardTitleElementClick(cb) {
     this.getElement().querySelector(`.film-card__title`)
-      .addEventListener(`click`, cb);
-  }
+      .addEventListener(`click`, handler);
 
-  setOnFilmСardСommentsElementClick(cb) {
     this.getElement().querySelector(`.film-card__comments`)
-      .addEventListener(`click`, cb);
+      .addEventListener(`click`, handler);
   }
 
-  setOnAddToWatchlistButtonClick(cb) {
+
+  setUserDetailsButtonClickHandler(handler) {
     this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
-      .addEventListener(`click`, cb);
-  }
+      .addEventListener(`click`, handler);
 
-  setOnMarkAsWatchedButtonClick(cb) {
     this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
-      .addEventListener(`click`, cb);
-  }
+      .addEventListener(`click`, handler);
 
-  setOnFavoriteButtonClick(cb) {
     this.getElement().querySelector(`.film-card__controls-item--favorite`)
-      .addEventListener(`click`, cb);
+      .addEventListener(`click`, handler);
   }
 }

@@ -148,7 +148,7 @@ export default class FilmController {
 
 
   render(film) {
-    const openedFilmDetailsPopupButtonClickHandler = () => {
+    const popupOpenButtonsClickHandler = () => {
       openPopup();
     };
 
@@ -158,12 +158,8 @@ export default class FilmController {
     const oldFilmDetailsComponent = this._filmDetailsComponent;
 
     this._filmCardComponent = new FilmCard(film);
-    this._filmCardComponent.setOnFilmCardPosterElementClick(openedFilmDetailsPopupButtonClickHandler);
-    this._filmCardComponent.setOnFilmCardTitleElementClick(openedFilmDetailsPopupButtonClickHandler);
-    this._filmCardComponent.setOnFilmСardСommentsElementClick(openedFilmDetailsPopupButtonClickHandler);
-    this._filmCardComponent.setOnAddToWatchlistButtonClick(this._userDetailsButtonClickHandler);
-    this._filmCardComponent.setOnMarkAsWatchedButtonClick(this._userDetailsButtonClickHandler);
-    this._filmCardComponent.setOnFavoriteButtonClick(this._userDetailsButtonClickHandler);
+    this._filmCardComponent.setPopupOpenButtonsClickHandler(popupOpenButtonsClickHandler);
+    this._filmCardComponent.setUserDetailsButtonClickHandler(this._userDetailsButtonClickHandler);
 
     this._filmDetailsComponent = new FilmDetails();
     const openPopup = this._openFilmDetailsPopup.bind(this, this._filmDetailsComponent);
