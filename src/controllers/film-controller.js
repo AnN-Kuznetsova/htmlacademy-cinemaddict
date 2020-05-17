@@ -67,7 +67,9 @@ export default class FilmController {
 
 
   _closeFilmDetailsPopup() {
-    remove(this._filmDataController.getFilmDataComponent());
+    this._sendNewFilmData(SendFilmDataMode.DEFAULT);
+
+    removeElement(this._filmDataController.getFilmDataComponent());
 
     const commentsComponent = this._commentsController.getCommentsComponent();
     if (commentsComponent) {
