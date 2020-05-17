@@ -39,10 +39,10 @@ export default class PageController {
     this._filmsLists = filmsLists;
 
     this._siteMenuComponent = new SiteMenu();
-    this._userRankComponent = new UserRank(getFilmsByFilter(this._filmsModel.getFilmsAll(), FilterType.HISTORY).length);
+    this._userRankComponent = null;
     this._sortComponent = new Sort();
     this._filmsBoardComponent = new FilmsBoard();
-    this._footerStatisticsComponent = new FooterStatistics(this._filmsModel.getFilmsAll().length);
+    this._footerStatisticsComponent = null;
     this._loadingComponent = new Loading();
 
     this._filmsListsControllers = [];
@@ -126,7 +126,6 @@ export default class PageController {
 
 
   render() {
-    render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
     render(siteMainElement, this._siteMenuComponent, RenderPosition.BEFOREEND);
     this._filterController = new FilterController(this._siteMenuComponent.getElement(), this._filmsModel);
     this._filterController.render();
@@ -140,6 +139,10 @@ export default class PageController {
   rerender() {
     remove(this._loadingComponent);
 
+    this._userRankComponent = new UserRank(getFilmsByFilter(this._filmsModel.getFilmsAll(), FilterType.HISTORY).length);
+    this._footerStatisticsComponent = new FooterStatistics(this._filmsModel.getFilmsAll().length);
+
+    render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
     render(footerStatisticsElement, this._footerStatisticsComponent, RenderPosition.BEFOREEND);
 
     this._renderFilmsBoardController(this._filmsModel.getFilmsAll());
