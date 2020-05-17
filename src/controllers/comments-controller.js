@@ -2,6 +2,7 @@ import CommentsAPI from "../api/comments-api.js";
 import Comments from "../components/comments.js";
 import CommentController from "./comment-controller.js";
 import {render, RenderPosition} from "../utils/render.js";
+import CommentsConnectionError from "../components/comments-connection-error.js";
 
 export default class CommentsController {
   constructor(container, filmID, commentsModel, commentsChangeHandler) {
@@ -9,9 +10,10 @@ export default class CommentsController {
     this._filmID = filmID;
     this._commentsModel = commentsModel;
 
-    this._commentsComponent = null;
-    this._commentControllers = [];
     this._commentsApi = new CommentsAPI();
+    this._commentsComponent = null;
+    this._commentsConnectionErrorComponent = null;
+    this._commentControllers = [];
 
     this._commentChangeHandler = this._commentChangeHandler.bind(this);
     this._renderComments = this._renderComments.bind(this);
@@ -65,12 +67,21 @@ export default class CommentsController {
         render(this._container, this._commentsComponent, RenderPosition.AFTERBEGIN);
 
         this._renderComments(comments);
+      })
+      .catch(() => {
+        this._commentsConnectionErrorComponent = new CommentsConnectionError();
+        render(this._container, this._commentsConnectionErrorComponent, RenderPosition.AFTERBEGIN);
       });
   }
 
 
   getCommentsComponent() {
     return this._commentsComponent;
+  }
+
+
+  getCommentsConnectionErrorComponent() {
+    return this._commentsConnectionErrorComponent;
   }
 
 

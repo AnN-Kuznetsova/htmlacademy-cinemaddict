@@ -4,7 +4,7 @@ import FilmDetails from "../components/film-details.js";
 import FilmDataController from "./film-data-controller.js";
 import FilmModel from "../models/film-model.js";
 import {escPressHandler, addCommentKeysPressHandler} from "../utils/key-events.js";
-import {render, RenderPosition, replace, removeElement} from "../utils/render.js";
+import {render, RenderPosition, replace, remove, removeElement} from "../utils/render.js";
 import {UserDetailsButton} from "../components/film-card.js";
 
 
@@ -67,17 +67,15 @@ export default class FilmController {
 
 
   _closeFilmDetailsPopup() {
-    window.console.log(this._sendNewFilmData(SendFilmDataMode.DEFAULT));
-
-    /*if (this._isCommentsModelChange) {
-      this._commentsModelChangeHandler();
-    } */
-
-    removeElement(this._filmDataController.getFilmDataComponent());
+    remove(this._filmDataController.getFilmDataComponent());
 
     const commentsComponent = this._commentsController.getCommentsComponent();
-    commentsComponent.reset();
-    removeElement(commentsComponent);
+    if (commentsComponent) {
+      commentsComponent.reset();
+      remove(commentsComponent);
+    } else {
+      remove(this._commentsController.getCommentsConnectionErrorComponent());
+    }
 
     removeElement(this._filmDetailsComponent);
     document.removeEventListener(`keydown`, this._documentKeyDownHendler);
