@@ -8,10 +8,9 @@ const filmsModel = new FilmsModel();
 
 
 const pageController = new PageController(filmsModel, filmsApi);
-
+pageController.render();
 
 filmsApi.getFilms()
-  .then((films) => {
-    filmsModel.setFilms(films);
-    pageController.render();
-  });
+  .then((films) => filmsModel.setFilms(films))
+  .catch(() => filmsModel.setFilms([]))
+  .then(() => pageController.rerender());
