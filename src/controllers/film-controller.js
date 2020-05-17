@@ -1,7 +1,8 @@
+import CommentsController from "./comments-controller.js";
 import FilmCard from "../components/film-card.js";
 import FilmDetails from "../components/film-details.js";
 import FilmDataController from "./film-data-controller.js";
-import CommentsController from "./comments-controller.js";
+import FilmModel from "../models/film-model.js";
 import {escPressHandler, addCommentKeysPressHandler} from "../utils/key-events.js";
 import {render, RenderPosition, replace, removeElement} from "../utils/render.js";
 
@@ -62,11 +63,12 @@ export default class FilmController {
     if ((this._film.isAddToWatchlist !== filmSettings.isAddToWatchlist) ||
       (this._film.isMarkAsWatched !== filmSettings.isMarkAsWatched) ||
       (this._film.isFavorite !== filmSettings.isFavorite)) {
-      this._onDataChange(this._film.id, Object.assign({}, this._film, {
-        isAddToWatchlist: filmSettings.isAddToWatchlist,
-        isMarkAsWatched: filmSettings.isMarkAsWatched,
-        isFavorite: filmSettings.isFavorite,
-      }));
+      const newFilm = FilmModel.clone(this._film);
+      newFilm.isAddToWatchlist = filmSettings.isAddToWatchlist;
+      newFilm.isMarkAsWatched = filmSettings.isMarkAsWatched;
+      newFilm.isFavorite = filmSettings.isFavorite;
+
+      this._onDataChange(this._film.id, newFilm);
     }
 
     /* this._onDataChange(this._film.id, Object.assign({}, this._film, {
@@ -123,15 +125,24 @@ export default class FilmController {
     };
 
     const onAddToWatchlistButtonClick = () => {
-      this._onDataChange(film.id, Object.assign({}, film, {isAddToWatchlist: !film.isAddToWatchlist}));
+      const newFilm = FilmModel.clone(film);
+      newFilm.isAddToWatchlist = !newFilm.isAddToWatchlist;
+
+      this._onDataChange(film.id, newFilm);
     };
 
     const onMarkAsWatchedButtonClick = () => {
-      this._onDataChange(film.id, Object.assign({}, film, {isMarkAsWatched: !film.isMarkAsWatched}));
+      const newFilm = FilmModel.clone(film);
+      newFilm.isMarkAsWatched = !newFilm.isMarkAsWatched;
+
+      this._onDataChange(film.id, newFilm);
     };
 
     const onFavoriteButtonClick = () => {
-      this._onDataChange(film.id, Object.assign({}, film, {isFavorite: !film.isFavorite}));
+      const newFilm = FilmModel.clone(film);
+      newFilm.isFavorite = !newFilm.isFavorite;
+
+      this._onDataChange(film.id, newFilm);
     };
 
 

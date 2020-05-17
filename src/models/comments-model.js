@@ -1,7 +1,9 @@
 import {getIndexById} from "../utils/common.js";
 
 export default class CommentsModel {
-  constructor() {
+  constructor(commentsId) {
+    this._commentsId = commentsId;
+
     this._comments = [];
 
     this._commentsChangeHandlers = [];
@@ -9,6 +11,10 @@ export default class CommentsModel {
 
   _callHandlers(handlers) {
     handlers.forEach((handler) => handler());
+  }
+
+  getCommentsId() {
+    return this._commentsId;
   }
 
   getComments() {

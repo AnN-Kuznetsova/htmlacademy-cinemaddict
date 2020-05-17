@@ -23,15 +23,56 @@ export default class FilmModel {
     this.isFavorite = Boolean(data[`user_details`][`favorite`]);
     this.watchingDate = data[`user_details`][`watching_date`] ? new Date(data[`user_details`][`watching_date`]) : null;
 
-    this.commentsModel = new CommentsModel();
+    this.commentsModel = new CommentsModel(data[`comments`]);
     this.commentsCount = data[`comments`].length;
   }
+
+
+  toRAW() {
+    return {
+      "id": this.id,
+
+      "film_info": {
+        "title": this.title,
+        "alternative_title": this.originalTitle,
+        "total_rating": this.rating,
+        "director": this.director,
+        "writers": this.writers,
+        "actors": this.actors,
+        "release": {
+          "date": this.releaseDate.toISOString(),
+          "release_country": this.country,
+        },
+        "runtime": this.duration,
+        "genre": this.genre,
+        "poster": this.poster,
+        "description": this.description,
+        "age_rating": this.age,
+      },
+
+      "user_details": {
+        "watchlist": this.isAddToWatchlist,
+        "already_watched": this.isMarkAsWatched,
+        "favorite": this.isFavorite,
+        "watching_date": this.watchingDate ? this.watchingDate.toISOString() : null,
+      },
+
+      "comments": this.commentsModel.getCommentsId(),
+    };
+  }
+
 
   static parseFilm(data) {
     return new FilmModel(data);
   }
 
+
   static parseFilms(data) {
     return data.map(FilmModel.parseFilm);
+  }
+
+
+  static clone(data) {
+    return new FilmModel(data.toRAW());
   }
 }

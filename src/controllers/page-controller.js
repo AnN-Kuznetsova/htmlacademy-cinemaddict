@@ -93,11 +93,6 @@ export default class PageController {
           this._filmsListsControllers.forEach((filmsListsController) => filmsListsController.setDataChange(id, filmModel));
         }
       });
-    /* const isSuccess = this._filmsModel.updateFilm(id, newData);
-
-    if (isSuccess) {
-      this._filmsListsControllers.forEach((it) => it.setDataChange(id, newData));
-    } */
   }
 
 
