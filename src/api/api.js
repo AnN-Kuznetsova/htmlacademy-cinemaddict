@@ -1,12 +1,8 @@
-import FilmModel from "./models/film-model.js";
-import CommentModel from "./models/comment-model.js";
-
-
 const AUTHORIZATION = `Basic dBK351hdk=dfMNf0fjk6`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 
-const Method = {
+export const Method = {
   GET: `GET`,
   POST: `POST`,
   PUT: `PUT`,
@@ -16,6 +12,10 @@ const Method = {
 
 export default class API {
   constructor() {
+    if (new.target === API) {
+      throw new Error(`Can't instantiate AbstractComponent, only concrete one.`);
+    }
+
     this._endPoint = END_POINT;
     this._authorization = AUTHORIZATION;
   }
@@ -38,31 +38,5 @@ export default class API {
       .catch((error) => {
         throw error;
       });
-  }
-
-
-  getFilms() {
-    return this._load({url: `movies`})
-      .then((responce) => responce.json())
-      .then(FilmModel.parseFilms);
-  }
-
-
-  updateFilm(id, data) {
-    return this._load({
-      url: `movies/${id}`,
-      method: Method.PUT,
-      headers: new Headers({"Content-Type": `application/json`}),
-      body: JSON.stringify(data.toRAW()),
-    })
-    .then((response) => response.json())
-    .then(FilmModel.parseFilm);
-  }
-
-
-  getComments(filmId) {
-    return this._load({url: `comments/${filmId}`})
-      .then((responce) => responce.json())
-      .then(CommentModel.parseComments);
   }
 }

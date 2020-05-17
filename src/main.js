@@ -1,9 +1,9 @@
-import API from "./api.js";
+import FilmsAPI from "./api/films-api.js";
 import PageController from "./controllers/page-controller.js";
 import FilmsModel from "./models/films-model.js";
 
 
-const filmsApi = new API();
+const filmsApi = new FilmsAPI();
 const filmsModel = new FilmsModel();
 
 

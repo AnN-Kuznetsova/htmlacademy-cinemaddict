@@ -1,4 +1,4 @@
-import API from "../api.js";
+import CommentsAPI from "../api/comments-api.js";
 import Comments from "../components/comments.js";
 import CommentController from "./comment-controller.js";
 import {render, RenderPosition} from "../utils/render.js";
@@ -11,7 +11,7 @@ export default class CommentsController {
 
     this._commentsComponent = null;
     this._commentControllers = [];
-    this._api = new API();
+    this._commentsApi = new CommentsAPI();
 
     this._commentChangeHandler = this._commentChangeHandler.bind(this);
     this._renderComments = this._renderComments.bind(this);
@@ -55,7 +55,7 @@ export default class CommentsController {
 
 
   render() {
-    this._api.getComments(this._filmID)
+    this._commentsApi.getComments(this._filmID)
       .then((commentsResponse) => {
         this._commentsModel.setComments(commentsResponse);
 
