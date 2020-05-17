@@ -69,9 +69,9 @@ export default class FilmController {
   _closeFilmDetailsPopup() {
     window.console.log(this._sendNewFilmData(SendFilmDataMode.DEFAULT));
 
-    if (this._isCommentsModelChange) {
+    /*if (this._isCommentsModelChange) {
       this._commentsModelChangeHandler();
-    }
+    } */
 
     removeElement(this._filmDataController.getFilmDataComponent());
 

@@ -3,10 +3,20 @@ import CommentModel from "./models/comment-model.js";
 
 
 const AUTHORIZATION = `Basic dBK351hdk=dfMNf0fjk6`;
+const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
+
+
+const Method = {
+  GET: `GET`,
+  POST: `POST`,
+  PUT: `PUT`,
+  DELETE: `DELETE`
+};
 
 
 export default class API {
   constructor() {
+    this._endPoint = END_POINT;
     this._authorization = AUTHORIZATION;
   }
 
@@ -20,39 +30,38 @@ export default class API {
   }
 
 
-  getFilms() {
-    const headers = new Headers();
+  _load({url, method = Method.GET, headers = new Headers(), body = null}) {
     headers.append(`Authorization`, this._authorization);
 
-    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/movies`, {headers})
+    return fetch(`${this._endPoint}/${url}`, {method, headers, body})
       .then(this._checkStatus)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+
+  getFilms() {
+    return this._load({url: `movies`})
       .then((responce) => responce.json())
       .then(FilmModel.parseFilms);
   }
 
 
   updateFilm(id, data) {
-    const headers = new Headers();
-    headers.append(`Authorization`, this._authorization);
-    headers.append(`Content-Type`, `application/json`);
-
-    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/movies/${id}`, {
-      method: `PUT`,
+    return this._load({
+      url: `movies/${id}`,
+      method: Method.PUT,
+      headers: new Headers({"Content-Type": `application/json`}),
       body: JSON.stringify(data.toRAW()),
-      headers,
     })
-      .then(this._checkStatus)
-      .then((response) => response.json())
-      .then(FilmModel.parseFilm);
+    .then((response) => response.json())
+    .then(FilmModel.parseFilm);
   }
 
 
   getComments(filmId) {
-    const headers = new Headers();
-    headers.append(`Authorization`, this._authorization);
-
-    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/comments/${filmId}`, {headers})
-      .then(this._checkStatus)
+    return this._load({url: `comments/${filmId}`})
       .then((responce) => responce.json())
       .then(CommentModel.parseComments);
   }
