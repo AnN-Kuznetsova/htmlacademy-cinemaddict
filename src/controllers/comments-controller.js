@@ -1,13 +1,18 @@
+import CommentsAPI from "../api/comments-api.js";
 import Comments from "../components/comments.js";
 import CommentController from "./comment-controller.js";
 import {render, RenderPosition} from "../utils/render.js";
+import CommentsConnectionError from "../components/comments-connection-error.js";
 
 export default class CommentsController {
-  constructor(container, commentsModel, commentsChangeHandler) {
+  constructor(container, filmID, commentsModel, commentsChangeHandler) {
     this._container = container;
+    this._filmID = filmID;
     this._commentsModel = commentsModel;
 
+    this._commentsApi = new CommentsAPI();
     this._commentsComponent = null;
+    this._commentsConnectionErrorComponent = null;
     this._commentControllers = [];
 
     this._commentChangeHandler = this._commentChangeHandler.bind(this);
@@ -27,7 +32,7 @@ export default class CommentsController {
     this._commentsComponent.rerender(this._commentsModel.getComments().length);
   }
 
-  _commentChangeHandler(commentController, oldData, newData) {
+  _commentChangeHandler(oldData, newData) {
     if (newData === null) {
       this._commentsModel.removeComment(oldData.id);
       this._updateComments();
@@ -52,17 +57,31 @@ export default class CommentsController {
 
 
   render() {
-    const comments = this._commentsModel.getComments();
-    const commentsCount = comments.length;
-    this._commentsComponent = new Comments(commentsCount, this._renderComments);
-    render(this._container, this._commentsComponent, RenderPosition.AFTERBEGIN);
+    this._commentsApi.getComments(this._filmID)
+      .then((commentsResponse) => {
+        this._commentsModel.setComments(commentsResponse);
 
-    this._renderComments(comments);
+        const comments = this._commentsModel.getComments();
+        const commentsCount = comments.length;
+        this._commentsComponent = new Comments(commentsCount, this._renderComments);
+        render(this._container, this._commentsComponent, RenderPosition.AFTERBEGIN);
+
+        this._renderComments(comments);
+      })
+      .catch(() => {
+        this._commentsConnectionErrorComponent = new CommentsConnectionError();
+        render(this._container, this._commentsConnectionErrorComponent, RenderPosition.AFTERBEGIN);
+      });
   }
 
 
   getCommentsComponent() {
     return this._commentsComponent;
+  }
+
+
+  getCommentsConnectionErrorComponent() {
+    return this._commentsConnectionErrorComponent;
   }
 
 
@@ -76,7 +95,7 @@ export default class CommentsController {
 
     if (data) {
       this._commentsComponent.reset();
-      this._commentChangeHandler(this, null, data);
+      this._commentChangeHandler(null, data);
     }
   }
 }

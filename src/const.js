@@ -3,11 +3,11 @@ const FILM_CARD_EXTRA_COUNT = 2;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
-const EMOJIS = {
-  smile: `smile.png`,
-  sleeping: `sleeping.png`,
-  puke: `puke.png`,
-  angry: `angry.png`,
+const Emoji = {
+  SMILE: `smile.png`,
+  SLEEPING: `sleeping.png`,
+  PUKE: `puke.png`,
+  ANGRY: `angry.png`,
 };
 
 const DateTimeFormat = {
@@ -30,7 +30,7 @@ export {
   FILM_CARD_EXTRA_COUNT,
   SHOWING_FILMS_COUNT_ON_START,
   SHOWING_FILMS_COUNT_BY_BUTTON,
-  EMOJIS,
+  Emoji,
   DateTimeFormat,
   FilterType,
 };

@@ -1,14 +1,16 @@
+import FilmsAPI from "./api/films-api.js";
 import PageController from "./controllers/page-controller.js";
 import FilmsModel from "./models/films-model.js";
-import {generateFilms} from "./mock/film";
 
 
-const FILM_COUNT = 12;
-
-const films = generateFilms(FILM_COUNT);
+const filmsApi = new FilmsAPI();
 const filmsModel = new FilmsModel();
-filmsModel.setFilms(films);
 
 
-const pageController = new PageController(filmsModel);
+const pageController = new PageController(filmsModel, filmsApi);
 pageController.render();
+
+filmsApi.getFilms()
+  .then((films) => filmsModel.setFilms(films))
+  .catch(() => filmsModel.setFilms([]))
+  .then(() => pageController.rerender());

@@ -1,15 +1,16 @@
-import UserRank from "../components/user-rank.js";
-import SiteMenu from "../components/site-menu.js";
-import Sort from "../components/sort.js";
 import FilmsBoard from "../components/films-board.js";
-import FooterStatistics from "../components/footer-statistics.js";
 import FilmsList from "../data-structure/films-list.js";
 import FilmsListController from "./films-list-conrtoller.js";
 import FilterController from "./filter-controller.js";
-import {render, RenderPosition} from "../utils/render.js";
+import FooterStatistics from "../components/footer-statistics.js";
+import Loading from "../components/loading.js";
+import SiteMenu from "../components/site-menu.js";
+import Sort from "../components/sort.js";
+import UserRank from "../components/user-rank.js";
+import {FilterType} from "../const.js";
 import {SortType} from "../utils/sorting.js";
 import {getFilmsByFilter} from "../utils/filter.js";
-import {FilterType} from "../const.js";
+import {render, remove, RenderPosition} from "../utils/render.js";
 
 
 const ListName = {
@@ -17,6 +18,7 @@ const ListName = {
   TOP_RATING: `top-rating`,
   MOST_COMMENTED: `most-commented`,
 };
+
 
 const filmsLists = {
   default: new FilmsList(ListName.DEFAULT, `All movies. Upcoming`, SortType.DEFAULT),
@@ -31,15 +33,17 @@ const footerStatisticsElement = siteFooterElement.querySelector(`.footer__statis
 
 
 export default class PageController {
-  constructor(filmsModel) {
+  constructor(filmsModel, filmsApi) {
     this._filmsModel = filmsModel;
+    this._filmsApi = filmsApi;
     this._filmsLists = filmsLists;
 
     this._siteMenuComponent = new SiteMenu();
-    this._userRankComponent = new UserRank(getFilmsByFilter(this._filmsModel.getFilmsAll(), FilterType.HISTORY).length);
+    this._userRankComponent = null;
     this._sortComponent = new Sort();
     this._filmsBoardComponent = new FilmsBoard();
-    this._footerStatisticsComponent = new FooterStatistics(this._filmsModel.getFilmsAll().length);
+    this._footerStatisticsComponent = null;
+    this._loadingComponent = new Loading();
 
     this._filmsListsControllers = [];
     this._filterController = null;
@@ -84,16 +88,21 @@ export default class PageController {
 
 
   _onFilmsDataChange(id, newData) {
-    const isSuccess = this._filmsModel.updateFilm(id, newData);
+    this._filmsApi.updateFilm(id, newData)
+      .then((filmModel) => {
+        const isSuccess = this._filmsModel.updateFilm(id, filmModel);
 
-    if (isSuccess) {
-      this._filmsListsControllers.forEach((it) => it.setDataChange(id, newData));
-    }
+        if (isSuccess) {
+          this._filmsListsControllers.forEach((filmsListsController) => filmsListsController.setDataChange(id, filmModel));
+        }
+
+        return isSuccess;
+      });
   }
 
 
   _onFilmsListViewChange() {
-    this._filmsListsControllers.forEach((it) => it.setDefaultView());
+    this._filmsListsControllers.forEach((filmsListsController) => filmsListsController.setDefaultView());
   }
 
 
@@ -117,13 +126,23 @@ export default class PageController {
 
 
   render() {
-    render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
     render(siteMainElement, this._siteMenuComponent, RenderPosition.BEFOREEND);
     this._filterController = new FilterController(this._siteMenuComponent.getElement(), this._filmsModel);
     this._filterController.render();
 
     render(siteMainElement, this._sortComponent, RenderPosition.BEFOREEND);
     render(siteMainElement, this._filmsBoardComponent, RenderPosition.BEFOREEND);
+    render(this._filmsBoardComponent.getElement(), this._loadingComponent, RenderPosition.AFTERBEGIN);
+  }
+
+
+  rerender() {
+    remove(this._loadingComponent);
+
+    this._userRankComponent = new UserRank(getFilmsByFilter(this._filmsModel.getFilmsAll(), FilterType.HISTORY).length);
+    this._footerStatisticsComponent = new FooterStatistics(this._filmsModel.getFilmsAll().length);
+
+    render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
     render(footerStatisticsElement, this._footerStatisticsComponent, RenderPosition.BEFOREEND);
 
     this._renderFilmsBoardController(this._filmsModel.getFilmsAll());

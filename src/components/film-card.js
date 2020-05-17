@@ -3,6 +3,13 @@ import {MAX_DESCRIPTION_LENGTH, DateTimeFormat} from "../const.js";
 import {formatDurationTime, formatDate} from "../utils/common.js";
 
 
+export const UserDetailsButton = {
+  ADD_TO_WATCHLIST: `add-to-watchlist`,
+  MARK_AS_WATCHED: `mark-as-watched`,
+  FAVORITE: `favorite`,
+};
+
+
 export default class FilmCard extends AbstractComponent {
   constructor(film) {
     super();
@@ -15,6 +22,7 @@ export default class FilmCard extends AbstractComponent {
     return (
       `<button
         type="button"
+        data-button-name="${name}"
         class="film-card__controls-item button film-card__controls-item--${name} ${isActive ? `film-card__controls-item--active` : ``}"
         >
         ${value}
@@ -29,9 +37,9 @@ export default class FilmCard extends AbstractComponent {
     const releaseDateFormat = formatDate(releaseDate, DateTimeFormat.DATE_SHORT);
     const durationFormat = formatDurationTime(duration);
 
-    const addToWatchlistButton = this._createButtonMarkup(`add-to-watchlist`, `Add to watchlist`, isAddToWatchlist);
-    const markAsWatchedButton = this._createButtonMarkup(`mark-as-watched`, `Mark as watched`, isMarkAsWatched);
-    const favoriteButton = this._createButtonMarkup(`favorite`, `Mark as favorite`, isFavorite);
+    const addToWatchlistButton = this._createButtonMarkup(UserDetailsButton.ADD_TO_WATCHLIST, `Add to watchlist`, isAddToWatchlist);
+    const markAsWatchedButton = this._createButtonMarkup(UserDetailsButton.MARK_AS_WATCHED, `Mark as watched`, isMarkAsWatched);
+    const favoriteButton = this._createButtonMarkup(UserDetailsButton.FAVORITE, `Mark as favorite`, isFavorite);
 
     let descriptionText = description;
     if (description.length > MAX_DESCRIPTION_LENGTH) {
@@ -47,7 +55,7 @@ export default class FilmCard extends AbstractComponent {
           <span class="film-card__duration">${durationFormat}</span>
           <span class="film-card__genre">${genre[0]}</span>
         </p>
-        <img src="./images/posters/${poster}" alt="" class="film-card__poster">
+        <img src="./${poster}" alt="" class="film-card__poster">
         <p class="film-card__description">${descriptionText}</p>
         <a class="film-card__comments">${commentsCount} comments</a>
         <form class="film-card__controls">
@@ -60,33 +68,26 @@ export default class FilmCard extends AbstractComponent {
   }
 
 
-  setOnFilmCardPosterElementClick(cb) {
+  setPopupOpenButtonsClickHandler(handler) {
     this.getElement().querySelector(`.film-card__poster`)
-      .addEventListener(`click`, cb);
-  }
+    .addEventListener(`click`, handler);
 
-  setOnFilmCardTitleElementClick(cb) {
     this.getElement().querySelector(`.film-card__title`)
-      .addEventListener(`click`, cb);
-  }
+      .addEventListener(`click`, handler);
 
-  setOnFilmСardСommentsElementClick(cb) {
     this.getElement().querySelector(`.film-card__comments`)
-      .addEventListener(`click`, cb);
+      .addEventListener(`click`, handler);
   }
 
-  setOnAddToWatchlistButtonClick(cb) {
+
+  setUserDetailsButtonClickHandler(handler) {
     this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
-      .addEventListener(`click`, cb);
-  }
+      .addEventListener(`click`, handler);
 
-  setOnMarkAsWatchedButtonClick(cb) {
     this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
-      .addEventListener(`click`, cb);
-  }
+      .addEventListener(`click`, handler);
 
-  setOnFavoriteButtonClick(cb) {
     this.getElement().querySelector(`.film-card__controls-item--favorite`)
-      .addEventListener(`click`, cb);
+      .addEventListener(`click`, handler);
   }
 }
