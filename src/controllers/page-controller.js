@@ -92,6 +92,8 @@ export default class PageController {
         if (isSuccess) {
           this._filmsListsControllers.forEach((filmsListsController) => filmsListsController.setDataChange(id, filmModel));
         }
+
+        return isSuccess;
       });
   }
 

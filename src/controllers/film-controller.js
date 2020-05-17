@@ -5,11 +5,19 @@ import FilmDataController from "./film-data-controller.js";
 import FilmModel from "../models/film-model.js";
 import {escPressHandler, addCommentKeysPressHandler} from "../utils/key-events.js";
 import {render, RenderPosition, replace, removeElement} from "../utils/render.js";
+import {UserDetailsButton} from "../components/film-card.js";
 
 
 const Mode = {
   CARD: `card`,
   DETAILS: `details`,
+};
+
+const SendFilmDataMode = {
+  ADD_TO_WATCHLIST: `addToWatchlist`,
+  MARK_AS_WATCHED: `markAsWatched`,
+  FAVORITE: `favorite`,
+  DEFAULT: `default,`
 };
 
 
@@ -33,6 +41,7 @@ export default class FilmController {
     this._closeFilmDetailsPopup = this._closeFilmDetailsPopup.bind(this);
     this.__addCommentHandler = this._addCommentHandler.bind(this);
     this._commentsChangeHandler = this._commentsChangeHandler.bind(this);
+    this._userDetailsButtonClickHandler = this._userDetailsButtonClickHandler.bind(this);
   }
 
 
@@ -58,26 +67,7 @@ export default class FilmController {
 
 
   _closeFilmDetailsPopup() {
-    const filmSettings = this._filmDataController.getFilmSettings();
-
-    if ((this._film.isAddToWatchlist !== filmSettings.isAddToWatchlist) ||
-      (this._film.isMarkAsWatched !== filmSettings.isMarkAsWatched) ||
-      (this._film.isFavorite !== filmSettings.isFavorite)) {
-      const newFilm = FilmModel.clone(this._film);
-      newFilm.isAddToWatchlist = filmSettings.isAddToWatchlist;
-      newFilm.isMarkAsWatched = filmSettings.isMarkAsWatched;
-      newFilm.isFavorite = filmSettings.isFavorite;
-
-      this._onDataChange(this._film.id, newFilm);
-    }
-
-    /* this._onDataChange(this._film.id, Object.assign({}, this._film, {
-      isAddToWatchlist: filmSettings.isAddToWatchlist,
-      isMarkAsWatched: filmSettings.isMarkAsWatched,
-      isFavorite: filmSettings.isFavorite,
-      comments: this._commentsController.getCommentsModel(),
-      commentsCount: this._commentsController.getCommentsModel().getComments().length,
-    })); */
+    window.console.log(this._sendNewFilmData(SendFilmDataMode.DEFAULT));
 
     if (this._isCommentsModelChange) {
       this._commentsModelChangeHandler();
@@ -111,40 +101,56 @@ export default class FilmController {
   }
 
 
+  _sendNewFilmData(sendMode) {
+    const newFilm = FilmModel.clone(this._film);
+
+    switch (sendMode) {
+      case SendFilmDataMode.ADD_TO_WATCHLIST:
+        newFilm.isAddToWatchlist = !newFilm.isAddToWatchlist;
+        break;
+      case SendFilmDataMode.MARK_AS_WATCHED:
+        newFilm.isMarkAsWatched = !newFilm.isMarkAsWatched;
+        break;
+      case SendFilmDataMode.FAVORITE:
+        newFilm.isFavorite = !newFilm.isFavorite;
+        break;
+      default:
+        const filmSettings = this._filmDataController.getFilmSettings();
+
+        if ((this._film.isAddToWatchlist !== filmSettings.isAddToWatchlist) ||
+          (this._film.isMarkAsWatched !== filmSettings.isMarkAsWatched) ||
+          (this._film.isFavorite !== filmSettings.isFavorite)) {
+          newFilm.isAddToWatchlist = filmSettings.isAddToWatchlist;
+          newFilm.isMarkAsWatched = filmSettings.isMarkAsWatched;
+          newFilm.isFavorite = filmSettings.isFavorite;
+        }
+    }
+
+    this._onDataChange(this._film.id, newFilm);
+  }
+
+
+  _userDetailsButtonClickHandler(evt) {
+    switch (evt.target.dataset.buttonName) {
+      case UserDetailsButton.ADD_TO_WATCHLIST:
+        this._sendNewFilmData(SendFilmDataMode.ADD_TO_WATCHLIST);
+        break;
+      case UserDetailsButton.MARK_AS_WATCHED:
+        this._sendNewFilmData(SendFilmDataMode.MARK_AS_WATCHED);
+        break;
+      case UserDetailsButton.FAVORITE:
+        this._sendNewFilmData(SendFilmDataMode.FAVORITE);
+        break;
+      default:
+        this._sendNewFilmData(SendFilmDataMode.DEFAULT);
+    }
+  }
+
+
   render(film) {
-    const onFilmCardPosterElementClick = () => {
+    const openedFilmDetailsPopupButtonClickHandler = () => {
       openPopup();
     };
-
-    const onFilmCardTitleElementClick = () => {
-      openPopup();
-    };
-
-    const onFilmСardСommentsElementClick = () => {
-      openPopup();
-    };
-
-    const onAddToWatchlistButtonClick = () => {
-      const newFilm = FilmModel.clone(film);
-      newFilm.isAddToWatchlist = !newFilm.isAddToWatchlist;
-
-      this._onDataChange(film.id, newFilm);
-    };
-
-    const onMarkAsWatchedButtonClick = () => {
-      const newFilm = FilmModel.clone(film);
-      newFilm.isMarkAsWatched = !newFilm.isMarkAsWatched;
-
-      this._onDataChange(film.id, newFilm);
-    };
-
-    const onFavoriteButtonClick = () => {
-      const newFilm = FilmModel.clone(film);
-      newFilm.isFavorite = !newFilm.isFavorite;
-
-      this._onDataChange(film.id, newFilm);
-    };
-
 
     this._film = film;
 
@@ -152,12 +158,12 @@ export default class FilmController {
     const oldFilmDetailsComponent = this._filmDetailsComponent;
 
     this._filmCardComponent = new FilmCard(film);
-    this._filmCardComponent.setOnFilmCardPosterElementClick(onFilmCardPosterElementClick);
-    this._filmCardComponent.setOnFilmCardTitleElementClick(onFilmCardTitleElementClick);
-    this._filmCardComponent.setOnFilmСardСommentsElementClick(onFilmСardСommentsElementClick);
-    this._filmCardComponent.setOnAddToWatchlistButtonClick(onAddToWatchlistButtonClick);
-    this._filmCardComponent.setOnMarkAsWatchedButtonClick(onMarkAsWatchedButtonClick);
-    this._filmCardComponent.setOnFavoriteButtonClick(onFavoriteButtonClick);
+    this._filmCardComponent.setOnFilmCardPosterElementClick(openedFilmDetailsPopupButtonClickHandler);
+    this._filmCardComponent.setOnFilmCardTitleElementClick(openedFilmDetailsPopupButtonClickHandler);
+    this._filmCardComponent.setOnFilmСardСommentsElementClick(openedFilmDetailsPopupButtonClickHandler);
+    this._filmCardComponent.setOnAddToWatchlistButtonClick(this._userDetailsButtonClickHandler);
+    this._filmCardComponent.setOnMarkAsWatchedButtonClick(this._userDetailsButtonClickHandler);
+    this._filmCardComponent.setOnFavoriteButtonClick(this._userDetailsButtonClickHandler);
 
     this._filmDetailsComponent = new FilmDetails();
     const openPopup = this._openFilmDetailsPopup.bind(this, this._filmDetailsComponent);
