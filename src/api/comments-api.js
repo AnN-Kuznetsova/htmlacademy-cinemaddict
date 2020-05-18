@@ -13,6 +13,7 @@ export default class CommentsAPI extends API {
       .then(CommentModel.parseComments);
   }
 
+
   createComment(filmId, comment) {
     return this._load({
       url: `comments/${filmId}`,
@@ -27,5 +28,11 @@ export default class CommentsAPI extends API {
           comments: CommentModel.parseComments(response.comments),
         };
       });
+  }
+
+
+  deleteComment(id) {
+    window.console.log(`comment data send`);
+    return this._load({url: `comments/${id}`, method: Method.DELETE});
   }
 }

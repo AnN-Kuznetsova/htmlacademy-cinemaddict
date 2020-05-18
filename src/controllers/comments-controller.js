@@ -35,8 +35,11 @@ export default class CommentsController {
 
   _commentChangeHandler(oldData, newData) {
     if (newData === null) {
-      this._commentsModel.removeComment(oldData.id);
-      this._updateComments();
+      this._commentsApi.deleteComment(oldData.id)
+        .then(() => {
+          this._commentsModel.removeComment(oldData.id);
+          this._updateComments();
+        });
     } else if (oldData === null) {
       this._commentsApi.createComment(this._filmID, newData)
         .then((response) => {
