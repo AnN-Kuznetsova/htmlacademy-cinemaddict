@@ -106,6 +106,10 @@ export default class FilmController {
 
 
   _sendNewFilmData(sendMode) {
+    const getWatchingDate = (isWatch) => {
+      return isWatch ? new Date() : null;
+    };
+
     let isFilmDataChange = false;
     const newFilm = FilmModel.clone(this._film);
 
@@ -116,6 +120,7 @@ export default class FilmController {
         break;
       case SendFilmDataMode.MARK_AS_WATCHED:
         newFilm.isMarkAsWatched = !newFilm.isMarkAsWatched;
+        newFilm.watchingDate = getWatchingDate(newFilm.isMarkAsWatched);
         isFilmDataChange = true;
         break;
       case SendFilmDataMode.FAVORITE:
@@ -128,9 +133,12 @@ export default class FilmController {
         if ((this._film.isAddToWatchlist !== filmSettings.isAddToWatchlist) ||
           (this._film.isMarkAsWatched !== filmSettings.isMarkAsWatched) ||
           (this._film.isFavorite !== filmSettings.isFavorite)) {
+          newFilm.watchingDate = getWatchingDate(filmSettings.isMarkAsWatched && !this._film.isMarkAsWatched);
+
           newFilm.isAddToWatchlist = filmSettings.isAddToWatchlist;
           newFilm.isMarkAsWatched = filmSettings.isMarkAsWatched;
           newFilm.isFavorite = filmSettings.isFavorite;
+
           isFilmDataChange = true;
         }
     }
