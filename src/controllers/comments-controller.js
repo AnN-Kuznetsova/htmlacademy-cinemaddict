@@ -4,6 +4,8 @@ import Comments from "../components/comments.js";
 import CommentsAPI from "../api/comments-api.js";
 import CommentsConnectionError from "../components/comments-connection-error.js";
 import {render, RenderPosition} from "../utils/render.js";
+import {SHAKE_ANIMATION_TIMEOUT} from "../const.js";
+
 
 export default class CommentsController {
   constructor(container, filmID, commentsModel, commentsChangeHandler) {
@@ -34,20 +36,22 @@ export default class CommentsController {
     this._commentsComponent.rerender(this._commentsModel.getComments().length);
   }
 
-  _commentChangeHandler(oldData, newData) {
+  _commentChangeHandler(oldData, newData, commentElement) {
     if (newData === null) {
       this._commentsApi.deleteComment(oldData.id)
         .then(() => {
           this._commentsModel.removeComment(oldData.id);
           this._updateComments();
-        });
+        })
+        .catch(() => this._shake(commentElement));
     } else if (oldData === null) {
       this._commentsApi.createComment(this._filmID, newData)
         .then((response) => {
           this._commentsModel.removeComments();
           this._commentsModel.setComments(response.comments);
           this._updateComments();
-        });
+        })
+        .catch(() => this._shake(this._commentsComponent.newCommentElement));
     }
   }
 
@@ -62,6 +66,19 @@ export default class CommentsController {
 
       return commentController;
     });
+  }
+
+
+  _shake(element) {
+    window.console.log(this._newCommentElement);
+
+    //this.setErrorStyle();
+
+    element.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+    setTimeout(() => {
+      element.style.animation = ``;
+    }, SHAKE_ANIMATION_TIMEOUT);
   }
 
 
@@ -115,7 +132,7 @@ export default class CommentsController {
 
     if (newData) {
       newData = this._parseNewCommentData(newData);
-      this._commentsComponent.reset();
+      //this._commentsComponent.reset();
       this._commentChangeHandler(null, newData);
     }
   }

@@ -16,7 +16,16 @@ export default class Comments extends AbstractSmartComponent {
       text: null,
     };
 
+    this._newCommentElement = null;
     this._subscribeOnEvents();
+  }
+
+
+  get newCommentElement() {
+    if (!this._newCommentElement) {
+      this._newCommentElement = this.getElement().querySelector(`.film-details__new-comment`);
+    }
+    return this._newCommentElement;
   }
 
 
@@ -46,6 +55,7 @@ export default class Comments extends AbstractSmartComponent {
       ``;
   }
 
+
   _createEmojiListMarkup(emojis) {
     return (
       `<div class="film-details__emoji-list">
@@ -62,6 +72,7 @@ export default class Comments extends AbstractSmartComponent {
       </div>`
     );
   }
+
 
   getTemplate() {
     const commentsCount = this._commentsCount;

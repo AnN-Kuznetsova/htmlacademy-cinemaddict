@@ -15,7 +15,7 @@ export default class CommentController {
 
 
   _deleteButtonClickHandler() {
-    this._commentChangeHandler(this._comment, null);
+    this._commentChangeHandler(this._comment, null, this._commentComponent.getElement());
   }
 
 

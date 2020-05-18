@@ -3,6 +3,8 @@ const FILM_CARD_EXTRA_COUNT = 2;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
+const SHAKE_ANIMATION_TIMEOUT = 600;
+
 const Emoji = {
   SMILE: `smile.png`,
   SLEEPING: `sleeping.png`,
@@ -33,4 +35,5 @@ export {
   Emoji,
   DateTimeFormat,
   FilterType,
+  SHAKE_ANIMATION_TIMEOUT,
 };
