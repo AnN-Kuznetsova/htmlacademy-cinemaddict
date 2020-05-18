@@ -25,6 +25,10 @@ export default class FilmModel {
 
     this.commentsModel = new CommentsModel(data[`comments`]);
     this.commentsCount = data[`comments`].length;
+
+    this._setCommentsCount = this._setCommentsCount.bind(this);
+
+    this.commentsModel.setCommentsChangeHandler(this._setCommentsCount);
   }
 
 
@@ -59,6 +63,11 @@ export default class FilmModel {
 
       "comments": this.commentsModel.getCommentsId(),
     };
+  }
+
+
+  _setCommentsCount() {
+    this.commentsCount = this.commentsModel.getCommentsCount();
   }
 
 

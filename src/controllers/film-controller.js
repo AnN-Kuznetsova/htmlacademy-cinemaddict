@@ -45,8 +45,8 @@ export default class FilmController {
   }
 
 
-  _commentsChangeHandler() {
-    this._isCommentsModelChange = true;
+  _commentsChangeHandler(value = true) {
+    this._isCommentsModelChange = value;
   }
 
 
@@ -70,7 +70,7 @@ export default class FilmController {
     this._sendNewFilmData(SendFilmDataMode.DEFAULT);
 
     if (this._isCommentsModelChange) {
-      this._commentsModelChangeHandler();
+      this._commentsModelChangeHandler(this._film.id, this._film);
     }
 
     removeElement(this._filmDataController.getFilmDataComponent());
@@ -106,17 +106,21 @@ export default class FilmController {
 
 
   _sendNewFilmData(sendMode) {
+    let isFilmDataChange = false;
     const newFilm = FilmModel.clone(this._film);
 
     switch (sendMode) {
       case SendFilmDataMode.ADD_TO_WATCHLIST:
         newFilm.isAddToWatchlist = !newFilm.isAddToWatchlist;
+        isFilmDataChange = true;
         break;
       case SendFilmDataMode.MARK_AS_WATCHED:
         newFilm.isMarkAsWatched = !newFilm.isMarkAsWatched;
+        isFilmDataChange = true;
         break;
       case SendFilmDataMode.FAVORITE:
         newFilm.isFavorite = !newFilm.isFavorite;
+        isFilmDataChange = true;
         break;
       default:
         const filmSettings = this._filmDataController.getFilmSettings();
@@ -127,10 +131,13 @@ export default class FilmController {
           newFilm.isAddToWatchlist = filmSettings.isAddToWatchlist;
           newFilm.isMarkAsWatched = filmSettings.isMarkAsWatched;
           newFilm.isFavorite = filmSettings.isFavorite;
+          isFilmDataChange = true;
         }
     }
 
-    this._onDataChange(this._film.id, newFilm);
+    if (isFilmDataChange) {
+      this._onDataChange(this._film.id, newFilm);
+    }
   }
 
 

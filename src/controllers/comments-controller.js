@@ -10,6 +10,7 @@ export default class CommentsController {
     this._container = container;
     this._filmID = filmID;
     this._commentsModel = commentsModel;
+    this._commentsChangeHandler = commentsChangeHandler;
 
     this._commentsApi = new CommentsAPI();
     this._commentsComponent = null;
@@ -66,7 +67,7 @@ export default class CommentsController {
 
   _parseNewCommentData(newCommentData) {
     return new CommentModel({
-      "comment": newCommentData.text,
+      "comment": newCommentData.text ? newCommentData.text : ` `,
       "emotion": newCommentData.emoji[0].toLowerCase(),
       "date": newCommentData.dayAndTime.toISOString(),
     });
@@ -84,6 +85,8 @@ export default class CommentsController {
         render(this._container, this._commentsComponent, RenderPosition.AFTERBEGIN);
 
         this._renderComments(comments);
+
+        this._commentsChangeHandler(false);
       })
       .catch(() => {
         this._commentsConnectionErrorComponent = new CommentsConnectionError();
@@ -108,9 +111,10 @@ export default class CommentsController {
 
 
   addNewComment() {
-    const newData = this._parseNewCommentData(this._commentsComponent.getData());
+    let newData = this._commentsComponent.getData();
 
     if (newData) {
+      newData = this._parseNewCommentData(newData);
       this._commentsComponent.reset();
       this._commentChangeHandler(null, newData);
     }

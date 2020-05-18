@@ -23,7 +23,12 @@ export default class CommentsModel {
 
   setComments(comments) {
     this._comments = Array.from(comments);
+    this._commentsId = this._comments.map((comment) => comment.id);
     this._callHandlers(this._commentsChangeHandlers);
+  }
+
+  getCommentsCount() {
+    return this._comments.length;
   }
 
   removeComments() {
@@ -38,6 +43,7 @@ export default class CommentsModel {
     }
 
     this._comments = [].concat(this._comments.slice(0, index), this._comments.slice(index + 1));
+    this._commentsId = this._commentsId.filter((commentId) => commentId !== id);
     this._callHandlers(this._commentsChangeHandlers);
 
     return true;
@@ -45,6 +51,7 @@ export default class CommentsModel {
 
   addComment(comment) {
     this._comments = [].concat(comment, this._comments);
+    this._commentsId = [].concat(this._commentsId, comment.id);
     this._callHandlers(this._commentsChangeHandlers);
   }
 

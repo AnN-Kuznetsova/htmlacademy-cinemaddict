@@ -58,14 +58,17 @@ export default class PageController {
     this._filmsModel.setFilterChangeHandler(this._onFilmsModelFilterChange);
   }
 
-  _commentsModelChangePageHandler() {
+
+  _commentsModelChangePageHandler(id, filmModel) {
     for (const listController of this._filmsListsControllers) {
       if (listController.name === ListName.MOST_COMMENTED) {
         listController.render(this._filmsModel.getFilmsAll());
-        break;
+      } else {
+        listController.setDataChange(id, filmModel);
       }
     }
   }
+
 
   _onSortTypeChange(newSortType) {
     for (const listController of this._filmsListsControllers) {

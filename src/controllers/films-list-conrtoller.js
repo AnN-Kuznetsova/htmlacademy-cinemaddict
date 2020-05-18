@@ -50,8 +50,8 @@ export default class FilmsListController {
     this._onFilmsListViewChange();
   }
 
-  _commentsModelChangeHandler() {
-    this._commentsModelChangePageHandler();
+  _commentsModelChangeHandler(id, filmModel) {
+    this._commentsModelChangePageHandler(id, filmModel);
   }
 
 

@@ -32,7 +32,6 @@ export default class CommentsAPI extends API {
 
 
   deleteComment(id) {
-    window.console.log(`comment data send`);
     return this._load({url: `comments/${id}`, method: Method.DELETE});
   }
 }
