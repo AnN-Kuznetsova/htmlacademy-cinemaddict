@@ -1,8 +1,9 @@
-import CommentsAPI from "../api/comments-api.js";
-import Comments from "../components/comments.js";
 import CommentController from "./comment-controller.js";
-import {render, RenderPosition} from "../utils/render.js";
+import CommentModel from "../models/comment-model.js";
+import Comments from "../components/comments.js";
+import CommentsAPI from "../api/comments-api.js";
 import CommentsConnectionError from "../components/comments-connection-error.js";
+import {render, RenderPosition} from "../utils/render.js";
 
 export default class CommentsController {
   constructor(container, filmID, commentsModel, commentsChangeHandler) {
@@ -37,8 +38,12 @@ export default class CommentsController {
       this._commentsModel.removeComment(oldData.id);
       this._updateComments();
     } else if (oldData === null) {
-      this._commentsModel.addComment(newData);
-      this._updateComments();
+      this._commentsApi.createComment(this._filmID, newData)
+        .then((response) => {
+          this._commentsModel.removeComments();
+          this._commentsModel.setComments(response.comments);
+          this._updateComments();
+        });
     }
   }
 
@@ -52,6 +57,15 @@ export default class CommentsController {
       commentController.render(comment);
 
       return commentController;
+    });
+  }
+
+
+  _parseNewCommentData(newCommentData) {
+    return new CommentModel({
+      "comment": newCommentData.text,
+      "emotion": newCommentData.emoji[0].toLowerCase(),
+      "date": newCommentData.dayAndTime.toISOString(),
     });
   }
 
@@ -91,11 +105,11 @@ export default class CommentsController {
 
 
   addNewComment() {
-    const data = this._commentsComponent.getData();
+    const newData = this._parseNewCommentData(this._commentsComponent.getData());
 
-    if (data) {
+    if (newData) {
       this._commentsComponent.reset();
-      this._commentChangeHandler(null, data);
+      this._commentChangeHandler(null, newData);
     }
   }
 }

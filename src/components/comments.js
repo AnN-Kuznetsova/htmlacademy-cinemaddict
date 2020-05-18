@@ -124,13 +124,11 @@ export default class Comments extends AbstractSmartComponent {
   getData() {
     if (this._newComment.emojiUrl && this._newComment.emojiTitle) {
       return {
-        id: String(new Date() + Math.random()),
         text: this._newComment.text,
         emoji: [
           this._newComment.emojiTitle,
           this._newComment.emojiUrl,
         ],
-        author: `John Doe`,
         dayAndTime: new Date(),
       };
     }

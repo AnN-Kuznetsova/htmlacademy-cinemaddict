@@ -26,6 +26,10 @@ export default class CommentsModel {
     this._callHandlers(this._commentsChangeHandlers);
   }
 
+  removeComments() {
+    this._comments = [];
+  }
+
   removeComment(id) {
     const index = getIndexById(this._comments, id);
 
