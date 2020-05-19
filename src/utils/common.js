@@ -45,7 +45,7 @@ const setСustomTimeOut = (timeOut, handler) => {
 const disableForm = (formElements, value = true) => {
   for (const element of formElements) {
     element.disabled = value;
-    element.style.backgroundColor = value ? `red` : `#ffffff`; //#f2f2f2
+    element.style.backgroundColor = value ? `#aaaaaa` : `#ffffff`;
   }
 };
 
