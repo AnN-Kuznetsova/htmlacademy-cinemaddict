@@ -4,7 +4,7 @@ import Comments from "../components/comments.js";
 import CommentsAPI from "../api/comments-api.js";
 import CommentsConnectionError from "../components/comments-connection-error.js";
 import {render, RenderPosition} from "../utils/render.js";
-import {SHAKE_ANIMATION_TIMEOUT} from "../const.js";
+import {shakeElement} from "../utils/common.js";
 
 
 export default class CommentsController {
@@ -43,7 +43,7 @@ export default class CommentsController {
           this._commentsModel.removeComment(oldData.id);
           this._updateComments();
         })
-        .catch(() => this._shake(commentElement));
+        .catch(() => shakeElement(commentElement));
     } else if (oldData === null) {
       this._commentsApi.createComment(this._filmID, newData)
         .then((response) => {
@@ -51,7 +51,10 @@ export default class CommentsController {
           this._commentsModel.setComments(response.comments);
           this._updateComments();
         })
-        .catch(() => this._shake(this._commentsComponent.newCommentElement));
+        .catch(() => {
+          shakeElement(this._commentsComponent.newCommentElement);
+          this._commentsComponent.setErrorStyle();
+        });
     }
   }
 
@@ -66,19 +69,6 @@ export default class CommentsController {
 
       return commentController;
     });
-  }
-
-
-  _shake(element) {
-    window.console.log(this._newCommentElement);
-
-    //this.setErrorStyle();
-
-    element.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
-
-    setTimeout(() => {
-      element.style.animation = ``;
-    }, SHAKE_ANIMATION_TIMEOUT);
   }
 
 

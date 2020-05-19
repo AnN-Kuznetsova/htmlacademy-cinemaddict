@@ -1,6 +1,8 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import {Emoji} from "../const.js";
+import {adjustElementErrorStyle} from "../utils/common.js";
 import {encode} from "he";
+import {SHAKE_ANIMATION_TIMEOUT} from "../const.js";
 
 
 export default class Comments extends AbstractSmartComponent {
@@ -17,6 +19,9 @@ export default class Comments extends AbstractSmartComponent {
     };
 
     this._newCommentElement = null;
+
+    this.setErrorStyle = this.setErrorStyle.bind(this);
+
     this._subscribeOnEvents();
   }
 
@@ -145,5 +150,11 @@ export default class Comments extends AbstractSmartComponent {
     }
 
     return false;
+  }
+
+
+  setErrorStyle() {
+    const commentInputElement = this._newCommentElement.querySelector(`.film-details__comment-input`);
+    adjustElementErrorStyle(commentInputElement);
   }
 }

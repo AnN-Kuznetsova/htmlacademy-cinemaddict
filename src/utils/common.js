@@ -1,5 +1,6 @@
 import moment from "moment";
 import {DateTimeFormat} from "../const.js";
+import {SHAKE_ANIMATION_TIMEOUT} from "../const.js";
 
 
 const formatDurationTime = (duration) => {
@@ -35,6 +36,22 @@ const arrayDataChange = (array, id, newData) => {
   };
 };
 
+const shakeElement = (element) => {
+  element.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+  setTimeout(() => {
+    element.style.animation = ``;
+  }, SHAKE_ANIMATION_TIMEOUT);
+};
+
+const adjustElementErrorStyle = (element) => {
+  element.style.boxShadow = `0 0 0 4px #ff4e4e`;
+
+  setTimeout(() => {
+    element.style.boxShadow = ``;
+  }, SHAKE_ANIMATION_TIMEOUT);
+};
+
 
 export {
   getIndexById,
@@ -42,4 +59,6 @@ export {
   formatDurationTime,
   formatDate,
   formatDateFromNow,
+  shakeElement,
+  adjustElementErrorStyle,
 };
