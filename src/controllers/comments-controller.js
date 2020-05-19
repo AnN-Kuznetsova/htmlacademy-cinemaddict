@@ -6,6 +6,7 @@ import CommentsConnectionError from "../components/comments-connection-error.js"
 import {SHAKE_ANIMATION_TIMEOUT} from "../const.js";
 import {disableForm, setСustomTimeOut, shakeElement} from "../utils/common.js";
 import {render, RenderPosition} from "../utils/render.js";
+import {addCommentKeysPressHandler} from "../utils/key-events.js";
 
 
 export default class CommentsController {
@@ -22,6 +23,8 @@ export default class CommentsController {
 
     this._commentChangeHandler = this._commentChangeHandler.bind(this);
     this._renderComments = this._renderComments.bind(this);
+    this._documentKeyDownHendler = this._documentKeyDownHendler.bind(this);
+    this._addNewComment = this._addNewComment.bind(this);
 
     this._commentsModel.setCommentsChangeHandler(commentsChangeHandler);
   }
@@ -67,6 +70,9 @@ export default class CommentsController {
             this._setCreateCommentErrorStyle(false);
             disableForm(this._commentsComponent.newCommentFormElements, false);
           });
+        })
+        .then(() => {
+          this._addListeners();
         });
     }
   }
@@ -111,6 +117,7 @@ export default class CommentsController {
         render(this._container, this._commentsComponent, RenderPosition.AFTERBEGIN);
 
         this._renderComments(comments);
+        this._addListeners();
 
         this._commentsChangeHandler(false);
       })
@@ -136,13 +143,31 @@ export default class CommentsController {
   }
 
 
-  addNewComment() {
+  removeListeners() {
+    document.removeEventListener(`keydown`, this._documentKeyDownHendler);
+  }
+
+
+  _addListeners() {
+    document.addEventListener(`keydown`, this._documentKeyDownHendler);
+  }
+
+
+  _addNewComment() {
     let newData = this._commentsComponent.getData();
 
     if (newData) {
-      newData = this._parseNewCommentData(newData);
       disableForm(this._commentsComponent.newCommentFormElements, true);
+      this.removeListeners();
+      newData = this._parseNewCommentData(newData);
       this._commentChangeHandler(null, newData);
     }
+  }
+
+
+  _documentKeyDownHendler(evt) {
+    addCommentKeysPressHandler(evt, () => {
+      this._addNewComment();
+    });
   }
 }

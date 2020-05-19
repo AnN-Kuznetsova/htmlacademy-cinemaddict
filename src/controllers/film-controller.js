@@ -3,7 +3,7 @@ import FilmCard from "../components/film-card.js";
 import FilmDetails from "../components/film-details.js";
 import FilmDataController from "./film-data-controller.js";
 import FilmModel from "../models/film-model.js";
-import {escPressHandler, addCommentKeysPressHandler} from "../utils/key-events.js";
+import {escPressHandler} from "../utils/key-events.js";
 import {render, RenderPosition, replace, remove, removeElement} from "../utils/render.js";
 import {UserDetailsButton} from "../components/film-card.js";
 
@@ -39,7 +39,6 @@ export default class FilmController {
 
     this._documentKeyDownHendler = this._documentKeyDownHendler.bind(this);
     this._closeFilmDetailsPopup = this._closeFilmDetailsPopup.bind(this);
-    this.__addCommentHandler = this._addCommentHandler.bind(this);
     this._commentsChangeHandler = this._commentsChangeHandler.bind(this);
     this._userDetailsButtonClickHandler = this._userDetailsButtonClickHandler.bind(this);
   }
@@ -50,18 +49,9 @@ export default class FilmController {
   }
 
 
-  _addCommentHandler() {
-    this._commentsController.addNewComment();
-  }
-
-
   _documentKeyDownHendler(evt) {
     escPressHandler(evt, () => {
       this._closeFilmDetailsPopup();
-    });
-
-    addCommentKeysPressHandler(evt, () => {
-      this._addCommentHandler();
     });
   }
 
@@ -79,6 +69,7 @@ export default class FilmController {
     if (commentsComponent) {
       commentsComponent.reset();
       remove(commentsComponent);
+      this._commentsController.removeListeners();
     } else {
       remove(this._commentsController.getCommentsConnectionErrorComponent());
     }
