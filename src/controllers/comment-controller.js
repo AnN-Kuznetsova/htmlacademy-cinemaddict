@@ -15,7 +15,11 @@ export default class CommentController {
 
 
   _deleteButtonClickHandler() {
-    this._commentChangeHandler(this._comment, null, this._commentComponent.getElement());
+    this._commentComponent.setDeleteButtonTextData({
+      deleteButtonText: `Deleting...`,
+    });
+
+    this._commentChangeHandler(this._comment, null, this._commentComponent);
   }
 
 

@@ -3,8 +3,9 @@ import CommentModel from "../models/comment-model.js";
 import Comments from "../components/comments.js";
 import CommentsAPI from "../api/comments-api.js";
 import CommentsConnectionError from "../components/comments-connection-error.js";
+import {SHAKE_ANIMATION_TIMEOUT} from "../const.js";
 import {render, RenderPosition} from "../utils/render.js";
-import {shakeElement} from "../utils/common.js";
+import {setСustomTimeOut, shakeElement} from "../utils/common.js";
 
 
 export default class CommentsController {
@@ -36,14 +37,22 @@ export default class CommentsController {
     this._commentsComponent.rerender(this._commentsModel.getComments().length);
   }
 
-  _commentChangeHandler(oldData, newData, commentElement) {
+  _commentChangeHandler(oldData, newData, commentComponent) {
     if (newData === null) {
       this._commentsApi.deleteComment(oldData.id)
         .then(() => {
           this._commentsModel.removeComment(oldData.id);
           this._updateComments();
         })
-        .catch(() => shakeElement(commentElement));
+        .catch(() => {
+          shakeElement(commentComponent.getElement());
+          setСustomTimeOut(SHAKE_ANIMATION_TIMEOUT, () => {
+            shakeElement(commentComponent.getElement(), false);
+            commentComponent.setDeleteButtonTextData({
+              deleteButtonText: `Delete`,
+            });
+          });
+        });
     } else if (oldData === null) {
       this._commentsApi.createComment(this._filmID, newData)
         .then((response) => {
@@ -52,10 +61,18 @@ export default class CommentsController {
           this._updateComments();
         })
         .catch(() => {
-          shakeElement(this._commentsComponent.newCommentElement);
-          this._commentsComponent.setErrorStyle();
+          this._setCreateCommentErrorStyle();
+          setСustomTimeOut(SHAKE_ANIMATION_TIMEOUT, () => {
+            this._setCreateCommentErrorStyle(false);
+          });
         });
     }
+  }
+
+
+  _setCreateCommentErrorStyle(value = true) {
+    this._commentsComponent.setErrorStyle(value);
+    shakeElement(this._commentsComponent.newCommentElement, value);
   }
 
 

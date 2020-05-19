@@ -1,12 +1,20 @@
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 import {formatDateFromNow} from "../utils/common.js";
 
 
-export default class Comment extends AbstractComponent {
+const DefaultDeleteButtonTextData = {
+  deleteButtonText: `Delete`,
+};
+
+
+export default class Comment extends AbstractSmartComponent {
   constructor(comment) {
     super();
 
     this._comment = comment;
+
+    this._deleteButtonClickHandler = null;
+    this._externalData = DefaultDeleteButtonTextData;
   }
 
 
@@ -16,6 +24,8 @@ export default class Comment extends AbstractComponent {
     const text = comment.text ? comment.text : ``;
     const [emojiTitle, emojiUrl] = emoji;
     const dayAndTimeFormat = formatDateFromNow(dayAndTime);
+
+    const deleteButtonText = this._externalData.deleteButtonText;
 
     return (
       `<li class="film-details__comment">
@@ -27,7 +37,7 @@ export default class Comment extends AbstractComponent {
           <p class="film-details__comment-info">
             <span class="film-details__comment-author">${author}</span>
             <span class="film-details__comment-day">${dayAndTimeFormat}</span>
-            <button type="button" class="film-details__comment-delete">Delete</button>
+            <button type="button" class="film-details__comment-delete">${deleteButtonText}</button>
           </p>
         </div>
       </li>`
@@ -35,8 +45,21 @@ export default class Comment extends AbstractComponent {
   }
 
 
+  setDeleteButtonTextData(data) {
+    this._externalData = Object.assign({}, DefaultDeleteButtonTextData, data);
+    this.rerender();
+  }
+
+
   setDeleteButtonClickHandler(handler) {
     this.getElement().querySelector(`.film-details__comment-delete`)
       .addEventListener(`click`, handler);
+
+    this._deleteButtonClickHandler = handler;
+  }
+
+
+  recoveryListeners() {
+    this.setDeleteButtonClickHandler(this._deleteButtonClickHandler);
   }
 }

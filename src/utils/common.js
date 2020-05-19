@@ -36,20 +36,18 @@ const arrayDataChange = (array, id, newData) => {
   };
 };
 
-const shakeElement = (element) => {
-  element.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
-
+const setСustomTimeOut = (timeOut, handler) => {
   setTimeout(() => {
-    element.style.animation = ``;
-  }, SHAKE_ANIMATION_TIMEOUT);
+    handler();
+  }, timeOut);
 };
 
-const adjustElementErrorStyle = (element) => {
-  element.style.boxShadow = `0 0 0 4px #ff4e4e`;
+const shakeElement = (element, value = true) => {
+  element.style.animation = value ? `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s` : ``;
+};
 
-  setTimeout(() => {
-    element.style.boxShadow = ``;
-  }, SHAKE_ANIMATION_TIMEOUT);
+const adjustElementErrorStyle = (element, value = true) => {
+  element.style.boxShadow = value ? `0 0 0 4px #ff4e4e` : ``;
 };
 
 
@@ -59,6 +57,7 @@ export {
   formatDurationTime,
   formatDate,
   formatDateFromNow,
+  setСustomTimeOut,
   shakeElement,
   adjustElementErrorStyle,
 };
