@@ -1,4 +1,4 @@
-import AbstractSmartComponent from "./abstract-smart-component.js";
+import AbstractComponent from "./abstract-component.js";
 import {formatDateFromNow} from "../utils/common.js";
 
 
@@ -7,12 +7,13 @@ const DefaultDeleteButtonTextData = {
 };
 
 
-export default class Comment extends AbstractSmartComponent {
+export default class Comment extends AbstractComponent {
   constructor(comment) {
     super();
 
     this._comment = comment;
 
+    this._deleteButton = null;
     this._deleteButtonClickHandler = null;
     this._externalData = DefaultDeleteButtonTextData;
   }
@@ -47,7 +48,7 @@ export default class Comment extends AbstractSmartComponent {
 
   setDeleteButtonTextData(data) {
     this._externalData = Object.assign({}, DefaultDeleteButtonTextData, data);
-    this.rerender();
+    this.deleteButton.textContent = this._externalData.deleteButtonText;
   }
 
 
@@ -59,7 +60,11 @@ export default class Comment extends AbstractSmartComponent {
   }
 
 
-  recoveryListeners() {
-    this.setDeleteButtonClickHandler(this._deleteButtonClickHandler);
+  get deleteButton() {
+    if (!this._deleteButton) {
+      this._deleteButton = this.getElement().querySelector(`.film-details__comment-delete`);
+    }
+
+    return this._deleteButton;
   }
 }
