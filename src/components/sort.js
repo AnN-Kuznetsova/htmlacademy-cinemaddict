@@ -24,6 +24,11 @@ export default class Sort extends AbstractSmartComponent {
   }
 
 
+  setSortType(newSortType) {
+    this._currentSortType = newSortType;
+  }
+
+
   setSortTypeChangeHendler(cb) {
     this._sortTypeChangeHendler = cb;
 
@@ -50,11 +55,6 @@ export default class Sort extends AbstractSmartComponent {
     };
 
     this.getElement().addEventListener(`click`, sortTypeButtonClickHandler);
-  }
-
-
-  setSortType(newSortType) {
-    this._currentSortType = newSortType;
   }
 
 

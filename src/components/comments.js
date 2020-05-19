@@ -35,61 +35,25 @@ export default class Comments extends AbstractSmartComponent {
   }
 
 
-  _subscribeOnEvents() {
-    const element = this.getElement();
-
-    element.querySelector(`.film-details__emoji-list`)
-      .addEventListener(`change`, (evt) => {
-        this._newComment.emojiTitle = evt.target.value;
-        this._newComment.emojiUrl = Emoji[this._newComment.emojiTitle];
-
-        this._rerenderNewEmoji();
-      });
-
-    element.querySelector(`.film-details__comment-input`)
-      .addEventListener(`input`, (evt) => {
-        this._newComment.text = evt.target.value;
-      });
-  }
-
-
-  _rerenderNewEmoji() {
-    const parent = this.getElement().querySelector(`.film-details__add-emoji-label`);
-    const oldEmoje = parent.querySelector(`img`);
-    const newEmoji = createElement(this._createNewCommentEmojiMarkup(this._newComment));
-
-    if (oldEmoje) {
-      parent.replaceChild(newEmoji, oldEmoje);
-    } else {
-      parent.appendChild(newEmoji);
+  getData() {
+    if (this._newComment.emojiUrl && this._newComment.emojiTitle) {
+      return {
+        text: this._newComment.text,
+        emoji: [
+          this._newComment.emojiTitle,
+          this._newComment.emojiUrl,
+        ],
+        dayAndTime: new Date(),
+      };
     }
+
+    return false;
   }
 
 
-  _createNewCommentEmojiMarkup(newComment) {
-    const {emojiTitle, emojiUrl} = newComment;
-
-    return (emojiTitle && emojiUrl) ?
-      `<img src="./images/emoji/${emojiUrl}" width="55" height="55" alt="emoji-${emojiTitle}">` :
-      ``;
-  }
-
-
-  _createEmojiListMarkup(emojis) {
-    return (
-      `<div class="film-details__emoji-list">
-        ${Object.entries(emojis)
-            .map(([emojiTitle, emojiUrl]) => {
-              return (
-                `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emojiTitle}" value="${emojiTitle}">
-                <label class="film-details__emoji-label" for="emoji-${emojiTitle}">
-                  <img src="./images/emoji/${emojiUrl}" width="30" height="30" alt="emoji">
-                </label>`
-              );
-            })
-            .join(`\n`)}
-      </div>`
-    );
+  setErrorStyle(value = true) {
+    const commentInputElement = this.newCommentElement.querySelector(`.film-details__comment-input`);
+    adjustElementErrorStyle(commentInputElement, value);
   }
 
 
@@ -151,24 +115,60 @@ export default class Comments extends AbstractSmartComponent {
   }
 
 
-  getData() {
-    if (this._newComment.emojiUrl && this._newComment.emojiTitle) {
-      return {
-        text: this._newComment.text,
-        emoji: [
-          this._newComment.emojiTitle,
-          this._newComment.emojiUrl,
-        ],
-        dayAndTime: new Date(),
-      };
-    }
+  _subscribeOnEvents() {
+    const element = this.getElement();
 
-    return false;
+    element.querySelector(`.film-details__emoji-list`)
+      .addEventListener(`change`, (evt) => {
+        this._newComment.emojiTitle = evt.target.value;
+        this._newComment.emojiUrl = Emoji[this._newComment.emojiTitle];
+
+        this._rerenderNewEmoji();
+      });
+
+    element.querySelector(`.film-details__comment-input`)
+      .addEventListener(`input`, (evt) => {
+        this._newComment.text = evt.target.value;
+      });
   }
 
 
-  setErrorStyle(value = true) {
-    const commentInputElement = this.newCommentElement.querySelector(`.film-details__comment-input`);
-    adjustElementErrorStyle(commentInputElement, value);
+  _rerenderNewEmoji() {
+    const parent = this.getElement().querySelector(`.film-details__add-emoji-label`);
+    const oldEmoje = parent.querySelector(`img`);
+    const newEmoji = createElement(this._createNewCommentEmojiMarkup(this._newComment));
+
+    if (oldEmoje) {
+      parent.replaceChild(newEmoji, oldEmoje);
+    } else {
+      parent.appendChild(newEmoji);
+    }
+  }
+
+
+  _createNewCommentEmojiMarkup(newComment) {
+    const {emojiTitle, emojiUrl} = newComment;
+
+    return (emojiTitle && emojiUrl) ?
+      `<img src="./images/emoji/${emojiUrl}" width="55" height="55" alt="emoji-${emojiTitle}">` :
+      ``;
+  }
+
+
+  _createEmojiListMarkup(emojis) {
+    return (
+      `<div class="film-details__emoji-list">
+        ${Object.entries(emojis)
+            .map(([emojiTitle, emojiUrl]) => {
+              return (
+                `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emojiTitle}" value="${emojiTitle}">
+                <label class="film-details__emoji-label" for="emoji-${emojiTitle}">
+                  <img src="./images/emoji/${emojiUrl}" width="30" height="30" alt="emoji">
+                </label>`
+              );
+            })
+            .join(`\n`)}
+      </div>`
+    );
   }
 }

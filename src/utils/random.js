@@ -3,15 +3,18 @@ const getRandomIntegerNumber = function (num) {
   return Math.floor(Math.random() * (num + 1));
 };
 
+
 //  Функция нахождения случайного числа в заданном диапазоне
 const getRandomIntegerNumberInRange = (min, max) => {
   return min + getRandomIntegerNumber(max - min);
 };
 
+
 //  Функция выбора случачйного элемента массива
 const getRandomArrayElement = function (array) {
   return array[getRandomIntegerNumber(array.length - 1)];
 };
+
 
 //  Функция выбора нескольких случачйных элементов массива
 const getRandomArrayElements = function (array, count) {
@@ -26,6 +29,7 @@ const getRandomArrayElements = function (array, count) {
   return arrayElements;
 };
 
+
 //  Функция взятия случайной даты в диапазоне
 const getRandomDate = (minDateRange, maxDateRange) => {
   const targetDate = new Date();
@@ -34,10 +38,12 @@ const getRandomDate = (minDateRange, maxDateRange) => {
   return targetDate;
 };
 
+
 //  Функция генерирования случаного значения Boolean
 const generateBoolean = () => {
   return Math.random() > 0.5;
 };
+
 
 //  Функция сщставления текста из случайных предложений текста-прототипа
 const generateRandomText = (textPrototype, minSentenseCount, maxSentenseCount) => {
@@ -48,11 +54,11 @@ const generateRandomText = (textPrototype, minSentenseCount, maxSentenseCount) =
 
 
 export {
-  getRandomIntegerNumber,
+  generateBoolean,
+  generateRandomText,
   getRandomArrayElement,
   getRandomArrayElements,
   getRandomDate,
+  getRandomIntegerNumber,
   getRandomIntegerNumberInRange,
-  generateBoolean,
-  generateRandomText,
 };

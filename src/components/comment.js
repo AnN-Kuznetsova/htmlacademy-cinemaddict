@@ -19,6 +19,15 @@ export default class Comment extends AbstractComponent {
   }
 
 
+  get deleteButton() {
+    if (!this._deleteButton) {
+      this._deleteButton = this.getElement().querySelector(`.film-details__comment-delete`);
+    }
+
+    return this._deleteButton;
+  }
+
+
   getTemplate() {
     const comment = this._comment;
     const {emoji, author, dayAndTime} = comment;
@@ -66,14 +75,5 @@ export default class Comment extends AbstractComponent {
       .addEventListener(`click`, handler);
 
     this._deleteButtonClickHandler = handler;
-  }
-
-
-  get deleteButton() {
-    if (!this._deleteButton) {
-      this._deleteButton = this.getElement().querySelector(`.film-details__comment-delete`);
-    }
-
-    return this._deleteButton;
   }
 }

@@ -18,19 +18,6 @@ export default class FilmCard extends AbstractComponent {
   }
 
 
-  _createButtonMarkup(name, value, isActive = true) {
-    return (
-      `<button
-        type="button"
-        data-button-name="${name}"
-        class="film-card__controls-item button film-card__controls-item--${name} ${isActive ? `film-card__controls-item--active` : ``}"
-        >
-        ${value}
-      </button>`
-    );
-  }
-
-
   getTemplate() {
     const {title, rating, releaseDate, duration, genre, poster, description, isAddToWatchlist, isMarkAsWatched, isFavorite, commentsCount} = this._film;
 
@@ -89,5 +76,18 @@ export default class FilmCard extends AbstractComponent {
 
     this.getElement().querySelector(`.film-card__controls-item--favorite`)
       .addEventListener(`click`, handler);
+  }
+
+
+  _createButtonMarkup(name, value, isActive = true) {
+    return (
+      `<button
+        type="button"
+        data-button-name="${name}"
+        class="film-card__controls-item button film-card__controls-item--${name} ${isActive ? `film-card__controls-item--active` : ``}"
+        >
+        ${value}
+      </button>`
+    );
   }
 }

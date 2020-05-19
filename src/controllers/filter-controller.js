@@ -1,7 +1,7 @@
 import Filters from "../components/filters.js";
 import {FilterType} from "../const.js";
-import {render, replace, RenderPosition} from "../utils/render.js";
 import {getFilmsByFilter} from "../utils/filter.js";
+import {render, replace, RenderPosition} from "../utils/render.js";
 
 export default class FilterController {
   constructor(container, filmsModel) {
@@ -20,6 +20,21 @@ export default class FilterController {
   }
 
 
+  render() {
+    const container = this._container;
+
+    const oldComponent = this._filterComponent;
+    this._filterComponent = new Filters(this._getFilters(FilterType));
+    this._filterComponent.setFilterClickHandler(this._filterChangeHandler);
+
+    if (oldComponent) {
+      replace(this._filterComponent, oldComponent);
+    } else {
+      render(container, this._filterComponent, RenderPosition.AFTERBEGIN);
+    }
+  }
+
+
   _getFilters(filterTypes) {
     return Object.entries(filterTypes).map((filterType) => {
       const [filterName, filterValue] = filterType;
@@ -35,6 +50,11 @@ export default class FilterController {
   }
 
 
+  _onDataChange() {
+    this.render();
+  }
+
+
   _filterChangeHandler(filterType) {
     this._filmsModel.setFilter(filterType);
   }
@@ -43,25 +63,5 @@ export default class FilterController {
   _filmsModelFilterChangeHandler() {
     this._activeFilterType = this._filmsModel.getFilter();
     this.render();
-  }
-
-
-  _onDataChange() {
-    this.render();
-  }
-
-
-  render() {
-    const container = this._container;
-
-    const oldComponent = this._filterComponent;
-    this._filterComponent = new Filters(this._getFilters(FilterType));
-    this._filterComponent.setFilterClickHandler(this._filterChangeHandler);
-
-    if (oldComponent) {
-      replace(this._filterComponent, oldComponent);
-    } else {
-      render(container, this._filterComponent, RenderPosition.AFTERBEGIN);
-    }
   }
 }

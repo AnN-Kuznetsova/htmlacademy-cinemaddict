@@ -9,9 +9,11 @@ const formatDurationTime = (duration) => {
   return date.add(momentDuration).format(DateTimeFormat.DURATION);
 };
 
+
 const formatDate = (date, dateFormat) => {
   return moment(date).format(dateFormat);
 };
+
 
 const formatDateFromNow = (date) => {
   return moment(date).fromNow();
@@ -19,8 +21,9 @@ const formatDateFromNow = (date) => {
 
 
 const getIndexById = (array, id) => {
-  return array.findIndex((it) => it.id === id);
+  return array.findIndex((element) => element.id === id);
 };
+
 
 const arrayDataChange = (array, id, newData) => {
   const index = getIndexById(array, id);
@@ -29,12 +32,12 @@ const arrayDataChange = (array, id, newData) => {
     array = [].concat(array.slice(0, index), newData, array.slice(index + 1));
   }
 
-
   return {
     array,
     index,
   };
 };
+
 
 const setСustomTimeOut = (timeOut, handler) => {
   setTimeout(() => {
@@ -42,11 +45,13 @@ const setСustomTimeOut = (timeOut, handler) => {
   }, timeOut);
 };
 
+
 const disableForm = (formElements, isDisabled = true) => {
   for (const element of formElements) {
     element.disabled = isDisabled;
   }
 };
+
 
 const setDisabledStyle = (elements, isDisabledStyle = true) => {
   for (const element of elements) {
@@ -54,9 +59,11 @@ const setDisabledStyle = (elements, isDisabledStyle = true) => {
   }
 };
 
+
 const shakeElement = (element, isShake = true) => {
   element.style.animation = isShake ? `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s` : ``;
 };
+
 
 const adjustElementErrorStyle = (element, isErrorStyle = true) => {
   element.style.boxShadow = isErrorStyle ? `0 0 0 4px #ff4e4e` : ``;
@@ -64,14 +71,14 @@ const adjustElementErrorStyle = (element, isErrorStyle = true) => {
 
 
 export {
-  getIndexById,
+  adjustElementErrorStyle,
   arrayDataChange,
-  formatDurationTime,
+  disableForm,
   formatDate,
   formatDateFromNow,
-  setСustomTimeOut,
-  disableForm,
+  formatDurationTime,
+  getIndexById,
   setDisabledStyle,
+  setСustomTimeOut,
   shakeElement,
-  adjustElementErrorStyle,
 };

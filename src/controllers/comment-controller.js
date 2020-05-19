@@ -14,17 +14,6 @@ export default class CommentController {
   }
 
 
-  _deleteButtonClickHandler() {
-    this._commentComponent.setDeleteButtonTextData({
-      deleteButtonText: `Deleting...`,
-    });
-
-    this._commentComponent.setDeleteButtonDisable();
-
-    this._commentChangeHandler(this._comment, null, this._commentComponent);
-  }
-
-
   render(comment) {
     this._comment = comment;
     this._commentComponent = new Comment(this._comment);
@@ -35,5 +24,16 @@ export default class CommentController {
 
   destroy() {
     remove(this._commentComponent);
+  }
+
+
+  _deleteButtonClickHandler() {
+    this._commentComponent.setDeleteButtonTextData({
+      deleteButtonText: `Deleting...`,
+    });
+
+    this._commentComponent.setDeleteButtonDisable();
+
+    this._commentChangeHandler(this._comment, null, this._commentComponent);
   }
 }

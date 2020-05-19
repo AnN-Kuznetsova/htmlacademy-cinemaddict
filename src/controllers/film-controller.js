@@ -3,9 +3,9 @@ import FilmCard from "../components/film-card.js";
 import FilmDetails from "../components/film-details.js";
 import FilmDataController from "./film-data-controller.js";
 import FilmModel from "../models/film-model.js";
+import {UserDetailsButton} from "../components/film-card.js";
 import {escPressHandler} from "../utils/key-events.js";
 import {render, RenderPosition, replace, remove, removeElement} from "../utils/render.js";
-import {UserDetailsButton} from "../components/film-card.js";
 
 
 const Mode = {
@@ -44,15 +44,57 @@ export default class FilmController {
   }
 
 
-  _commentsChangeHandler(value = true) {
-    this._isCommentsModelChange = value;
+  get film() {
+    return this._film;
   }
 
 
-  _documentKeyDownHendler(evt) {
-    escPressHandler(evt, () => {
+  render(film) {
+    const popupOpenButtonsClickHandler = () => {
+      openPopup();
+    };
+
+    this._film = film;
+
+    const oldFilmCardComponent = this._filmCardComponent;
+    const oldFilmDetailsComponent = this._filmDetailsComponent;
+
+    this._filmCardComponent = new FilmCard(film);
+    this._filmCardComponent.setPopupOpenButtonsClickHandler(popupOpenButtonsClickHandler);
+    this._filmCardComponent.setUserDetailsButtonClickHandler(this._userDetailsButtonClickHandler);
+
+    this._filmDetailsComponent = new FilmDetails();
+    const openPopup = this._openFilmDetailsPopup.bind(this, this._filmDetailsComponent);
+
+    if (oldFilmCardComponent && oldFilmDetailsComponent) {
+      replace(this._filmCardComponent, oldFilmCardComponent);
+      replace(this._filmDetailsComponent, oldFilmDetailsComponent);
+    } else {
+      render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
+    }
+  }
+
+
+  setDefaultView() {
+    if (this._mode !== Mode.CARD) {
       this._closeFilmDetailsPopup();
-    });
+    }
+  }
+
+
+  _openFilmDetailsPopup(filmDetailsComponent) {
+    this._onViewChange();
+    render(document.body, filmDetailsComponent, RenderPosition.BEFOREEND);
+    document.addEventListener(`keydown`, this._documentKeyDownHendler);
+    this._mode = Mode.DETAILS;
+
+    const filmDataContainer = filmDetailsComponent.getElement().querySelector(`.form-details__top-container`);
+    this._filmDataController = new FilmDataController(filmDataContainer, this._closeFilmDetailsPopup);
+    this._filmDataController.render(this._film);
+
+    const commentsContainer = filmDetailsComponent.getElement().querySelector(`.form-details__bottom-container`);
+    this._commentsController = new CommentsController(commentsContainer, this._film.id, this._film.commentsModel, this._commentsChangeHandler);
+    this._commentsController.render();
   }
 
 
@@ -77,22 +119,6 @@ export default class FilmController {
     removeElement(this._filmDetailsComponent);
     document.removeEventListener(`keydown`, this._documentKeyDownHendler);
     this._mode = Mode.CARD;
-  }
-
-
-  _openFilmDetailsPopup(filmDetailsComponent) {
-    this._onViewChange();
-    render(document.body, filmDetailsComponent, RenderPosition.BEFOREEND);
-    document.addEventListener(`keydown`, this._documentKeyDownHendler);
-    this._mode = Mode.DETAILS;
-
-    const filmDataContainer = filmDetailsComponent.getElement().querySelector(`.form-details__top-container`);
-    this._filmDataController = new FilmDataController(filmDataContainer, this._closeFilmDetailsPopup);
-    this._filmDataController.render(this._film);
-
-    const commentsContainer = filmDetailsComponent.getElement().querySelector(`.form-details__bottom-container`);
-    this._commentsController = new CommentsController(commentsContainer, this._film.id, this._film.commentsModel, this._commentsChangeHandler);
-    this._commentsController.render();
   }
 
 
@@ -140,6 +166,18 @@ export default class FilmController {
   }
 
 
+  _commentsChangeHandler(value = true) {
+    this._isCommentsModelChange = value;
+  }
+
+
+  _documentKeyDownHendler(evt) {
+    escPressHandler(evt, () => {
+      this._closeFilmDetailsPopup();
+    });
+  }
+
+
   _userDetailsButtonClickHandler(evt) {
     switch (evt.target.dataset.buttonName) {
       case UserDetailsButton.ADD_TO_WATCHLIST:
@@ -154,43 +192,5 @@ export default class FilmController {
       default:
         this._sendNewFilmData(SendFilmDataMode.DEFAULT);
     }
-  }
-
-
-  render(film) {
-    const popupOpenButtonsClickHandler = () => {
-      openPopup();
-    };
-
-    this._film = film;
-
-    const oldFilmCardComponent = this._filmCardComponent;
-    const oldFilmDetailsComponent = this._filmDetailsComponent;
-
-    this._filmCardComponent = new FilmCard(film);
-    this._filmCardComponent.setPopupOpenButtonsClickHandler(popupOpenButtonsClickHandler);
-    this._filmCardComponent.setUserDetailsButtonClickHandler(this._userDetailsButtonClickHandler);
-
-    this._filmDetailsComponent = new FilmDetails();
-    const openPopup = this._openFilmDetailsPopup.bind(this, this._filmDetailsComponent);
-
-    if (oldFilmCardComponent && oldFilmDetailsComponent) {
-      replace(this._filmCardComponent, oldFilmCardComponent);
-      replace(this._filmDetailsComponent, oldFilmDetailsComponent);
-    } else {
-      render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
-    }
-  }
-
-
-  setDefaultView() {
-    if (this._mode !== Mode.CARD) {
-      this._closeFilmDetailsPopup();
-    }
-  }
-
-
-  get film() {
-    return this._film;
   }
 }

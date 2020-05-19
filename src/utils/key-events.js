@@ -62,6 +62,6 @@ const addCommentKeysPressHandler = (evt, handler) => {
 
 
 export {
-  escPressHandler,
   addCommentKeysPressHandler,
+  escPressHandler,
 };

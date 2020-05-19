@@ -7,6 +7,17 @@ export default class UserRank extends AbstractComponent {
     this._filmsQuantity = filmsQuantity;
   }
 
+
+  getTemplate() {
+    return (
+      `<section class="header__profile profile">
+        <p class="profile__rating">${this._getUserRank()}</p>
+        <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
+      </section>`
+    );
+  }
+
+
   _getUserRank() {
     let userRank = ``;
 
@@ -23,14 +34,5 @@ export default class UserRank extends AbstractComponent {
       default:
     }
     return userRank;
-  }
-
-  getTemplate() {
-    return (
-      `<section class="header__profile profile">
-        <p class="profile__rating">${this._getUserRank()}</p>
-        <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-      </section>`
-    );
   }
 }

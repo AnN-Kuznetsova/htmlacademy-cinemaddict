@@ -1,7 +1,7 @@
-import abstractComponent from "./abstract-component.js";
+import AbstractComponent from "./abstract-component.js";
 
 
-export default class FilmDetails extends abstractComponent {
+export default class FilmDetails extends AbstractComponent {
 
   getTemplate() {
     return (
