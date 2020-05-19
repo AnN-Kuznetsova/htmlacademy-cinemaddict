@@ -40,47 +40,56 @@ export default class CommentsController {
     this._commentsComponent.rerender(this._commentsModel.getComments().length);
   }
 
-  _commentChangeHandler(oldData, newData, commentComponent) {
-    if (newData === null) {
-      this._commentsApi.deleteComment(oldData.id)
-        .then(() => {
-          this._commentsModel.removeComment(oldData.id);
-          this._updateComments();
-        })
-        .catch(() => {
-          shakeElement(commentComponent.getElement());
-          setСustomTimeOut(SHAKE_ANIMATION_TIMEOUT, () => {
-            shakeElement(commentComponent.getElement(), false);
-            commentComponent.setDeleteButtonTextData({
-              deleteButtonText: `Delete`,
-            });
-          });
-        });
-    } else if (oldData === null) {
-      this._commentsApi.createComment(this._filmID, newData)
-        .then((response) => {
-          this._commentsModel.removeComments();
-          this._commentsModel.setComments(response.comments);
-          this._commentsComponent.reset();
-          this._updateComments();
-        })
-        .catch(() => {
-          this._setCreateCommentErrorStyle();
-          setСustomTimeOut(SHAKE_ANIMATION_TIMEOUT, () => {
-            this._setCreateCommentErrorStyle(false);
-            disableForm(this._commentsComponent.newCommentFormElements, false);
-          });
-        })
-        .then(() => {
-          this._addListeners();
-        });
-    }
-  }
-
 
   _setCreateCommentErrorStyle(value = true) {
     this._commentsComponent.setErrorStyle(value);
     shakeElement(this._commentsComponent.newCommentElement, value);
+  }
+
+
+  _commentСreationHandler(comments, isCreated = true) {
+    if (isCreated) {
+      this._commentsModel.removeComments();
+      this._commentsModel.setComments(comments);
+      this._commentsComponent.reset();
+      this._updateComments();
+    } else {
+      this._setCreateCommentErrorStyle();
+      setСustomTimeOut(SHAKE_ANIMATION_TIMEOUT, () => {
+        this._setCreateCommentErrorStyle(false);
+        disableForm(this._commentsComponent.newCommentFormElements, false);
+      });
+    }
+  }
+
+
+  _commentDeletionHandler(oldDataId, isDeleted = true, commentComponent = null) {
+    if (isDeleted) {
+      this._commentsModel.removeComment(oldDataId);
+      this._updateComments();
+    } else {
+      shakeElement(commentComponent.getElement());
+      setСustomTimeOut(SHAKE_ANIMATION_TIMEOUT, () => {
+        shakeElement(commentComponent.getElement(), false);
+        commentComponent.setDeleteButtonTextData({
+          deleteButtonText: `Delete`,
+        });
+      });
+    }
+  }
+
+
+  _commentChangeHandler(oldData, newData, commentComponent) {
+    if (newData === null) {
+      this._commentsApi.deleteComment(oldData.id)
+        .then(() => this._commentDeletionHandler(oldData.id))
+        .catch(() => this._commentDeletionHandler(oldData.id, false, commentComponent));
+    } else if (oldData === null) {
+      this._commentsApi.createComment(this._filmID, newData)
+        .then((response) => this._commentСreationHandler(response.comments))
+        .catch(() => this._commentСreationHandler([], false))
+        .then(() => this._addListeners());
+    }
   }
 
 
