@@ -5,13 +5,6 @@ const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
 const SHAKE_ANIMATION_TIMEOUT = 600;
 
-const Emoji = {
-  SMILE: `smile.png`,
-  SLEEPING: `sleeping.png`,
-  PUKE: `puke.png`,
-  ANGRY: `angry.png`,
-};
-
 const DateTimeFormat = {
   DURATION: `H[h] mm[m]`,
   DATE_SHORT: `YYYY`,
@@ -24,6 +17,25 @@ const FilterType = {
   WATCHLIST: `Watchlist`,
   HISTORY: `History`,
   FAVORITES: `Favorites`,
+};
+
+const Emoji = {
+  smile: {
+    name: `smile`,
+    url: `smile.png`,
+  },
+  sleeping: {
+    name: `sleeping`,
+    url: `sleeping.png`,
+  },
+  puke: {
+    name: `puke`,
+    url: `puke.png`,
+  },
+  angry: {
+    name: `angry`,
+    url: `angry.png`,
+  },
 };
 
 

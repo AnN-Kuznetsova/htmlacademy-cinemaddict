@@ -4,7 +4,7 @@ export default class CommentModel {
   constructor(data) {
     this.id = data[`id`];
     this.text = data[`comment`];
-    this.emoji = [data[`emotion`], Emoji[data[`emotion`].toUpperCase()]];
+    this.emoji = Emoji[data[`emotion`]];
     this.author = data[`author`];
     this.dayAndTime = data[`date`] ? new Date(data[`date`]) : null;
   }
@@ -13,7 +13,7 @@ export default class CommentModel {
   toRAW() {
     return {
       "comment": this.text ? this.text : ``,
-      "emotion": this.emoji[0].toLowerCase(),
+      "emotion": this.emoji.name,
       "date": this.dayAndTime.toISOString(),
     };
   }

@@ -39,10 +39,10 @@ export default class Comments extends AbstractSmartComponent {
     if (this._newComment.emojiUrl && this._newComment.emojiTitle) {
       return {
         text: this._newComment.text,
-        emoji: [
-          this._newComment.emojiTitle,
-          this._newComment.emojiUrl,
-        ],
+        emoji: {
+          name: this._newComment.emojiTitle,
+          url: this._newComment.emojiUrl,
+        },
         dayAndTime: new Date(),
       };
     }
@@ -59,7 +59,7 @@ export default class Comments extends AbstractSmartComponent {
 
   getTemplate() {
     const commentsCount = this._commentsCount;
-    const emojiListMarkup = this._createEmojiListMarkup(Emoji);
+    const emojiListMarkup = this._createEmojiListMarkup();
 
     const newCommentEmojiMarkup = this._createNewCommentEmojiMarkup(this._newComment);
     const newCommentText = this._newComment.text ? encode(this._newComment.text) : ``;
@@ -121,7 +121,7 @@ export default class Comments extends AbstractSmartComponent {
     element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, (evt) => {
         this._newComment.emojiTitle = evt.target.value;
-        this._newComment.emojiUrl = Emoji[this._newComment.emojiTitle];
+        this._newComment.emojiUrl = Emoji[this._newComment.emojiTitle].url;
 
         this._rerenderNewEmoji();
       });
@@ -155,11 +155,11 @@ export default class Comments extends AbstractSmartComponent {
   }
 
 
-  _createEmojiListMarkup(emojis) {
+  _createEmojiListMarkup() {
     return (
       `<div class="film-details__emoji-list">
-        ${Object.entries(emojis)
-            .map(([emojiTitle, emojiUrl]) => {
+        ${Object.values(Emoji)
+            .map(({name: emojiTitle, url: emojiUrl}) => {
               return (
                 `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emojiTitle}" value="${emojiTitle}">
                 <label class="film-details__emoji-label" for="emoji-${emojiTitle}">

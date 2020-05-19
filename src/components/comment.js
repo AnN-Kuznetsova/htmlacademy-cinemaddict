@@ -32,7 +32,7 @@ export default class Comment extends AbstractComponent {
     const comment = this._comment;
     const {emoji, author, dayAndTime} = comment;
     const text = comment.text ? comment.text : ``;
-    const [emojiTitle, emojiUrl] = emoji;
+    const {name: emojiTitle, url: emojiUrl} = emoji;
     const dayAndTimeFormat = formatDateFromNow(dayAndTime);
 
     const deleteButtonText = this._externalData.deleteButtonText;
