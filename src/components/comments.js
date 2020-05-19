@@ -17,8 +17,6 @@ export default class Comments extends AbstractSmartComponent {
       text: null,
     };
 
-    this._newCommentElement = null;
-
     this.setErrorStyle = this.setErrorStyle.bind(this);
 
     this._subscribeOnEvents();
@@ -26,10 +24,12 @@ export default class Comments extends AbstractSmartComponent {
 
 
   get newCommentElement() {
-    if (!this._newCommentElement) {
-      this._newCommentElement = this.getElement().querySelector(`.film-details__new-comment`);
-    }
-    return this._newCommentElement;
+    return this.getElement().querySelector(`.film-details__new-comment`);
+  }
+
+
+  get newCommentFormElements() {
+    return this.newCommentElement.querySelectorAll(`input, textarea`);
   }
 
 

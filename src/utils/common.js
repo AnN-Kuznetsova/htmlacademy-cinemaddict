@@ -42,6 +42,13 @@ const setСustomTimeOut = (timeOut, handler) => {
   }, timeOut);
 };
 
+const disableForm = (formElements, value = true) => {
+  for (const element of formElements) {
+    element.disabled = value;
+    element.style.backgroundColor = value ? `red` : `#ffffff`; //#f2f2f2
+  }
+};
+
 const shakeElement = (element, value = true) => {
   element.style.animation = value ? `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s` : ``;
 };
@@ -58,6 +65,7 @@ export {
   formatDate,
   formatDateFromNow,
   setСustomTimeOut,
+  disableForm,
   shakeElement,
   adjustElementErrorStyle,
 };

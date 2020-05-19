@@ -4,8 +4,8 @@ import Comments from "../components/comments.js";
 import CommentsAPI from "../api/comments-api.js";
 import CommentsConnectionError from "../components/comments-connection-error.js";
 import {SHAKE_ANIMATION_TIMEOUT} from "../const.js";
+import {disableForm, setСustomTimeOut, shakeElement} from "../utils/common.js";
 import {render, RenderPosition} from "../utils/render.js";
-import {setСustomTimeOut, shakeElement} from "../utils/common.js";
 
 
 export default class CommentsController {
@@ -58,12 +58,14 @@ export default class CommentsController {
         .then((response) => {
           this._commentsModel.removeComments();
           this._commentsModel.setComments(response.comments);
+          this._commentsComponent.reset();
           this._updateComments();
         })
         .catch(() => {
           this._setCreateCommentErrorStyle();
           setСustomTimeOut(SHAKE_ANIMATION_TIMEOUT, () => {
             this._setCreateCommentErrorStyle(false);
+            disableForm(this._commentsComponent.newCommentFormElements, false);
           });
         });
     }
@@ -139,7 +141,7 @@ export default class CommentsController {
 
     if (newData) {
       newData = this._parseNewCommentData(newData);
-      //this._commentsComponent.reset();
+      disableForm(this._commentsComponent.newCommentFormElements, true);
       this._commentChangeHandler(null, newData);
     }
   }
