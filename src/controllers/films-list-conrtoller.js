@@ -6,9 +6,8 @@ import ShowMoreButton from "../components/show-more-button.js";
 import {FILM_CARD_EXTRA_COUNT,
   SHOWING_FILMS_COUNT_ON_START,
   SHOWING_FILMS_COUNT_BY_BUTTON} from "../const.js";
-import {arrayDataChange} from "../utils/common.js";
+import {arrayDataChange, getRandomIntegerNumber} from "../utils/common.js";
 import {getFieldFinder, getSortFilms} from "../utils/sorting.js";
-import {getRandomIntegerNumber} from "../utils/random.js";
 import {render, RenderPosition, remove} from "../utils/render.js";
 
 

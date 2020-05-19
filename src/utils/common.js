@@ -3,6 +3,12 @@ import {DateTimeFormat} from "../const.js";
 import {SHAKE_ANIMATION_TIMEOUT} from "../const.js";
 
 
+//  Функция нахождения случайного числа
+const getRandomIntegerNumber = function (num) {
+  return Math.floor(Math.random() * (num + 1));
+};
+
+
 const formatDurationTime = (duration) => {
   const momentDuration = moment.duration(duration, `minutes`);
   const date = moment().startOf(`day`);
@@ -78,6 +84,7 @@ export {
   formatDateFromNow,
   formatDurationTime,
   getIndexById,
+  getRandomIntegerNumber,
   setDisabledStyle,
   setСustomTimeOut,
   shakeElement,
