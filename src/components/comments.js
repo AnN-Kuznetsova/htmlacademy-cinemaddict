@@ -1,6 +1,7 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import {Emoji} from "../const.js";
 import {adjustElementErrorStyle} from "../utils/common.js";
+import {createElement} from "../utils/render.js";
 import {encode} from "he";
 
 
@@ -18,6 +19,7 @@ export default class Comments extends AbstractSmartComponent {
     };
 
     this.setErrorStyle = this.setErrorStyle.bind(this);
+    this._rerenderNewEmoji = this._rerenderNewEmoji.bind(this);
 
     this._subscribeOnEvents();
   }
@@ -41,13 +43,26 @@ export default class Comments extends AbstractSmartComponent {
         this._newComment.emojiTitle = evt.target.value;
         this._newComment.emojiUrl = Emoji[this._newComment.emojiTitle];
 
-        this.rerender();
+        this._rerenderNewEmoji();
       });
 
     element.querySelector(`.film-details__comment-input`)
       .addEventListener(`input`, (evt) => {
         this._newComment.text = evt.target.value;
       });
+  }
+
+
+  _rerenderNewEmoji() {
+    const parent = this.getElement().querySelector(`.film-details__add-emoji-label`);
+    const oldEmoje = parent.querySelector(`img`);
+    const newEmoji = createElement(this._createNewCommentEmojiMarkup(this._newComment));
+
+    if (oldEmoje) {
+      parent.replaceChild(newEmoji, oldEmoje);
+    } else {
+      parent.appendChild(newEmoji);
+    }
   }
 
 
