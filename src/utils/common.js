@@ -42,19 +42,24 @@ const setСustomTimeOut = (timeOut, handler) => {
   }, timeOut);
 };
 
-const disableForm = (formElements, value = true) => {
+const disableForm = (formElements, isDisabled = true) => {
   for (const element of formElements) {
-    element.disabled = value;
-    element.style.backgroundColor = value ? `#aaaaaa` : `#ffffff`;
+    element.disabled = isDisabled;
   }
 };
 
-const shakeElement = (element, value = true) => {
-  element.style.animation = value ? `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s` : ``;
+const setDisabledStyle = (elements, isDisabledStyle = true) => {
+  for (const element of elements) {
+    element.style.backgroundColor = isDisabledStyle ? `#aaaaaa` : ``;
+  }
 };
 
-const adjustElementErrorStyle = (element, value = true) => {
-  element.style.boxShadow = value ? `0 0 0 4px #ff4e4e` : ``;
+const shakeElement = (element, isShake = true) => {
+  element.style.animation = isShake ? `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s` : ``;
+};
+
+const adjustElementErrorStyle = (element, isErrorStyle = true) => {
+  element.style.boxShadow = isErrorStyle ? `0 0 0 4px #ff4e4e` : ``;
 };
 
 
@@ -66,6 +71,7 @@ export {
   formatDateFromNow,
   setСustomTimeOut,
   disableForm,
+  setDisabledStyle,
   shakeElement,
   adjustElementErrorStyle,
 };

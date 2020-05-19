@@ -1,5 +1,5 @@
 import AbstractComponent from "./abstract-component.js";
-import {formatDateFromNow} from "../utils/common.js";
+import {disableForm, formatDateFromNow} from "../utils/common.js";
 
 
 const DefaultDeleteButtonTextData = {
@@ -49,6 +49,15 @@ export default class Comment extends AbstractComponent {
   setDeleteButtonTextData(data) {
     this._externalData = Object.assign({}, DefaultDeleteButtonTextData, data);
     this.deleteButton.textContent = this._externalData.deleteButtonText;
+  }
+
+
+  setDeleteButtonDisable(isDisabled = true) {
+    if (isDisabled) {
+      disableForm([this.deleteButton]);
+    } else {
+      disableForm([this.deleteButton], false);
+    }
   }
 
 

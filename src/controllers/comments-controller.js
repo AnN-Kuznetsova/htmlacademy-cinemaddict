@@ -4,7 +4,7 @@ import Comments from "../components/comments.js";
 import CommentsAPI from "../api/comments-api.js";
 import CommentsConnectionError from "../components/comments-connection-error.js";
 import {SHAKE_ANIMATION_TIMEOUT} from "../const.js";
-import {disableForm, setСustomTimeOut, shakeElement} from "../utils/common.js";
+import {disableForm, setСustomTimeOut, setDisabledStyle, shakeElement} from "../utils/common.js";
 import {render, RenderPosition} from "../utils/render.js";
 import {addCommentKeysPressHandler} from "../utils/key-events.js";
 
@@ -58,6 +58,7 @@ export default class CommentsController {
       setСustomTimeOut(SHAKE_ANIMATION_TIMEOUT, () => {
         this._setCreateCommentErrorStyle(false);
         disableForm(this._commentsComponent.newCommentFormElements, false);
+        setDisabledStyle(this._commentsComponent.newCommentFormElements, false);
       });
     }
   }
@@ -71,6 +72,7 @@ export default class CommentsController {
       shakeElement(commentComponent.getElement());
       setСustomTimeOut(SHAKE_ANIMATION_TIMEOUT, () => {
         shakeElement(commentComponent.getElement(), false);
+        commentComponent.setDeleteButtonDisable(false);
         commentComponent.setDeleteButtonTextData({
           deleteButtonText: `Delete`,
         });
@@ -166,7 +168,8 @@ export default class CommentsController {
     let newData = this._commentsComponent.getData();
 
     if (newData) {
-      disableForm(this._commentsComponent.newCommentFormElements, true);
+      disableForm(this._commentsComponent.newCommentFormElements);
+      setDisabledStyle(this._commentsComponent.newCommentFormElements);
       this.removeListeners();
       newData = this._parseNewCommentData(newData);
       this._commentChangeHandler(null, newData);
