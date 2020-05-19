@@ -46,7 +46,7 @@ export default class Filters extends AbstractComponent {
     );
   }
 
-  setOnFilterClick(cb) {
+  setFilterClickHandler(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
@@ -55,7 +55,7 @@ export default class Filters extends AbstractComponent {
       }
 
       const filterName = this._getFilterNameById(evt.target.id);
-      cb(filterName);
+      handler(filterName);
     });
   }
 }

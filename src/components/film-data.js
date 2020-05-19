@@ -132,8 +132,8 @@ export default class FilmData extends AbstractComponent {
   }
 
 
-  setOnFilmDetailsCloseButtonClick(cb) {
+  setFilmDetailsCloseButtonClickHandler(handler) {
     this.getElement().querySelector(`.film-details__close-btn`)
-      .addEventListener(`click`, cb);
+      .addEventListener(`click`, handler);
   }
 }

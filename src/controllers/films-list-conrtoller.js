@@ -107,7 +107,7 @@ export default class FilmsListController {
     this._showMoreButtonComponent = new ShowMoreButton();
     render(this._filmsListComponent.getElement(), this._showMoreButtonComponent, RenderPosition.BEFOREEND);
 
-    const onShowMoreButtonClick = () => {
+    const showMoreButtonClickHandler = () => {
       const prevFilmsCount = this._showingFilmsCount;
       this._showingFilmsCount += this._showingFilmsCountByButton;
       this._renderFilms(this._listFilms.slice(prevFilmsCount, this._showingFilmsCount), this._onDataChange, this._onViewChange, this._commentsModelChangeHandler);
@@ -117,7 +117,7 @@ export default class FilmsListController {
       }
     };
 
-    this._showMoreButtonComponent.setOnShowMoreButtonClick(onShowMoreButtonClick);
+    this._showMoreButtonComponent.setShowMoreButtonClickHandler(showMoreButtonClickHandler);
   }
 
 

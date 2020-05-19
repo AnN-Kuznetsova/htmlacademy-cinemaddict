@@ -50,12 +50,12 @@ export default class PageController {
 
     this._onFilmsDataChange = this._onFilmsDataChange.bind(this);
     this._onFilmsListViewChange = this._onFilmsListViewChange.bind(this);
-    this._onSortTypeChange = this._onSortTypeChange.bind(this);
-    this._onFilmsModelFilterChange = this._onFilmsModelFilterChange.bind(this);
+    this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
+    this._filmsModelFilterChangeHandler = this._filmsModelFilterChangeHandler.bind(this);
     this._commentsModelChangePageHandler = this._commentsModelChangePageHandler.bind(this);
 
-    this._sortComponent.setSortTypeChangeHendler(this._onSortTypeChange);
-    this._filmsModel.setFilterChangeHandler(this._onFilmsModelFilterChange);
+    this._sortComponent.setSortTypeChangeHendler(this._sortTypeChangeHandler);
+    this._filmsModel.setFilterChangeHandler(this._filmsModelFilterChangeHandler);
   }
 
 
@@ -70,7 +70,7 @@ export default class PageController {
   }
 
 
-  _onSortTypeChange(newSortType) {
+  _sortTypeChangeHandler(newSortType) {
     for (const listController of this._filmsListsControllers) {
       if (listController.name === ListName.DEFAULT) {
         listController.sortType = newSortType;
@@ -81,12 +81,12 @@ export default class PageController {
   }
 
 
-  _onFilmsModelFilterChange() {
+  _filmsModelFilterChangeHandler() {
     const newSortType = SortType.DEFAULT;
     this._sortComponent.setSortType(newSortType);
     this._sortComponent.rerender();
 
-    this._onSortTypeChange(newSortType);
+    this._sortTypeChangeHandler(newSortType);
   }
 
 

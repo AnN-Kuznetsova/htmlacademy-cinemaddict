@@ -27,7 +27,7 @@ export default class Sort extends AbstractSmartComponent {
   setSortTypeChangeHendler(cb) {
     this._sortTypeChangeHendler = cb;
 
-    const onSortTypeButtonClick = (evt) => {
+    const sortTypeButtonClickHandler = (evt) => {
       evt.preventDefault();
 
       if (evt.target.tagName !== `A`) {
@@ -49,7 +49,7 @@ export default class Sort extends AbstractSmartComponent {
       cb(this._currentSortType);
     };
 
-    this.getElement().addEventListener(`click`, onSortTypeButtonClick);
+    this.getElement().addEventListener(`click`, sortTypeButtonClickHandler);
   }
 
 

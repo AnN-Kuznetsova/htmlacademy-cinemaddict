@@ -3,9 +3,9 @@ import {render, RenderPosition} from "../utils/render.js";
 
 
 export default class FilmDataController {
-  constructor(container, onCloseButtonClick) {
+  constructor(container, closeButtonClickHandler) {
     this._container = container;
-    this._onCloseButtonClick = onCloseButtonClick;
+    this._closeButtonClickHandler = closeButtonClickHandler;
 
     this._film = null;
     this._filmDataComponent = null;
@@ -13,13 +13,13 @@ export default class FilmDataController {
 
 
   render(film) {
-    const onFilmDetailsCloseButtonClick = () => {
-      this._onCloseButtonClick();
+    const filmDetailsCloseButtonClickHandler = () => {
+      this._closeButtonClickHandler();
     };
 
     this._film = film;
     this._filmDataComponent = new FilmData(film);
-    this._filmDataComponent.setOnFilmDetailsCloseButtonClick(onFilmDetailsCloseButtonClick);
+    this._filmDataComponent.setFilmDetailsCloseButtonClickHandler(filmDetailsCloseButtonClickHandler);
 
     render(this._container, this._filmDataComponent, RenderPosition.AFTERBEGIN);
   }
