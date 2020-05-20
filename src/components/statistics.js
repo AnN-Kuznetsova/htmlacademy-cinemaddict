@@ -27,8 +27,12 @@ export default class Statistics extends AbstractSmartComponent {
     this._filmsModel = filmsModel;
 
     this._watchedFilms = [];
+    this._currentFilms = [];
     this._genreStatistics = {};
     this._currentFilter = StatisticFilter.ALL_TIME;
+    this._userRank = null;
+
+    this._dateNow = null;
 
     this._statisticFiltersChangeHandler = this._statisticFiltersChangeHandler.bind(this);
   }
@@ -36,15 +40,15 @@ export default class Statistics extends AbstractSmartComponent {
 
   getTemplate() {
     const statisticFiltersMarkup = this._getStatisticFiltersMarkup();
-    const watchedFilmsCount = this._watchedFilms.length;
-    const userRank = getUserRank(watchedFilmsCount);
+    const watchedFilmsCount = this._currentFilms.length;
+    const userRank = this._userRank;
 
-    const totalDuration = this._watchedFilms.reduce((duration, film) => {
+    const totalDuration = this._currentFilms.reduce((duration, film) => {
       return duration + film.duration;
     }, 0);
     const momentDuration = moment.duration(totalDuration, `minutes`);
 
-    this._getGenreStatistics(this._watchedFilms);
+    this._getGenreStatistics(this._currentFilms);
     const genreCount = Object.keys(this._genreStatistics).length;
     const topGenreValue = Math.max(...Object.values(this._genreStatistics));
     const topGenre = genreCount ? getEnumPropertyKey(this._genreStatistics, topGenreValue) : ``;
@@ -89,6 +93,10 @@ export default class Statistics extends AbstractSmartComponent {
   show(filmsModel) {
     this._filmsModel = filmsModel;
     this._watchedFilms = getHistoryFilms(this._filmsModel.getFilmsAll());
+    this._currentFilter = StatisticFilter.ALL_TIME;
+    this._currentFilms = this._watchedFilms;
+    this._dateNow = new Date();
+    this._userRank = getUserRank(this._watchedFilms.length);
 
     super.show();
 
@@ -220,16 +228,43 @@ export default class Statistics extends AbstractSmartComponent {
 
     switch (currentFilter) {
       case StatisticFilter.TODAY:
+        this._currentFilms = this._watchedFilms.filter((film) => {
+          return film.watchingDate.getFullYear() === this._dateNow.getFullYear() &&
+            film.watchingDate.getMonth() === this._dateNow.getMonth() &&
+            film.watchingDate.getDate() === this._dateNow.getDate();
+        });
         break;
+
       case StatisticFilter.WEEK:
+        const dateFrom = (() => {
+          const date = new Date(this._dateNow);
+          date.setDate(date.getDate() - (date.getDay() + 1));
+          return date;
+        })();
+
+        this._currentFilms = this._watchedFilms.filter((film) => {
+          const watchingDate = film.watchingDate;
+
+          return watchingDate >= dateFrom && watchingDate <= this._dateNow;
+        });
         break;
+
       case StatisticFilter.MONTH:
+        this._currentFilms = this._watchedFilms.filter((film) => {
+          return film.watchingDate.getFullYear() === this._dateNow.getFullYear() &&
+            film.watchingDate.getMonth() === this._dateNow.getMonth();
+        });
         break;
+
       case StatisticFilter.YEAR:
+        this._currentFilms = this._watchedFilms.filter((film) => {
+          return film.watchingDate.getFullYear() === this._dateNow.getFullYear();
+        });
         break;
+
       case StatisticFilter.ALL_TIME:
       default:
-        this._watchedFilms = getHistoryFilms(this._filmsModel.getFilmsAll());
+        this._currentFilms = this._watchedFilms;
     }
 
     this.rerender();
