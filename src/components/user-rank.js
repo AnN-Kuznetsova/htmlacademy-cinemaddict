@@ -22,6 +22,7 @@ export default class UserRank extends AbstractComponent {
         this._userRank = `Movie Buff`;
         break;
       default:
+        this._userRank = ``;
     }
     return this._userRank;
   }

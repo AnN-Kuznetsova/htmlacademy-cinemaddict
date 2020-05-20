@@ -161,7 +161,6 @@ export default class PageController {
 
 
   _menuItemClickHandler(menuItem) {
-    window.console.log(`click mennu item ${menuItem}`);
     switch (menuItem) {
       case MenuItem.STATS:
         this._sortComponent.hide();
