@@ -1,4 +1,4 @@
-const AUTHORIZATION = `Basic kdfJldf75Kbnfisdjk`;
+const AUTHORIZATION = `Basic s=kdhJH235fdjjhfH`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 
