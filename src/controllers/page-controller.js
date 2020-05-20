@@ -5,6 +5,7 @@ import FilterController from "./filter-controller.js";
 import FooterStatistics from "../components/footer-statistics.js";
 import Loading from "../components/loading.js";
 import SiteMenu from "../components/site-menu.js";
+import Statistics from "../components/statistics.js";
 import Sort from "../components/sort.js";
 import UserRank from "../components/user-rank.js";
 import {FilterType} from "../const.js";
@@ -41,6 +42,7 @@ export default class PageController {
     this._userRankComponent = null;
     this._sortComponent = new Sort();
     this._filmsBoardComponent = new FilmsBoard();
+    this._statisticsComponent = new Statistics(filmsModel);
     this._footerStatisticsComponent = null;
     this._loadingComponent = new Loading();
 
@@ -52,6 +54,7 @@ export default class PageController {
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
     this._filmsModelFilterChangeHandler = this._filmsModelFilterChangeHandler.bind(this);
     this._commentsModelChangePageHandler = this._commentsModelChangePageHandler.bind(this);
+    this._statsButtonClickHandler = this._statsButtonClickHandler.bind(this);
 
     this._sortComponent.setSortTypeChangeHendler(this._sortTypeChangeHandler);
     this._filmsModel.setFilterChangeHandler(this._filmsModelFilterChangeHandler);
@@ -79,6 +82,11 @@ export default class PageController {
     render(footerStatisticsElement, this._footerStatisticsComponent, RenderPosition.BEFOREEND);
 
     this._renderFilmsBoardController(this._filmsModel.getFilmsAll());
+
+    render(siteMainElement, this._statisticsComponent, RenderPosition.BEFOREEND);
+    this._statisticsComponent.hide();
+
+    this._siteMenuComponent.setStatsButtonClickHandler(this._statsButtonClickHandler);
   }
 
 
@@ -148,5 +156,12 @@ export default class PageController {
     this._sortComponent.rerender();
 
     this._sortTypeChangeHandler(newSortType);
+  }
+
+
+  _statsButtonClickHandler() {
+    this._sortComponent.hide();
+    this._filmsBoardComponent.hide();
+    this._statisticsComponent.show();
   }
 }
