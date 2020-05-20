@@ -14,10 +14,11 @@ const StatisticFilter = {
 
 
 export default class Statistics extends AbstractSmartComponent {
-  constructor(filmsModel) {
+  constructor(filmsModel, userRank) {
     super();
 
     this._filmsModel = filmsModel;
+    this._userRank = userRank;
   }
 
 
@@ -38,6 +39,7 @@ export default class Statistics extends AbstractSmartComponent {
 
 
   getTemplate() {
+    const userRank = this._userRank;
     const statisticFiltersMarkup = this._getStatisticFiltersMarkup();
 
     return (
@@ -45,7 +47,7 @@ export default class Statistics extends AbstractSmartComponent {
       <p class="statistic__rank">
         Your rank
         <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-        <span class="statistic__rank-label">Sci-Fighter</span>
+        <span class="statistic__rank-label">${userRank}</span>
       </p>
 
       <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">

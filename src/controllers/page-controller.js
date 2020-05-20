@@ -42,7 +42,7 @@ export default class PageController {
     this._userRankComponent = null;
     this._sortComponent = new Sort();
     this._filmsBoardComponent = new FilmsBoard();
-    this._statisticsComponent = new Statistics(filmsModel);
+    this._statisticsComponent = null;
     this._footerStatisticsComponent = null;
     this._loadingComponent = new Loading();
 
@@ -76,6 +76,7 @@ export default class PageController {
     remove(this._loadingComponent);
 
     this._userRankComponent = new UserRank(getFilmsByFilter(this._filmsModel.getFilmsAll(), FilterType.HISTORY).length);
+    this._statisticsComponent = new Statistics(this._filmsModel, this._userRankComponent.userRank);
     this._footerStatisticsComponent = new FooterStatistics(this._filmsModel.getFilmsAll().length);
 
     render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);

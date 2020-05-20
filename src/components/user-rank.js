@@ -5,34 +5,37 @@ export default class UserRank extends AbstractComponent {
     super();
 
     this._filmsQuantity = filmsQuantity;
+
+
+    this._userRank = this._setUserRank(this._filmsQuantity);
   }
 
+  _setUserRank(filmsQuantity) {
+    switch (true) {
+      case ((filmsQuantity >= 1) && (filmsQuantity <= 10)):
+        this._userRank = `Novice`;
+        break;
+      case ((filmsQuantity >= 11) && (filmsQuantity <= 20)):
+        this._userRank = `Fan`;
+        break;
+      case (filmsQuantity >= 21):
+        this._userRank = `Movie Buff`;
+        break;
+      default:
+    }
+    return this._userRank;
+  }
+
+  get userRank() {
+    return this._userRank;
+  }
 
   getTemplate() {
     return (
       `<section class="header__profile profile">
-        <p class="profile__rating">${this._getUserRank()}</p>
+        <p class="profile__rating">${this._userRank}</p>
         <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
       </section>`
     );
-  }
-
-
-  _getUserRank() {
-    let userRank = ``;
-
-    switch (true) {
-      case (this._filmsQuantity >= 1 && this._filmsQuantity <= 10):
-        userRank = `Novice`;
-        break;
-      case (this._filmsQuantity >= 11 && this._filmsQuantity <= 20):
-        userRank = `Fan`;
-        break;
-      case (this._filmsQuantity >= 21):
-        userRank = `Movie Buff`;
-        break;
-      default:
-    }
-    return userRank;
   }
 }
