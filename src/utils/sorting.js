@@ -44,6 +44,6 @@ const getSortFilms = (films, sortType) => {
 
 export {
   SortType,
-  getSortFilms,
   getFieldFinder,
+  getSortFilms,
 };

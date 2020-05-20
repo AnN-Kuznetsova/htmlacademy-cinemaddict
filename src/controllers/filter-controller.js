@@ -1,7 +1,7 @@
 import Filters from "../components/filters.js";
 import {FilterType} from "../const.js";
-import {render, replace, RenderPosition} from "../utils/render.js";
 import {getFilmsByFilter} from "../utils/filter.js";
+import {render, replace, RenderPosition} from "../utils/render.js";
 
 export default class FilterController {
   constructor(container, filmsModel) {
@@ -12,11 +12,26 @@ export default class FilterController {
     this._filterComponent = null;
 
     this._onDataChange = this._onDataChange.bind(this);
-    this._onFilterChange = this._onFilterChange.bind(this);
-    this._onFilmsModelFilterChange = this._onFilmsModelFilterChange.bind(this);
+    this._filterChangeHandler = this._filterChangeHandler.bind(this);
+    this._filmsModelFilterChangeHandler = this._filmsModelFilterChangeHandler.bind(this);
 
     this._filmsModel.setDataChangeHandler(this._onDataChange);
-    this._filmsModel.setFilterChangeHandler(this._onFilmsModelFilterChange);
+    this._filmsModel.setFilterChangeHandler(this._filmsModelFilterChangeHandler);
+  }
+
+
+  render() {
+    const container = this._container;
+
+    const oldComponent = this._filterComponent;
+    this._filterComponent = new Filters(this._getFilters(FilterType));
+    this._filterComponent.setFilterClickHandler(this._filterChangeHandler);
+
+    if (oldComponent) {
+      replace(this._filterComponent, oldComponent);
+    } else {
+      render(container, this._filterComponent, RenderPosition.AFTERBEGIN);
+    }
   }
 
 
@@ -35,33 +50,18 @@ export default class FilterController {
   }
 
 
-  _onFilterChange(filterType) {
-    this._filmsModel.setFilter(filterType);
-  }
-
-
-  _onFilmsModelFilterChange() {
-    this._activeFilterType = this._filmsModel.getFilter();
-    this.render();
-  }
-
-
   _onDataChange() {
     this.render();
   }
 
 
-  render() {
-    const container = this._container;
+  _filterChangeHandler(filterType) {
+    this._filmsModel.setFilter(filterType);
+  }
 
-    const oldComponent = this._filterComponent;
-    this._filterComponent = new Filters(this._getFilters(FilterType));
-    this._filterComponent.setOnFilterClick(this._onFilterChange);
 
-    if (oldComponent) {
-      replace(this._filterComponent, oldComponent);
-    } else {
-      render(container, this._filterComponent, RenderPosition.AFTERBEGIN);
-    }
+  _filmsModelFilterChangeHandler() {
+    this._activeFilterType = this._filmsModel.getFilter();
+    this.render();
   }
 }

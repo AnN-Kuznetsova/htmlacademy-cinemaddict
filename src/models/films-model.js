@@ -1,5 +1,5 @@
-import {arrayDataChange} from "../utils/common.js";
 import {FilterType} from "../const.js";
+import {arrayDataChange} from "../utils/common.js";
 import {getFilmsByFilter} from "../utils/filter";
 
 export default class FilmsModel {
@@ -12,8 +12,9 @@ export default class FilmsModel {
   }
 
 
-  _callHandlers(handlers) {
-    handlers.forEach((handler) => handler());
+  setFilms(films) {
+    this._films = Array.from(films);
+    this._callHandlers(this._dataChangeHandlers);
   }
 
 
@@ -27,18 +28,23 @@ export default class FilmsModel {
   }
 
 
-  setFilms(films) {
-    this._films = Array.from(films);
-    this._callHandlers(this._dataChangeHandlers);
-  }
-
-
   updateFilm(id, film) {
     const newFilms = arrayDataChange(this._films, id, film);
     this._films = newFilms.array;
     this._callHandlers(this._dataChangeHandlers);
 
     return true;
+  }
+
+
+  setFilter(filterType) {
+    this._activeFilterType = filterType;
+    this._callHandlers(this._filterChangeHandlers);
+  }
+
+
+  getFilter() {
+    return this._activeFilterType;
   }
 
 
@@ -52,13 +58,7 @@ export default class FilmsModel {
   }
 
 
-  setFilter(filterType) {
-    this._activeFilterType = filterType;
-    this._callHandlers(this._filterChangeHandlers);
-  }
-
-
-  getFilter() {
-    return this._activeFilterType;
+  _callHandlers(handlers) {
+    handlers.forEach((handler) => handler());
   }
 }

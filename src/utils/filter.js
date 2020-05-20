@@ -5,9 +5,11 @@ const getAddToWatchlistFilms = (films) => {
   return films.filter((film) => film.isAddToWatchlist);
 };
 
+
 const getHistoryFilms = (films) => {
   return films.filter((film) => film.isMarkAsWatched);
 };
+
 
 const getFavoritesFilms = (films) => {
   return films.filter((film) => film.isFavorite);

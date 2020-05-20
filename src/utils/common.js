@@ -1,5 +1,12 @@
 import moment from "moment";
 import {DateTimeFormat} from "../const.js";
+import {SHAKE_ANIMATION_TIMEOUT} from "../const.js";
+
+
+//  Функция нахождения случайного числа
+const getRandomIntegerNumber = function (num) {
+  return Math.floor(Math.random() * (num + 1));
+};
 
 
 const formatDurationTime = (duration) => {
@@ -8,9 +15,11 @@ const formatDurationTime = (duration) => {
   return date.add(momentDuration).format(DateTimeFormat.DURATION);
 };
 
+
 const formatDate = (date, dateFormat) => {
   return moment(date).format(dateFormat);
 };
+
 
 const formatDateFromNow = (date) => {
   return moment(date).fromNow();
@@ -18,8 +27,9 @@ const formatDateFromNow = (date) => {
 
 
 const getIndexById = (array, id) => {
-  return array.findIndex((it) => it.id === id);
+  return array.findIndex((element) => element.id === id);
 };
+
 
 const arrayDataChange = (array, id, newData) => {
   const index = getIndexById(array, id);
@@ -28,7 +38,6 @@ const arrayDataChange = (array, id, newData) => {
     array = [].concat(array.slice(0, index), newData, array.slice(index + 1));
   }
 
-
   return {
     array,
     index,
@@ -36,10 +45,47 @@ const arrayDataChange = (array, id, newData) => {
 };
 
 
+const setСustomTimeOut = (timeOut, handler) => {
+  setTimeout(() => {
+    handler();
+  }, timeOut);
+};
+
+
+const disableForm = (formElements, isDisabled = true) => {
+  for (const element of formElements) {
+    element.disabled = isDisabled;
+  }
+};
+
+
+const setDisabledStyle = (elements, isDisabledStyle = true) => {
+  for (const element of elements) {
+    element.style.backgroundColor = isDisabledStyle ? `#aaaaaa` : ``;
+  }
+};
+
+
+const shakeElement = (element, isShake = true) => {
+  element.style.animation = isShake ? `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s` : ``;
+};
+
+
+const adjustElementErrorStyle = (element, isErrorStyle = true) => {
+  element.style.boxShadow = isErrorStyle ? `0 0 0 4px #ff4e4e` : ``;
+};
+
+
 export {
-  getIndexById,
+  adjustElementErrorStyle,
   arrayDataChange,
-  formatDurationTime,
+  disableForm,
   formatDate,
   formatDateFromNow,
+  formatDurationTime,
+  getIndexById,
+  getRandomIntegerNumber,
+  setDisabledStyle,
+  setСustomTimeOut,
+  shakeElement,
 };

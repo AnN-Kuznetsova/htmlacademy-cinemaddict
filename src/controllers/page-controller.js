@@ -19,7 +19,6 @@ const ListName = {
   MOST_COMMENTED: `most-commented`,
 };
 
-
 const filmsLists = {
   default: new FilmsList(ListName.DEFAULT, `All movies. Upcoming`, SortType.DEFAULT),
   topRating: new FilmsList(ListName.TOP_RATING, `Top rated`, SortType.BY_RATING, true),
@@ -50,78 +49,12 @@ export default class PageController {
 
     this._onFilmsDataChange = this._onFilmsDataChange.bind(this);
     this._onFilmsListViewChange = this._onFilmsListViewChange.bind(this);
-    this._onSortTypeChange = this._onSortTypeChange.bind(this);
-    this._onFilmsModelFilterChange = this._onFilmsModelFilterChange.bind(this);
+    this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
+    this._filmsModelFilterChangeHandler = this._filmsModelFilterChangeHandler.bind(this);
     this._commentsModelChangePageHandler = this._commentsModelChangePageHandler.bind(this);
 
-    this._sortComponent.setSortTypeChangeHendler(this._onSortTypeChange);
-    this._filmsModel.setFilterChangeHandler(this._onFilmsModelFilterChange);
-  }
-
-  _commentsModelChangePageHandler() {
-    for (const listController of this._filmsListsControllers) {
-      if (listController.name === ListName.MOST_COMMENTED) {
-        listController.render(this._filmsModel.getFilmsAll());
-        break;
-      }
-    }
-  }
-
-  _onSortTypeChange(newSortType) {
-    for (const listController of this._filmsListsControllers) {
-      if (listController.name === ListName.DEFAULT) {
-        listController.sortType = newSortType;
-        listController.render(this._filmsModel.getFilteredFilms());
-        break;
-      }
-    }
-  }
-
-
-  _onFilmsModelFilterChange() {
-    const newSortType = SortType.DEFAULT;
-    this._sortComponent.setSortType(newSortType);
-    this._sortComponent.rerender();
-
-    this._onSortTypeChange(newSortType);
-  }
-
-
-  _onFilmsDataChange(id, newData) {
-    this._filmsApi.updateFilm(id, newData)
-      .then((filmModel) => {
-        const isSuccess = this._filmsModel.updateFilm(id, filmModel);
-
-        if (isSuccess) {
-          this._filmsListsControllers.forEach((filmsListsController) => filmsListsController.setDataChange(id, filmModel));
-        }
-
-        return isSuccess;
-      });
-  }
-
-
-  _onFilmsListViewChange() {
-    this._filmsListsControllers.forEach((filmsListsController) => filmsListsController.setDefaultView());
-  }
-
-
-  _renderFilmsBoardController(films) {
-    const filmsBoardElement = this._filmsBoardComponent.getElement();
-    filmsBoardElement.innerHTML = ``;
-
-    const lists = Object.entries(this._filmsLists);
-
-    if (!lists.length) {
-      return;
-    }
-
-    this._filmsListsControllers = lists.map((list) => {
-      const filmsListController = new FilmsListController(filmsBoardElement, list[1],
-          this._onFilmsDataChange, this._onFilmsListViewChange, this._commentsModelChangePageHandler);
-      filmsListController.render(films);
-      return filmsListController;
-    });
+    this._sortComponent.setSortTypeChangeHendler(this._sortTypeChangeHandler);
+    this._filmsModel.setFilterChangeHandler(this._filmsModelFilterChangeHandler);
   }
 
 
@@ -146,5 +79,74 @@ export default class PageController {
     render(footerStatisticsElement, this._footerStatisticsComponent, RenderPosition.BEFOREEND);
 
     this._renderFilmsBoardController(this._filmsModel.getFilmsAll());
+  }
+
+
+  _renderFilmsBoardController(films) {
+    const filmsBoardElement = this._filmsBoardComponent.getElement();
+    filmsBoardElement.innerHTML = ``;
+
+    const lists = Object.entries(this._filmsLists);
+
+    if (!lists.length) {
+      return;
+    }
+
+    this._filmsListsControllers = lists.map((list) => {
+      const filmsListController = new FilmsListController(filmsBoardElement, list[1],
+          this._onFilmsDataChange, this._onFilmsListViewChange, this._commentsModelChangePageHandler);
+      filmsListController.render(films);
+      return filmsListController;
+    });
+  }
+
+
+  _onFilmsListViewChange() {
+    this._filmsListsControllers.forEach((filmsListsController) => filmsListsController.setDefaultView());
+  }
+
+
+  _onFilmsDataChange(id, newData) {
+    this._filmsApi.updateFilm(id, newData)
+      .then((filmModel) => {
+        const isSuccess = this._filmsModel.updateFilm(id, filmModel);
+
+        if (isSuccess) {
+          this._filmsListsControllers.forEach((filmsListsController) => filmsListsController.setDataChange(id, filmModel));
+        }
+
+        return isSuccess;
+      });
+  }
+
+
+  _commentsModelChangePageHandler(id, filmModel) {
+    for (const listController of this._filmsListsControllers) {
+      if (listController.name === ListName.MOST_COMMENTED) {
+        listController.render(this._filmsModel.getFilmsAll());
+      } else {
+        listController.setDataChange(id, filmModel);
+      }
+    }
+  }
+
+
+  _sortTypeChangeHandler(newSortType) {
+    for (const listController of this._filmsListsControllers) {
+      if (listController.name === ListName.DEFAULT) {
+        listController.sortType = newSortType;
+        listController.render(this._filmsModel.getFilteredFilms());
+        break;
+      }
+    }
+  }
+
+
+  _filmsModelFilterChangeHandler() {
+    const newSortType = SortType.DEFAULT;
+    this._sortComponent.setSortType(newSortType);
+    this._sortComponent.rerender();
+
+    this._sortTypeChangeHandler(newSortType);
   }
 }

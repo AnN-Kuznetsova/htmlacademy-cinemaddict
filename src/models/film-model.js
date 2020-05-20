@@ -25,6 +25,10 @@ export default class FilmModel {
 
     this.commentsModel = new CommentsModel(data[`comments`]);
     this.commentsCount = data[`comments`].length;
+
+    this._setCommentsCount = this._setCommentsCount.bind(this);
+
+    this.commentsModel.setCommentsChangeHandler(this._setCommentsCount);
   }
 
 
@@ -54,11 +58,16 @@ export default class FilmModel {
         "watchlist": this.isAddToWatchlist,
         "already_watched": this.isMarkAsWatched,
         "favorite": this.isFavorite,
-        "watching_date": this.watchingDate ? this.watchingDate.toISOString() : null,
+        "watching_date": (this.isMarkAsWatched && this.watchingDate) ? this.watchingDate.toISOString() : null,
       },
 
       "comments": this.commentsModel.getCommentsId(),
     };
+  }
+
+
+  _setCommentsCount() {
+    this.commentsCount = this.commentsModel.getCommentsCount();
   }
 
 

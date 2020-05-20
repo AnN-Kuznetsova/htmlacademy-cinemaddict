@@ -3,12 +3,14 @@ const RenderPosition = {
   BEFOREEND: `beforeend`
 };
 
+
 const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
 
   return newElement.firstChild;
 };
+
 
 const render = (containerElement, component, place) => {
   switch (place) {
@@ -23,6 +25,7 @@ const render = (containerElement, component, place) => {
   return component;
 };
 
+
 const replace = (newComponent, oldComponent) => {
   const parentElement = oldComponent.getElement().parentElement;
   const newElement = newComponent.getElement();
@@ -35,9 +38,11 @@ const replace = (newComponent, oldComponent) => {
   }
 };
 
+
 const removeElement = (component) => {
   component.getElement().remove();
 };
+
 
 const remove = (component) => {
   removeElement(component);
@@ -46,10 +51,10 @@ const remove = (component) => {
 
 
 export {
-  createElement,
   RenderPosition,
+  createElement,
+  remove,
+  removeElement,
   render,
   replace,
-  removeElement,
-  remove,
 };

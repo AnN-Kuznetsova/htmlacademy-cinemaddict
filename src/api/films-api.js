@@ -7,7 +7,7 @@ export default class FilmsAPI extends API {
 
   getFilms() {
     return this._load({url: `movies`})
-      .then((responce) => responce.json())
+      .then((response) => response.json())
       .then(FilmModel.parseFilms);
   }
 

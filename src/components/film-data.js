@@ -20,34 +20,6 @@ export default class FilmData extends AbstractComponent {
   }
 
 
-  _subscribeOnEvents() {
-    const element = this.getElement();
-
-    element.querySelector(`#watchlist`)
-      .addEventListener(`click`, () => {
-        this._filmSettings.isAddToWatchlist = !this._filmSettings.isAddToWatchlist;
-      });
-
-    element.querySelector(`#watched`)
-      .addEventListener(`click`, () => {
-        this._filmSettings.isMarkAsWatched = !this._filmSettings.isMarkAsWatched;
-      });
-
-    element.querySelector(`#favorite`)
-      .addEventListener(`click`, () => {
-        this._filmSettings.isFavorite = !this._filmSettings.isFavorite;
-      });
-  }
-
-
-  _createButtonMarkup(name, value, isActive = true) {
-    return (
-      `<input type="checkbox" class="film-details__control-input visually-hidden" id="${name}" name="${name}" ${isActive ? `checked` : ``}>
-      <label for="${name}" class="film-details__control-label film-details__control-label--${name}">${value}</label>`
-    );
-  }
-
-
   getTemplate() {
     const {title, originalTitle, rating, director, writers, actors, releaseDate, duration, country, genre, poster, description, age} = this._film;
     const {isAddToWatchlist, isMarkAsWatched, isFavorite} = this._filmSettings;
@@ -132,8 +104,36 @@ export default class FilmData extends AbstractComponent {
   }
 
 
-  setOnFilmDetailsCloseButtonClick(cb) {
+  setFilmDetailsCloseButtonClickHandler(handler) {
     this.getElement().querySelector(`.film-details__close-btn`)
-      .addEventListener(`click`, cb);
+      .addEventListener(`click`, handler);
+  }
+
+
+  _createButtonMarkup(name, value, isActive = true) {
+    return (
+      `<input type="checkbox" class="film-details__control-input visually-hidden" id="${name}" name="${name}" ${isActive ? `checked` : ``}>
+      <label for="${name}" class="film-details__control-label film-details__control-label--${name}">${value}</label>`
+    );
+  }
+
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+
+    element.querySelector(`#watchlist`)
+      .addEventListener(`click`, () => {
+        this._filmSettings.isAddToWatchlist = !this._filmSettings.isAddToWatchlist;
+      });
+
+    element.querySelector(`#watched`)
+      .addEventListener(`click`, () => {
+        this._filmSettings.isMarkAsWatched = !this._filmSettings.isMarkAsWatched;
+      });
+
+    element.querySelector(`#favorite`)
+      .addEventListener(`click`, () => {
+        this._filmSettings.isFavorite = !this._filmSettings.isFavorite;
+      });
   }
 }

@@ -7,13 +7,15 @@ export default class Genres extends AbstractComponent {
     this._genres = genres;
   }
 
+
+  getTemplate() {
+    return this._genres.slice().map((genre) => this._createGenreMarkup(genre)).join(`\n`);
+  }
+
+
   _createGenreMarkup(genre) {
     return (
       `<span class="film-details__genre">${genre}</span>`
     );
-  }
-
-  getTemplate() {
-    return this._genres.slice().map((it) => this._createGenreMarkup(it)).join(`\n`);
   }
 }

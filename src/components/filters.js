@@ -12,6 +12,29 @@ export default class Filters extends AbstractComponent {
   }
 
 
+  getTemplate() {
+    return (
+      `<div class="main-navigation__items">
+        ${this._createFiltersMarkup()}
+      </div>`
+    );
+  }
+
+
+  setFilterClickHandler(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+
+      const filterName = this._getFilterNameById(evt.target.id);
+      handler(filterName);
+    });
+  }
+
+
   _getFilterNameById(id) {
     return FilterType[id
       .substring(FILTER_ID_PREFIX.length)
@@ -36,26 +59,5 @@ export default class Filters extends AbstractComponent {
     return this._filters
       .map((filter) => this._createFilterMarkup(filter))
       .join(`\n`);
-  }
-
-  getTemplate() {
-    return (
-      `<div class="main-navigation__items">
-        ${this._createFiltersMarkup()}
-      </div>`
-    );
-  }
-
-  setOnFilterClick(cb) {
-    this.getElement().addEventListener(`click`, (evt) => {
-      evt.preventDefault();
-
-      if (evt.target.tagName !== `A`) {
-        return;
-      }
-
-      const filterName = this._getFilterNameById(evt.target.id);
-      cb(filterName);
-    });
   }
 }

@@ -3,12 +3,7 @@ const FILM_CARD_EXTRA_COUNT = 2;
 const SHOWING_FILMS_COUNT_ON_START = 5;
 const SHOWING_FILMS_COUNT_BY_BUTTON = 5;
 
-const Emoji = {
-  SMILE: `smile.png`,
-  SLEEPING: `sleeping.png`,
-  PUKE: `puke.png`,
-  ANGRY: `angry.png`,
-};
+const SHAKE_ANIMATION_TIMEOUT = 600;
 
 const DateTimeFormat = {
   DURATION: `H[h] mm[m]`,
@@ -24,13 +19,33 @@ const FilterType = {
   FAVORITES: `Favorites`,
 };
 
+const Emoji = {
+  smile: {
+    name: `smile`,
+    url: `smile.png`,
+  },
+  sleeping: {
+    name: `sleeping`,
+    url: `sleeping.png`,
+  },
+  puke: {
+    name: `puke`,
+    url: `puke.png`,
+  },
+  angry: {
+    name: `angry`,
+    url: `angry.png`,
+  },
+};
+
 
 export {
-  MAX_DESCRIPTION_LENGTH,
   FILM_CARD_EXTRA_COUNT,
+  MAX_DESCRIPTION_LENGTH,
+  SHAKE_ANIMATION_TIMEOUT,
   SHOWING_FILMS_COUNT_ON_START,
   SHOWING_FILMS_COUNT_BY_BUTTON,
-  Emoji,
   DateTimeFormat,
+  Emoji,
   FilterType,
 };
