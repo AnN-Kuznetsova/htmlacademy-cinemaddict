@@ -45,8 +45,9 @@ export default class Statistics extends AbstractSmartComponent {
     const momentDuration = moment.duration(totalDuration, `minutes`);
 
     this._getGenreStatistics(this._watchedFilms);
+    const genreCount = Object.keys(this._genreStatistics).length;
     const topGenreValue = Math.max(...Object.values(this._genreStatistics));
-    const topGenre = watchedFilmsCount ? getEnumPropertyKey(this._genreStatistics, topGenreValue) : ``;
+    const topGenre = genreCount ? getEnumPropertyKey(this._genreStatistics, topGenreValue) : ``;
 
     return (
       `<section class="statistic">
