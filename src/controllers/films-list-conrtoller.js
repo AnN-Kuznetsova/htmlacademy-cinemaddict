@@ -65,6 +65,16 @@ export default class FilmsListController {
   }
 
 
+  hide() {
+    this._container.hide();
+  }
+
+
+  show() {
+    this._container.show();
+  }
+
+
   setDataChange(id, newData) {
     const newArray = arrayDataChange(this._listFilms, id, newData);
     const index = newArray.index;
