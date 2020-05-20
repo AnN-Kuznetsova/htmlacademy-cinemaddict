@@ -36,7 +36,7 @@ export default class Comments extends AbstractSmartComponent {
 
 
   getData() {
-    if (this._newComment.emojiUrl && this._newComment.emojiTitle) {
+    if (this._newComment.emojiUrl && this._newComment.emojiTitle && this._newComment.text && /\S/.test(this._newComment.text)) {
       return {
         text: this._newComment.text,
         emoji: {

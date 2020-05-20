@@ -87,7 +87,7 @@ export default class CommentsController {
 
   _parseNewCommentData(newCommentData) {
     return new CommentModel({
-      "comment": newCommentData.text ? newCommentData.text : ` `,
+      "comment": newCommentData.text,
       "emotion": newCommentData.emoji.name,
       "date": newCommentData.dayAndTime.toISOString(),
     });
