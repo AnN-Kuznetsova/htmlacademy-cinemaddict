@@ -4,7 +4,7 @@ import FilmsListController from "./films-list-conrtoller.js";
 import FilterController from "./filter-controller.js";
 import FooterStatistics from "../components/footer-statistics.js";
 import Loading from "../components/loading.js";
-import SiteMenu from "../components/site-menu.js";
+import SiteMenu, {MenuItem} from "../components/site-menu.js";
 import Statistics from "../components/statistics.js";
 import Sort from "../components/sort.js";
 import UserRank from "../components/user-rank.js";
@@ -54,7 +54,7 @@ export default class PageController {
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
     this._filmsModelFilterChangeHandler = this._filmsModelFilterChangeHandler.bind(this);
     this._commentsModelChangePageHandler = this._commentsModelChangePageHandler.bind(this);
-    this._statsButtonClickHandler = this._statsButtonClickHandler.bind(this);
+    this._menuItemClickHandler = this._menuItemClickHandler.bind(this);
 
     this._sortComponent.setSortTypeChangeHendler(this._sortTypeChangeHandler);
     this._filmsModel.setFilterChangeHandler(this._filmsModelFilterChangeHandler);
@@ -86,7 +86,7 @@ export default class PageController {
     render(siteMainElement, this._statisticsComponent, RenderPosition.BEFOREEND);
     this._statisticsComponent.hide();
 
-    this._siteMenuComponent.setStatsButtonClickHandler(this._statsButtonClickHandler);
+    this._siteMenuComponent.setMenuItemClickHandler(this._menuItemClickHandler);
   }
 
 
@@ -159,9 +159,18 @@ export default class PageController {
   }
 
 
-  _statsButtonClickHandler() {
-    this._sortComponent.hide();
-    this._filmsBoardComponent.hide();
-    this._statisticsComponent.show();
+  _menuItemClickHandler(menuItem) {
+    window.console.log(`click mennu item ${menuItem}`);
+    switch (menuItem) {
+      case MenuItem.STATS:
+        this._sortComponent.hide();
+        this._filmsBoardComponent.hide();
+        this._statisticsComponent.show();
+        break;
+      default:
+        this._sortComponent.show();
+        this._filmsBoardComponent.show();
+        this._statisticsComponent.hide();
+    }
   }
 }

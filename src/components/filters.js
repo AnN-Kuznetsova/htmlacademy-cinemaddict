@@ -1,7 +1,8 @@
 import AbstractComponent from "./abstract-component.js";
 import {FilterType} from "../const.js";
+import {MenuItem} from "./site-menu.js";
 
-const FILTER_ID_PREFIX = `js-filter--`;
+const FILTER_ID_PREFIX = `js-${MenuItem.FILTER}--`;
 
 
 export default class Filters extends AbstractComponent {
@@ -49,6 +50,7 @@ export default class Filters extends AbstractComponent {
       `<a href="#${filterName.toLowerCase()}"
         id="${FILTER_ID_PREFIX + filterName.toLowerCase()}"
         class="main-navigation__item ${isChecked ? `main-navigation__item--active` : ``}"
+        data-menu-item="${MenuItem.FILTER}"
         >${filterValue}
         ${isNotShowQuantity ? `` : `<span class="main-navigation__item-count">${count}</span>`}
       </a>`
