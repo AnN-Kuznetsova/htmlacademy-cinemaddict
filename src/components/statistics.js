@@ -5,6 +5,8 @@ import moment from "moment";
 import {getEnumPropertyKey} from "../utils/common.js";
 
 
+const BAR_HEIGHT = 50;
+
 const StatisticFilter = {
   ALL_TIME: `all-time`,
   TODAY: `today`,
@@ -42,6 +44,8 @@ export default class Statistics extends AbstractSmartComponent {
 
 
   _getGenreStatistics(films) {
+    this._genreStatistics = {};
+
     films.forEach((film) => {
       film.genre.forEach((genre) => {
         if (Object.keys(this._genreStatistics).includes(genre)) {
@@ -106,10 +110,90 @@ export default class Statistics extends AbstractSmartComponent {
     );
   }
 
+
+  show() {
+    super.show();
+
+    this.rerender(this._filmsModel);
+  }
+
+
+  rerender(filmsModel) {
+    this._filmsModel = filmsModel;
+
+    super.rerender();
+
+    this._renderChart();
+  }
+
+
+  _renderChart() {
+    const statisticCtx = document.querySelector(`.statistic__chart`);
+
+    const genreLabels = Object.keys(this._genreStatistics);
+    const genreValues = Object.values(this._genreStatistics);
+    const genreCount = genreLabels.length;
+    statisticCtx.height = BAR_HEIGHT * genreCount;
+
+    return new Chart(statisticCtx, {
+      plugins: [ChartDataLabels],
+      type: `horizontalBar`,
+      data: {
+        labels: [...genreLabels],
+        datasets: [{
+          data: [...genreValues],
+          backgroundColor: `#ffe800`,
+          hoverBackgroundColor: `#ffe800`,
+          anchor: `start`
+        }]
+      },
+      options: {
+        plugins: {
+          datalabels: {
+            font: {
+              size: 20
+            },
+            color: `#ffffff`,
+            anchor: `start`,
+            align: `start`,
+            offset: 40,
+          }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              fontColor: `#ffffff`,
+              padding: 100,
+              fontSize: 20
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            barThickness: 24
+          }],
+          xAxes: [{
+            ticks: {
+              display: false,
+              beginAtZero: true
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+          }],
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          enabled: false
+        }
+      }
+    });
+  }
+
+
   recoveryListeners() {}
 
-
-  render() {
-
-  }
 }
