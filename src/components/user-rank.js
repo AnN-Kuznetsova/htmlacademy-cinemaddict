@@ -18,25 +18,6 @@ export default class UserRank extends AbstractSmartComponent {
     this._setFilmsQuantity();
   }
 
-  _setFilmsQuantity() {
-    const filmsQuantity = getHistoryFilms(this._filmsModel.getFilmsAll()).length;
-
-    if (this._filmsQuantity !== filmsQuantity) {
-      this._filmsQuantity = filmsQuantity;
-
-      this._setUserRank();
-    }
-  }
-
-  _setUserRank() {
-    const userRank = getUserRank(this._filmsQuantity);
-
-    if (this._userRank !== userRank) {
-      this._userRank = userRank;
-
-      this.rerender();
-    }
-  };
 
   getTemplate() {
     return (
@@ -47,5 +28,28 @@ export default class UserRank extends AbstractSmartComponent {
     );
   }
 
+
   recoveryListeners() {}
+
+
+  _setFilmsQuantity() {
+    const filmsQuantity = getHistoryFilms(this._filmsModel.getFilmsAll()).length;
+
+    if (this._filmsQuantity !== filmsQuantity) {
+      this._filmsQuantity = filmsQuantity;
+
+      this._setUserRank();
+    }
+  }
+
+
+  _setUserRank() {
+    const userRank = getUserRank(this._filmsQuantity);
+
+    if (this._userRank !== userRank) {
+      this._userRank = userRank;
+
+      this.rerender();
+    }
+  }
 }

@@ -34,37 +34,6 @@ export default class Statistics extends AbstractSmartComponent {
   }
 
 
-  _getStatisticFiltersMarkup() {
-    return Object.values(StatisticFilter)
-      .map((filter) => {
-        const isChecked = (filter === this._currentFilter) ? `checked` : ``;
-        const description = ``.concat(filter[0].toUpperCase(),
-            filter.substring(1).split(`-`).join(` `));
-
-        return (
-          `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="${STATISTIC_FILTER_ID_PREFIX}${filter}" value="${filter}" ${isChecked}>
-          <label for="statistic-${filter}" class="statistic__filters-label">${description}</label>`
-        );
-      })
-      .join(`\n`);
-  }
-
-
-  _getGenreStatistics(films) {
-    this._genreStatistics = {};
-
-    films.forEach((film) => {
-      film.genre.forEach((genre) => {
-        if (Object.keys(this._genreStatistics).includes(genre)) {
-          this._genreStatistics[genre] = this._genreStatistics[genre] + 1;
-        } else {
-          this._genreStatistics[genre] = 1;
-        }
-      });
-    });
-  }
-
-
   getTemplate() {
     const statisticFiltersMarkup = this._getStatisticFiltersMarkup();
     const watchedFilmsCount = this._watchedFilms.length;
@@ -130,6 +99,42 @@ export default class Statistics extends AbstractSmartComponent {
     super.rerender();
 
     this._renderChart();
+  }
+
+
+  recoveryListeners() {
+    this._setStatisticFiltersChangeHandler();
+  }
+
+
+  _getStatisticFiltersMarkup() {
+    return Object.values(StatisticFilter)
+      .map((filter) => {
+        const isChecked = (filter === this._currentFilter) ? `checked` : ``;
+        const description = ``.concat(filter[0].toUpperCase(),
+            filter.substring(1).split(`-`).join(` `));
+
+        return (
+          `<input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="${STATISTIC_FILTER_ID_PREFIX}${filter}" value="${filter}" ${isChecked}>
+          <label for="statistic-${filter}" class="statistic__filters-label">${description}</label>`
+        );
+      })
+      .join(`\n`);
+  }
+
+
+  _getGenreStatistics(films) {
+    this._genreStatistics = {};
+
+    films.forEach((film) => {
+      film.genre.forEach((genre) => {
+        if (Object.keys(this._genreStatistics).includes(genre)) {
+          this._genreStatistics[genre] = this._genreStatistics[genre] + 1;
+        } else {
+          this._genreStatistics[genre] = 1;
+        }
+      });
+    });
   }
 
 
@@ -200,8 +205,9 @@ export default class Statistics extends AbstractSmartComponent {
   }
 
 
-  recoveryListeners() {
-    this._setStatisticFiltersChangeHandler();
+  _setStatisticFiltersChangeHandler() {
+    this.getElement().querySelector(`.statistic__filters`)
+      .addEventListener(`change`, this._statisticFiltersChangeHandler);
   }
 
 
@@ -226,11 +232,5 @@ export default class Statistics extends AbstractSmartComponent {
     }
 
     this.rerender();
-  }
-
-
-  _setStatisticFiltersChangeHandler() {
-    this.getElement().querySelector(`.statistic__filters`)
-      .addEventListener(`change`, this._statisticFiltersChangeHandler);
   }
 }
