@@ -27,10 +27,18 @@ export default class FilmsProvider {
 
   updateFilm(id, film) {
     if (isOnline()) {
-      return this._api.updateFilm(id, film);
+      return this._api.updateFilm(id, film)
+      .then((newFilm) => {
+        this._store.setItem(newFilm.id, newFilm.toRAW());
+
+        return newFilm;
+      });
     }
 
-    // TODO: Реализовать логику при отсутствии интернета
-    return Promise.reject(`offline logic is not implemented`);
+    const localFilm = FilmModel.clone(Object.assign(film, {id}));
+
+    this._store.setItem(id, localFilm.toRAW());
+
+    return Promise.resolve(localFilm);
   }
 }
