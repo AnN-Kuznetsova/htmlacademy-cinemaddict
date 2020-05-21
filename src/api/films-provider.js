@@ -13,7 +13,13 @@ export default class FilmsProvider {
     if (isOnline()) {
       return this._api.getFilms()
         .then((films) => {
-          films.forEach((film) => this._store.setItem(film.id, film.toRAW()));
+          const items = films.reduce((acc, currentFilm) => {
+            return Object.assign({}, acc, {
+              [currentFilm.id]: currentFilm.toRAW(),
+            });
+          }, {});
+
+          this._store.setItems(items);
 
           return films;
         });
