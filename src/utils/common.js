@@ -90,6 +90,11 @@ const adjustElementErrorStyle = (element, isErrorStyle = true) => {
 };
 
 
+const isOnline = () => {
+  return window.navigator.onLine;
+};
+
+
 export {
   adjustElementErrorStyle,
   arrayDataChange,
@@ -97,6 +102,7 @@ export {
   formatDate,
   formatDateFromNow,
   formatDurationTime,
+  isOnline,
   getEnumPropertyKey,
   getIndexById,
   getRandomIntegerNumber,
