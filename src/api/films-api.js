@@ -1,6 +1,5 @@
-import API from "./api.js";
+import API, {Method} from "./index.js";
 import FilmModel from "../models/film-model.js";
-import {Method} from "./api.js";
 
 
 export default class FilmsAPI extends API {
