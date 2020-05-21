@@ -13,11 +13,12 @@ export default class FilmsProvider {
     if (isOnline()) {
       return this._api.getFilms()
         .then((films) => {
-          const items = films.reduce((acc, currentFilm) => {
+          /* const items = films.reduce((acc, currentFilm) => {
             return Object.assign({}, acc, {
               [currentFilm.id]: currentFilm.toRAW(),
             });
-          }, {});
+          }, {}); */
+          const items = this._createStoreStructure(films.map((film) => film.toRAW()));
 
           this._store.setItems(items);
 
@@ -46,5 +47,32 @@ export default class FilmsProvider {
     this._store.setItem(id, localFilm.toRAW());
 
     return Promise.resolve(localFilm);
+  }
+
+
+  sync() {
+    if (isOnline()) {
+      const storeFilms = Object.values(this._store.getItems());
+
+      return this._api.sync(storeFilms)
+        .then((response) => {
+          //window.console.log(response);
+          const updatedFilms = response.updated;
+          const items = this._createStoreStructure(updatedFilms);
+
+          this._store.setItems(items);
+        });
+    }
+
+    return Promise.reject(new Error(`Sync data failed`));
+  }
+
+
+  _createStoreStructure(items) {
+    return items.reduce((acc, currentItem) => {
+      return Object.assign({}, acc, {
+        [currentItem.id]: currentItem,
+      });
+    }, {});
   }
 }

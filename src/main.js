@@ -23,3 +23,14 @@ filmsApiWithProvider.getFilms()
   .then((films) => filmsModel.setFilms(films))
   .catch(() => filmsModel.setFilms([]))
   .then(() => pageController.rerender());
+
+
+window.addEventListener(`online`, () => {
+  document.title = document.title.replace(` [offline]`, ``);
+
+  filmsApiWithProvider.sync();
+});
+
+window.addEventListener(`offline`, () => {
+  document.title += ` [offline]`;
+});

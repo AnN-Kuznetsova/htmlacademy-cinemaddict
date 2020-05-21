@@ -21,4 +21,15 @@ export default class FilmsAPI extends API {
     .then((response) => response.json())
     .then(FilmModel.parseFilm);
   }
+
+
+  sync(data) {
+    return this._load({
+      url: `movies/sync`,
+      method: Method.POST,
+      body: JSON.stringify(data),
+      headers: new Headers({"Content-Type": `application/json`})
+    })
+      .then((response) => response.json());
+  }
 }
