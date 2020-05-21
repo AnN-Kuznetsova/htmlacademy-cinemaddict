@@ -23,6 +23,7 @@ export default class FilmCard extends AbstractComponent {
 
     const releaseDateFormat = formatDate(releaseDate, DateTimeFormat.DATE_SHORT);
     const durationFormat = formatDurationTime(duration);
+    const genreCard = genre.length ? genre[0] : ``;
 
     const addToWatchlistButton = this._createButtonMarkup(UserDetailsButton.ADD_TO_WATCHLIST, `Add to watchlist`, isAddToWatchlist);
     const markAsWatchedButton = this._createButtonMarkup(UserDetailsButton.MARK_AS_WATCHED, `Mark as watched`, isMarkAsWatched);
@@ -40,7 +41,7 @@ export default class FilmCard extends AbstractComponent {
         <p class="film-card__info">
           <span class="film-card__year">${releaseDateFormat}</span>
           <span class="film-card__duration">${durationFormat}</span>
-          <span class="film-card__genre">${genre[0]}</span>
+          <span class="film-card__genre">${genreCard}</span>
         </p>
         <img src="./${poster}" alt="" class="film-card__poster">
         <p class="film-card__description">${descriptionText}</p>

@@ -33,4 +33,5 @@ const getFilmsByFilter = (films, filterType) => {
 
 export {
   getFilmsByFilter,
+  getHistoryFilms,
 };

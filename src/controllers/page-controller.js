@@ -4,12 +4,11 @@ import FilmsListController from "./films-list-conrtoller.js";
 import FilterController from "./filter-controller.js";
 import FooterStatistics from "../components/footer-statistics.js";
 import Loading from "../components/loading.js";
-import SiteMenu from "../components/site-menu.js";
+import SiteMenu, {MenuItem} from "../components/site-menu.js";
+import Statistics from "../components/statistics.js";
 import Sort from "../components/sort.js";
 import UserRank from "../components/user-rank.js";
-import {FilterType} from "../const.js";
 import {SortType} from "../utils/sorting.js";
-import {getFilmsByFilter} from "../utils/filter.js";
 import {render, remove, RenderPosition} from "../utils/render.js";
 
 
@@ -41,6 +40,7 @@ export default class PageController {
     this._userRankComponent = null;
     this._sortComponent = new Sort();
     this._filmsBoardComponent = new FilmsBoard();
+    this._statisticsComponent = null;
     this._footerStatisticsComponent = null;
     this._loadingComponent = new Loading();
 
@@ -52,6 +52,7 @@ export default class PageController {
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
     this._filmsModelFilterChangeHandler = this._filmsModelFilterChangeHandler.bind(this);
     this._commentsModelChangePageHandler = this._commentsModelChangePageHandler.bind(this);
+    this._menuItemClickHandler = this._menuItemClickHandler.bind(this);
 
     this._sortComponent.setSortTypeChangeHendler(this._sortTypeChangeHandler);
     this._filmsModel.setFilterChangeHandler(this._filmsModelFilterChangeHandler);
@@ -72,13 +73,19 @@ export default class PageController {
   rerender() {
     remove(this._loadingComponent);
 
-    this._userRankComponent = new UserRank(getFilmsByFilter(this._filmsModel.getFilmsAll(), FilterType.HISTORY).length);
+    this._userRankComponent = new UserRank(this._filmsModel);
+    this._statisticsComponent = new Statistics(this._filmsModel);
     this._footerStatisticsComponent = new FooterStatistics(this._filmsModel.getFilmsAll().length);
 
     render(siteHeaderElement, this._userRankComponent, RenderPosition.BEFOREEND);
     render(footerStatisticsElement, this._footerStatisticsComponent, RenderPosition.BEFOREEND);
 
     this._renderFilmsBoardController(this._filmsModel.getFilmsAll());
+
+    render(siteMainElement, this._statisticsComponent, RenderPosition.BEFOREEND);
+    this._statisticsComponent.hide();
+
+    this._siteMenuComponent.setMenuItemClickHandler(this._menuItemClickHandler);
   }
 
 
@@ -148,5 +155,20 @@ export default class PageController {
     this._sortComponent.rerender();
 
     this._sortTypeChangeHandler(newSortType);
+  }
+
+
+  _menuItemClickHandler(menuItem) {
+    switch (menuItem) {
+      case MenuItem.STATS:
+        this._sortComponent.hide();
+        this._filmsBoardComponent.hide();
+        this._statisticsComponent.show(this._filmsModel);
+        break;
+      default:
+        this._sortComponent.show();
+        this._filmsBoardComponent.show();
+        this._statisticsComponent.hide();
+    }
   }
 }

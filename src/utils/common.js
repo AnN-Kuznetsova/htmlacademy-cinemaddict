@@ -45,6 +45,20 @@ const arrayDataChange = (array, id, newData) => {
 };
 
 
+const getEnumPropertyKey = (Enumeration, value) => {
+  let propertyKey = null;
+
+  for (const twain of Object.entries(Enumeration)) {
+    if (twain.includes(value)) {
+      propertyKey = twain[0];
+      break;
+    }
+  }
+
+  return propertyKey;
+};
+
+
 const setСustomTimeOut = (timeOut, handler) => {
   setTimeout(() => {
     handler();
@@ -83,6 +97,7 @@ export {
   formatDate,
   formatDateFromNow,
   formatDurationTime,
+  getEnumPropertyKey,
   getIndexById,
   getRandomIntegerNumber,
   setDisabledStyle,
