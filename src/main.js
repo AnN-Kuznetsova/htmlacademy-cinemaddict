@@ -11,11 +11,6 @@ const FILMS_STORE_VER = `v1`;
 const FILMS_STORE_NAME = `${FILMS_STORE_PREFIX}-${FILMS_STORE_VER}`;
 
 
-const setOfflineDocumentTitle = () => {
-  document.title = document.title.replace(` [offline]`, ``);
-};
-
-
 const filmsApi = new FilmsAPI();
 const filmsStore = new Store(FILMS_STORE_NAME, window.localStorage);
 const filmsApiWithProvider = new FilmsProvider(filmsApi, filmsStore);
@@ -42,12 +37,8 @@ window.addEventListener(`load`, () => {
 });
 
 
-if (!isOnline()) {
-  setOfflineDocumentTitle();
-}
-
 window.addEventListener(`online`, () => {
-  setOfflineDocumentTitle();
+  document.title = document.title.replace(` [offline]`, ``);
 
   if (filmsApiWithProvider.isNeedSync) {
     filmsApiWithProvider.sync();
