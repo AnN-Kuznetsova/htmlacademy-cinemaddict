@@ -25,22 +25,22 @@ filmsApiWithProvider.getFilms()
   .then(() => pageController.rerender());
 
 
-window.addEventListener(`load`, () => {
+/* window.addEventListener(`load`, () => {
   navigator.serviceWorker.register(`/sw.js`)
     .then((reg) => {
-      // Действие, в случае успешной регистрации ServiceWorker
       window.console.log(`Registration succeeded. Scope is ` + reg.scope);
     }).catch((error) => {
-      // Действие, в случае ошибки при регистрации ServiceWorker
       window.console.log(`Registration failed with ` + error);
     });
-});
+}); */
 
 
 window.addEventListener(`online`, () => {
   document.title = document.title.replace(` [offline]`, ``);
 
-  filmsApiWithProvider.sync();
+  if (filmsApiWithProvider.isNeedSync) {
+    filmsApiWithProvider.sync();
+  }
 });
 
 window.addEventListener(`offline`, () => {

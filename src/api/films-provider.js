@@ -6,6 +6,13 @@ export default class FilmsProvider {
   constructor(api, store) {
     this._api = api;
     this._store = store;
+
+    this._isNeedSync = false;
+  }
+
+
+  get isNeedSync() {
+    return this._isNeedSync;
   }
 
 
@@ -13,11 +20,6 @@ export default class FilmsProvider {
     if (isOnline()) {
       return this._api.getFilms()
         .then((films) => {
-          /* const items = films.reduce((acc, currentFilm) => {
-            return Object.assign({}, acc, {
-              [currentFilm.id]: currentFilm.toRAW(),
-            });
-          }, {}); */
           const items = this._createStoreStructure(films.map((film) => film.toRAW()));
 
           this._store.setItems(items);
@@ -45,6 +47,7 @@ export default class FilmsProvider {
     const localFilm = FilmModel.clone(Object.assign(film, {id}));
 
     this._store.setItem(id, localFilm.toRAW());
+    this._isNeedSync = true;
 
     return Promise.resolve(localFilm);
   }
@@ -61,6 +64,7 @@ export default class FilmsProvider {
           const items = this._createStoreStructure(updatedFilms);
 
           this._store.setItems(items);
+          this._isNeedSync = false;
         });
     }
 
