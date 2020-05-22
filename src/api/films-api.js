@@ -1,6 +1,5 @@
-import API from "./api.js";
+import API, {Method} from "./index.js";
 import FilmModel from "../models/film-model.js";
-import {Method} from "./api.js";
 
 
 export default class FilmsAPI extends API {
@@ -21,5 +20,16 @@ export default class FilmsAPI extends API {
     })
     .then((response) => response.json())
     .then(FilmModel.parseFilm);
+  }
+
+
+  sync(data) {
+    return this._load({
+      url: `movies/sync`,
+      method: Method.POST,
+      body: JSON.stringify(data),
+      headers: new Headers({"Content-Type": `application/json`})
+    })
+      .then((response) => response.json());
   }
 }

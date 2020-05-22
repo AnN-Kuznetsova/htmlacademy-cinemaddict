@@ -1,8 +1,7 @@
 
-import API from "./api.js";
+import API, {Method} from "./index.js";
 import CommentModel from "../models/comment-model.js";
 import FilmModel from "../models/film-model.js";
-import {Method} from "./api.js";
 
 
 export default class CommentsAPI extends API {

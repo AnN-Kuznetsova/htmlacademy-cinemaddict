@@ -19,7 +19,7 @@ export default class FilmModel {
     this.age = data[`film_info`][`age_rating`];
 
     this.isAddToWatchlist = Boolean(data[`user_details`][`watchlist`]);
-    this.isMarkAsWatched = Boolean(data[`user_details`][`already_watched`]);
+    this.isMarkAsWatched = data[`user_details`][`watching_date`] && data[`user_details`][`already_watched`] ? true : false;
     this.isFavorite = Boolean(data[`user_details`][`favorite`]);
     this.watchingDate = data[`user_details`][`watching_date`] ? new Date(data[`user_details`][`watching_date`]) : null;
 
