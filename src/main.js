@@ -3,11 +3,17 @@ import FilmsModel from "./models/films-model.js";
 import FilmsProvider from "./api/films-provider.js";
 import PageController from "./controllers/page-controller.js";
 import Store from "./api/store.js";
+import {isOnline} from "./utils/common.js";
 
 
 const FILMS_STORE_PREFIX = `cinemaddict-localstorage`;
 const FILMS_STORE_VER = `v1`;
 const FILMS_STORE_NAME = `${FILMS_STORE_PREFIX}-${FILMS_STORE_VER}`;
+
+
+const setOfflineDocumentTitle = () => {
+  document.title = document.title.replace(` [offline]`, ``);
+};
 
 
 const filmsApi = new FilmsAPI();
@@ -19,24 +25,29 @@ const filmsModel = new FilmsModel();
 const pageController = new PageController(filmsModel, filmsApiWithProvider);
 pageController.render();
 
+
 filmsApiWithProvider.getFilms()
   .then((films) => filmsModel.setFilms(films))
   .catch(() => filmsModel.setFilms([]))
   .then(() => pageController.rerender());
 
 
-/* window.addEventListener(`load`, () => {
+window.addEventListener(`load`, () => {
   navigator.serviceWorker.register(`/sw.js`)
     .then((reg) => {
       window.console.log(`Registration succeeded. Scope is ` + reg.scope);
     }).catch((error) => {
       window.console.log(`Registration failed with ` + error);
     });
-}); */
+});
 
+
+if (!isOnline()) {
+  setOfflineDocumentTitle();
+}
 
 window.addEventListener(`online`, () => {
-  document.title = document.title.replace(` [offline]`, ``);
+  setOfflineDocumentTitle();
 
   if (filmsApiWithProvider.isNeedSync) {
     filmsApiWithProvider.sync();
@@ -46,3 +57,4 @@ window.addEventListener(`online`, () => {
 window.addEventListener(`offline`, () => {
   document.title += ` [offline]`;
 });
+

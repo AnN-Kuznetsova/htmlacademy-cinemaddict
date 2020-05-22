@@ -28,7 +28,8 @@ export default class FilmsProvider {
         });
     }
 
-    const storeFilms = Object.values(this._store.getItems());
+    const storeFilms = Object.values(this._store.getItems())
+      .map((item) => item.movie);
 
     return Promise.resolve(FilmModel.parseFilms(storeFilms));
   }
