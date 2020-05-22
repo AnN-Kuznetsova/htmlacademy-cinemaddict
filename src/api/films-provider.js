@@ -38,7 +38,7 @@ export default class FilmsProvider {
     if (isOnline()) {
       return this._api.updateFilm(id, film)
       .then((newFilm) => {
-        this._store.setItem(newFilm.id, newFilm.toRAW());
+        this._store.setItem(newFilm.id, this._createItemStructure(newFilm.toRAW()));
 
         return newFilm;
       });
@@ -46,7 +46,7 @@ export default class FilmsProvider {
 
     const localFilm = FilmModel.clone(Object.assign(film, {id}));
 
-    this._store.setItem(id, localFilm.toRAW());
+    this._store.setItem(id, this._createItemStructure(localFilm.toRAW(), true));
     this._isNeedSync = true;
 
     return Promise.resolve(localFilm);
@@ -55,15 +55,18 @@ export default class FilmsProvider {
 
   sync() {
     if (isOnline()) {
-      const storeFilms = Object.values(this._store.getItems());
+      const storeFilmsNeedingSync = Object.values(this._store.getItems())
+        .filter((item) => item.isNeedSync)
+        .map((item) => item.movie);
 
-      return this._api.sync(storeFilms)
+      return this._api.sync(storeFilmsNeedingSync)
         .then((response) => {
-          //window.console.log(response);
           const updatedFilms = response.updated;
-          const items = this._createStoreStructure(updatedFilms);
 
-          this._store.setItems(items);
+          updatedFilms.forEach((updatedFilm) => {
+            this._store.setItem(updatedFilm.id, this._createItemStructure(updatedFilm));
+          });
+
           this._isNeedSync = false;
         });
     }
@@ -72,11 +75,19 @@ export default class FilmsProvider {
   }
 
 
-  _createStoreStructure(items) {
+  _createStoreStructure(items, isNeedSync = false) {
     return items.reduce((acc, currentItem) => {
       return Object.assign({}, acc, {
-        [currentItem.id]: currentItem,
+        [currentItem.id]: this._createItemStructure(currentItem, isNeedSync),
       });
     }, {});
+  }
+
+
+  _createItemStructure(item, isNeedSync = false) {
+    return {
+      isNeedSync,
+      movie: item,
+    };
   }
 }
