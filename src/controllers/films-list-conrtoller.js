@@ -66,9 +66,9 @@ export default class FilmsListController {
 
 
   setDataChange(id, newData) {
-    const newArray = arrayDataChange(this._listFilms, id, newData);
-    const index = newArray.index;
-    this._listFilms = newArray.array;
+    const newFilms = arrayDataChange(this._listFilms, id, newData);
+    const index = newFilms.index;
+    this._listFilms = newFilms.array;
 
     if (index === -1) {
       return;
