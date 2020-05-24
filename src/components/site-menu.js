@@ -3,7 +3,7 @@ import AbstractComponent from "./abstract-component.js";
 
 const MENU_ACTIVE_CLASS = `main-navigation__item--active`;
 
-export const MenuItem = {
+const MenuItem = {
   FILTER: `filter`,
   STATS: `stats`,
 };
@@ -59,3 +59,6 @@ export default class SiteMenu extends AbstractComponent {
     });
   }
 }
+
+
+export {MenuItem};

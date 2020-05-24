@@ -2,7 +2,7 @@ const AUTHORIZATION = `Basic s=kdhJH235fdjjhfH`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 
-export const Method = {
+const Method = {
   GET: `GET`,
   POST: `POST`,
   PUT: `PUT`,
@@ -40,3 +40,6 @@ export default class API {
       });
   }
 }
+
+
+export {Method};
