@@ -3,7 +3,7 @@ import {MAX_DESCRIPTION_LENGTH, DateTimeFormat} from "../const.js";
 import {formatDurationTime, formatDate} from "../utils/common.js";
 
 
-export const UserDetailsButton = {
+const UserDetailsButton = {
   ADD_TO_WATCHLIST: `add-to-watchlist`,
   MARK_AS_WATCHED: `mark-as-watched`,
   FAVORITE: `favorite`,
@@ -92,3 +92,6 @@ export default class FilmCard extends AbstractComponent {
     );
   }
 }
+
+
+export {UserDetailsButton};

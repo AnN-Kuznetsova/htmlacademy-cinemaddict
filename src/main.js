@@ -3,7 +3,6 @@ import FilmsModel from "./models/films-model.js";
 import FilmsProvider from "./api/films-provider.js";
 import PageController from "./controllers/page-controller.js";
 import Store from "./api/store.js";
-import {isOnline} from "./utils/common.js";
 
 
 const FILMS_STORE_PREFIX = `cinemaddict-localstorage`;

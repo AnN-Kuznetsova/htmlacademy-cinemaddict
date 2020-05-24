@@ -2,7 +2,7 @@ const AUTHORIZATION = `Basic s=kdhJH235fdjjhfH`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 
-export const Method = {
+const Method = {
   GET: `GET`,
   POST: `POST`,
   PUT: `PUT`,
@@ -24,9 +24,9 @@ export default class API {
   _checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
       return response;
-    } else {
-      throw new Error(`${response.status}: ${response.statusText}`);
     }
+
+    throw new Error(`${response.status}: ${response.statusText}`);
   }
 
 
@@ -40,3 +40,6 @@ export default class API {
       });
   }
 }
+
+
+export {Method};
