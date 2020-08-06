@@ -3,7 +3,7 @@
 * Студент: [Анна Кузнецова](https://up.htmlacademy.ru/ecmascript/11/user/993327).
 * Наставник: [Дмитрий Мирошниченко](https://htmlacademy.ru/profile/id591417).
 
----
+-----
 
 _Не удаляйте и не изменяйте папки и файлы:_
 _`.editorconfig`, `.gitattributes`, `.travis.yml`._
