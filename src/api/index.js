@@ -1,5 +1,5 @@
 const AUTHORIZATION = `Basic s=kdhJH235fdjjhfH`;
-const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
+const END_POINT = `https://13.ecmascript.pages.academy/cinemaddict`;
 
 
 const Method = {
